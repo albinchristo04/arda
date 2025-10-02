@@ -1,33 +1,72 @@
-name: Scrape Daddylive Events
+name: Fetch 24/7 Streams
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # run every 30 minutes
-  workflow_dispatch:
+    - cron: "*/30 * * * *" # every 30 minutes
+  workflow_dispatch: # manual trigger
 
 jobs:
-  scrape:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: "3.x"
 
       - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 python-dateutil
+        run: pip install requests beautifulsoup4
 
-      - name: Run scraper
-        run: python daddylive_extractor.py
-
-      - name: Commit & Push events.json
+      - name: Fetch daddy.json and extract m3u8
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          import requests, json, re
+          from bs4 import BeautifulSoup
+
+          url = "https://dlhd.dad/daddy.json"
+          headers = {
+              "User-Agent": "Mozilla/5.0",
+              "Referer": "https://dlhd.dad/",
+              "Origin": "https://dlhd.dad"
+          }
+          r = requests.get(url, headers=headers, timeout=20)
+          data = r.json()
+
+          events = []
+          for item in data:
+              title = item.get("title")
+              iframe_url = item.get("link")
+
+              m3u8_url = None
+              if iframe_url:
+                  try:
+                      res = requests.get(iframe_url, headers=headers, timeout=15)
+                      soup = BeautifulSoup(res.text, "html.parser")
+                      iframe = soup.find("iframe")
+                      if iframe and iframe.get("src"):
+                          embed_url = iframe["src"]
+                          res2 = requests.get(embed_url, headers=headers, timeout=15)
+                          match = re.search(r"(https?://[^\s\"']+\.m3u8)", res2.text)
+                          if match:
+                              m3u8_url = match.group(1)
+                  except Exception as e:
+                      print("Error resolving iframe:", e)
+
+              events.append({
+                  "title": title,
+                  "iframe": iframe_url,
+                  "m3u8": m3u8_url
+              })
+
+          with open("events.json", "w", encoding="utf-8") as f:
+              json.dump(events, f, indent=2)
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git add events.json
-          git commit -m "Update events.json" || echo "No changes to commit"
+          git commit -m "Update events.json" || echo "No changes"
           git push
