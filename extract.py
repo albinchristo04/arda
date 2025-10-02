@@ -1,32 +1,35 @@
-import requests
-import json
-import re
+name: Fetch Daddylive Events
 
-# URLs
-schedule_url = "https://dlhd.dad/schedule/schedule-generated.json"
-daddy_url = "https://dlhd.dad/daddy.json"
+on:
+  workflow_dispatch:   # run manually
+  schedule:
+    - cron: "0 * * * *" # every hour
 
-def fetch_json(url):
-    try:
-        resp = requests.get(url, timeout=10)
-        resp.raise_for_status()
-        return resp.json()
-    except Exception as e:
-        print(f"Error fetching {url}: {e}")
-        return []
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
 
-def main():
-    # Load JSONs
-    schedule = fetch_json(schedule_url)
-    daddy = fetch_json(daddy_url)
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-    print("=== Schedule Data ===")
-    for item in schedule:
-        print(item.get("title"), item.get("m3u8"), item.get("iframe"))
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    print("\n=== Daddy Data ===")
-    for item in daddy:
-        print(item.get("title"), item.get("m3u8"), item.get("iframe"))
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-if __name__ == "__main__":
-    main()
+      - name: Run extractor
+        run: python extract.py
+
+      - name: Commit events.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add events.json
+          git commit -m "Update events.json" || echo "No changes"
+          git push
