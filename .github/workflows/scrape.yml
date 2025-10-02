@@ -3,7 +3,7 @@ name: Fetch 24/7 Streams
 on:
   schedule:
     - cron: "*/30 * * * *" # every 30 minutes
-  workflow_dispatch: # manual trigger
+  workflow_dispatch:
 
 jobs:
   fetch:
@@ -22,6 +22,7 @@ jobs:
 
       - name: Fetch daddy.json and extract m3u8
         run: |
+          python - <<'EOF'
           import requests, json, re
           from bs4 import BeautifulSoup
 
@@ -62,6 +63,7 @@ jobs:
 
           with open("events.json", "w", encoding="utf-8") as f:
               json.dump(events, f, indent=2)
+          EOF
 
       - name: Commit changes
         run: |
