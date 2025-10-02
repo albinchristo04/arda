@@ -1,8 +1,8 @@
-name: Fetch 24/7 Streams (dlhd.dad)
+name: Fetch Daddylive Events
 
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/30 * * * *" # every 30 minutes
   workflow_dispatch:
 
 jobs:
@@ -22,133 +22,117 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 certifi
 
-      - name: Fetch daddy.json and extract m3u8 (with SSL fallback)
-        env:
-          DADDY_URL: "https://dlhd.dad/daddy.json"
+      - name: Fetch events and channels
         run: |
           python - <<'PY'
-          import requests, json, re, sys, time
+          import requests, json, re, sys
           from bs4 import BeautifulSoup
           from urllib.parse import urljoin, urlparse
-          import certifi
-          import requests.exceptions
-          import urllib3
+          import certifi, urllib3
 
-          DADDY = "https://dlhd.dad/daddy.json"
+          BASE = "https://dlhd.dad"
+          HEADERS = {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                            "AppleWebKit/537.36 (KHTML, like Gecko) "
+                            "Chrome/126.0.0.0 Safari/537.36",
+              "Referer": BASE + "/",
+              "Origin": BASE
+          }
+
           session = requests.Session()
-          session.headers.update({
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                            "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-              "Referer": "https://dlhd.dad/",
-              "Origin": "https://dlhd.dad"
-          })
+          session.headers.update(HEADERS)
 
-          def fetch_json(url):
-              # try using certifi CA bundle first (preferred)
+          def safe_get(url):
               try:
-                  resp = session.get(url, timeout=20, verify=certifi.where())
-                  resp.raise_for_status()
-                  return resp.json()
-              except requests.exceptions.SSLError as e:
-                  print("SSL verification failed when fetching json:", e, file=sys.stderr)
-                  print("Retrying with SSL verification disabled (INSECURE).", file=sys.stderr)
+                  return session.get(url, timeout=20, verify=certifi.where())
+              except requests.exceptions.SSLError:
                   urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-                  resp = session.get(url, timeout=20, verify=False)
-                  resp.raise_for_status()
-                  return resp.json()
-              except Exception as e:
-                  print("Failed to fetch JSON:", e, file=sys.stderr)
-                  raise
+                  return session.get(url, timeout=20, verify=False)
 
-          def resolve_m3u8_from_page(page_url):
+          def resolve_stream_page(url):
               try:
-                  # try with certifi first
-                  try:
-                      r = session.get(page_url, timeout=15, verify=certifi.where())
-                  except requests.exceptions.SSLError:
-                      # fallback to insecure if SSL chain is broken
-                      urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-                      r = session.get(page_url, timeout=15, verify=False)
-
-                  html = r.text
-                  soup = BeautifulSoup(html, "html.parser")
+                  r = safe_get(url)
+                  soup = BeautifulSoup(r.text, "html.parser")
                   iframe = soup.select_one("iframe#thatframe") or soup.find("iframe")
-                  if not iframe:
+                  if not iframe or not iframe.get("src"):
                       return None
-                  iframe_src = iframe.get("src")
-                  if not iframe_src:
-                      return None
-                  iframe_url = iframe_src if iframe_src.startswith("http") else urljoin("https://dlhd.dad", iframe_src)
+                  iframe_url = iframe["src"]
+                  if not iframe_url.startswith("http"):
+                      iframe_url = urljoin(BASE, iframe_url)
 
-                  # fetch iframe page
-                  try:
-                      r2 = session.get(iframe_url, timeout=15, verify=certifi.where())
-                  except requests.exceptions.SSLError:
-                      urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-                      r2 = session.get(iframe_url, timeout=15, verify=False)
-
-                  text = r2.text
-                  # find first .m3u8 URL in iframe content
-                  m = re.search(r"(https?://[^\s\"']+\.m3u8[^\s\"']*)", text)
+                  r2 = safe_get(iframe_url)
+                  m = re.search(r"(https?://[^\s\"']+\.m3u8[^\s\"']*)", r2.text)
                   if not m:
                       return None
                   m3u8_url = m.group(1)
 
-                  # prepare headers for players
                   parsed = urlparse(iframe_url)
                   origin = f"{parsed.scheme}://{parsed.netloc}"
                   referer = iframe_url if iframe_url.endswith("/") else iframe_url + "/"
-                  headers = {
-                      "User-Agent": session.headers.get("User-Agent"),
-                      "Origin": origin,
-                      "Referer": referer
+
+                  return {
+                      "url": m3u8_url,
+                      "headers": {
+                          "User-Agent": HEADERS["User-Agent"],
+                          "Origin": origin,
+                          "Referer": referer
+                      }
                   }
-                  return {"url": m3u8_url, "headers": headers}
               except Exception as e:
-                  print("resolve_m3u8_from_page error for", page_url, e, file=sys.stderr)
+                  print("Error resolving", url, "->", e, file=sys.stderr)
                   return None
 
-          try:
-              data = fetch_json(DADDY)
-          except Exception as e:
-              print("Exiting: could not fetch daddy.json:", e, file=sys.stderr)
-              raise SystemExit(1)
-
           events = []
-          # data structure unknown? assume list/dict; handle both
-          if isinstance(data, dict):
-              iterable = data.get("channels") or data.get("items") or list(data.values())
-          else:
-              iterable = data
 
-          # normalize iterable to list of dicts
-          for item in iterable:
-              if not isinstance(item, dict):
-                  continue
-              title = item.get("title") or item.get("name") or item.get("channel") or ""
-              iframe_link = item.get("link") or item.get("iframe") or item.get("url") or ""
-              m3u8 = None
-              headers = None
-              if iframe_link:
-                  # make absolute
-                  if not iframe_link.startswith("http"):
-                      iframe_link = urljoin("https://dlhd.dad", iframe_link)
-                  resolved = resolve_m3u8_from_page(iframe_link)
-                  if resolved:
-                      m3u8 = resolved["url"]
-                      headers = resolved["headers"]
+          # 1. Sports schedule
+          try:
+              r = safe_get(BASE + "/schedule/schedule-generated.json")
+              schedule = r.json()
+              for header, leagues in schedule.items():
+                  for league, matches in leagues.items():
+                      for match in matches:
+                          title = match.get("event")
+                          starttime = match.get("time")
+                          channels = match.get("channels", [])
+                          if isinstance(channels, dict):
+                              channels = channels.values()
+                          for ch in channels:
+                              iframe_url = f"{BASE}/stream/stream-{ch['channel_id']}.php"
+                              resolved = resolve_stream_page(iframe_url)
+                              events.append({
+                                  "title": f"{title} ({league})",
+                                  "iframe": iframe_url,
+                                  "m3u8": resolved["url"] if resolved else None,
+                                  "headers": resolved["headers"] if resolved else None
+                              })
+          except Exception as e:
+              print("Schedule fetch failed:", e, file=sys.stderr)
 
-              events.append({
-                  "title": title,
-                  "iframe": iframe_link,
-                  "m3u8": m3u8,
-                  "headers": headers
-              })
+          # 2. 24/7 channels
+          try:
+              r = safe_get(BASE + "/daddy.json")
+              channels = r.json()
+              for ch in channels:
+                  title = ch.get("title") or ""
+                  iframe_url = ch.get("link")
+                  if not iframe_url:
+                      continue
+                  if not iframe_url.startswith("http"):
+                      iframe_url = urljoin(BASE, iframe_url)
+                  resolved = resolve_stream_page(iframe_url)
+                  events.append({
+                      "title": f"{title} (24/7)",
+                      "iframe": iframe_url,
+                      "m3u8": resolved["url"] if resolved else None,
+                      "headers": resolved["headers"] if resolved else None
+                  })
+          except Exception as e:
+              print("24/7 fetch failed:", e, file=sys.stderr)
 
-          with open("events.json", "w", encoding="utf-8") as fh:
-              json.dump(events, fh, ensure_ascii=False, indent=2)
+          with open("events.json", "w", encoding="utf-8") as f:
+              json.dump(events, f, indent=2, ensure_ascii=False)
 
-          print("Wrote events.json with", len(events), "entries")
+          print("Wrote", len(events), "events")
           PY
 
       - name: Commit changes
@@ -156,5 +140,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add events.json
-          git commit -m "Update events.json" || echo "No changes to commit"
+          git commit -m "Update events.json" || echo "No changes"
           git push
