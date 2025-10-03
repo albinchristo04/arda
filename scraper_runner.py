@@ -3,6 +3,34 @@ import sys
 import os
 from datetime import datetime
 
+# Mock Kodi modules before importing jetextractors
+class MockAddon:
+    def getAddonInfo(self, info):
+        return "mock_value"
+
+class MockXBMCAddon:
+    def Addon(self, *args):
+        return MockAddon()
+
+class MockXBMC:
+    def log(self, *args, **kwargs):
+        pass
+    
+    def translatePath(self, path):
+        return path
+
+class MockXBMCGUI:
+    pass
+
+class MockXBMCVFS:
+    pass
+
+# Install mocks
+sys.modules['xbmcaddon'] = MockXBMCAddon()
+sys.modules['xbmc'] = MockXBMC()
+sys.modules['xbmcgui'] = MockXBMCGUI()
+sys.modules['xbmcvfs'] = MockXBMCVFS()
+
 # Add the lib directory to the Python path
 lib_path = os.path.join(os.path.dirname(__file__), 'repo', 'script.module.jetextractors', 'lib')
 sys.path.insert(0, lib_path)
@@ -59,6 +87,8 @@ def main():
         
     except Exception as e:
         print(f"Error during scraping: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":
