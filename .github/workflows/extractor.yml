@@ -1,24 +1,69 @@
-name: Extract Streams
+# .github/workflows/daddylive-scraper.yml
+name: Daddylive Scraper
 
 on:
-  workflow_dispatch: # run manually from Actions tab
   schedule:
-    - cron: "0 * * * *" # runs every hour
+    - cron: "0 * * * *"  # Every hour
+  workflow_dispatch:     # Manual run option
 
 jobs:
-  extract:
+  scrape:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Set up Python
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
+      # 3. Install dependencies
       - name: Install dependencies
-        run: pip install requests
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 python-dateutil
 
-      - name: Run extractor
-        run: python extract.py
+      # 4. Run scraper from its correct location
+      - name: Run Daddylive scraper
+        working-directory: ./script.module.jetextractors/lib/jetextractors/extractors
+        run: |
+          mkdir -p ../../../data
+          python - <<'EOF'
+import sys, json
+sys.path.insert(0, "../..")  # to import util/models if needed
+
+from daddylive import Daddylive
+
+scraper = Daddylive()
+items = scraper.get_items()
+
+# Convert JetItem objects to dict for JSON
+json_items = []
+for i in items:
+    json_items.append({
+        "title": i.title,
+        "league": getattr(i, "league", ""),
+        "starttime": str(getattr(i, "starttime", "")),
+        "links": [{"name": l.name, "address": l.address} for l in getattr(i, "links", [])]
+    })
+
+with open("../../../data/daddylive.json", "w") as f:
+    json.dump(json_items, f, indent=2)
+
+print(f"Saved {len(json_items)} items to data/daddylive.json")
+EOF
+
+      # 5. Commit & push
+      - name: Commit and push JSON
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add data/daddylive.json
+          git commit -m "Update Daddylive schedule JSON [skip ci]" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
