@@ -4,44 +4,41 @@ name: Daddylive Scraper
 on:
   schedule:
     - cron: "0 * * * *"  # Every hour
-  workflow_dispatch:     # Manual run option
+  workflow_dispatch:     # Manual run
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Set up Python
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      # 3. Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 python-dateutil
 
-      # 4. Run scraper from its correct location
       - name: Run Daddylive scraper
         working-directory: ./script.module.jetextractors/lib/jetextractors/extractors
         run: |
           mkdir -p ../../../data
-          python - <<'EOF'
-import sys, json
-sys.path.insert(0, "../..")  # to import util/models if needed
+          python3 - <<EOF
+import sys
+import json
+
+sys.path.insert(0, "../..")  # allow importing util/models
 
 from daddylive import Daddylive
 
 scraper = Daddylive()
 items = scraper.get_items()
 
-# Convert JetItem objects to dict for JSON
 json_items = []
 for i in items:
     json_items.append({
@@ -57,7 +54,6 @@ with open("../../../data/daddylive.json", "w") as f:
 print(f"Saved {len(json_items)} items to data/daddylive.json")
 EOF
 
-      # 5. Commit & push
       - name: Commit and push JSON
         run: |
           git config --global user.name "github-actions"
