@@ -1,16 +1,16 @@
-name: Extract 720pStream
+name: Extract 720pstream Events
 
 on:
-  workflow_dispatch:   # run manually from Actions tab
+  workflow_dispatch:    # allow manual trigger
   schedule:
-    - cron: "0 * * * *"  # run every hour
+    - cron: "0 * * * *"   # run every hour
 
 jobs:
   extract:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -25,10 +25,12 @@ jobs:
 
       - name: Run extractor
         run: |
-          python 720pstream.py
+          cd script.module.jetextractors/lib
+          # Run as module to respect relative imports
+          python -m jetextractors.plytvsites.stream720p > ../../output.m3u8
 
-      - name: Upload m3u8 file
+      - name: Upload result artifact
         uses: actions/upload-artifact@v4
         with:
-          name: stream-links
+          name: extracted-m3u8
           path: output.m3u8
