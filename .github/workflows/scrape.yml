@@ -2,29 +2,39 @@ name: Daddylive Scraper
 
 on:
   schedule:
-    # Run every 6 hours
-    - cron: '0 */6 * * *'
+    # Run every 12 hours (reduced from 6 to avoid rate limiting)
+    - cron: '0 */12 * * *'
   workflow_dispatch: # Allow manual trigger
+    inputs:
+      max_resolve:
+        description: 'Maximum number of m3u8 links to resolve'
+        required: false
+        default: '15'
+        type: string
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Add timeout to prevent hanging
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+        cache: 'pip'  # Enable pip caching
         
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4 python-dateutil urllib3
         
-    - name: Create standalone scraper script
+    - name: Create enhanced scraper script
       run: |
         cat > scraper.py << 'SCRIPT'
         import requests
@@ -33,305 +43,409 @@ jobs:
         from datetime import datetime, timedelta
         import json
         import re
-        from urllib.parse import urlparse
+        from urllib.parse import urlparse, urljoin
+        import time
+        import random
+        import sys
         
-        # Disable SSL warnings for this scraper
+        # Disable SSL warnings
         import urllib3
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
-        def extract_m3u8_from_iframe(iframe_url):
-            """Extract m3u8 link from iframe source"""
-            try:
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-                    'Referer': iframe_url
+        class DaddyliveScraper:
+            def __init__(self):
+                self.domains = ["dlhd.dad"]
+                self.session = requests.Session()
+                self.session.verify = False
+                
+                self.headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1',
+                    'Sec-Fetch-Dest': 'document',
+                    'Sec-Fetch-Mode': 'navigate',
+                    'Sec-Fetch-Site': 'none',
+                    'Cache-Control': 'max-age=0',
                 }
                 
-                response = requests.get(iframe_url, headers=headers, verify=False, timeout=15)
-                text = response.text
-                
-                # Common patterns for m3u8 links
-                m3u8_patterns = [
-                    r'source:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                    r'file:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                    r'src:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                    r'["\']([^"\']*\.m3u8[^"\']*)["\']',
-                    r'(https?://[^\s<>"\']+\.m3u8[^\s<>"\']*)',
-                ]
-                
-                for pattern in m3u8_patterns:
-                    matches = re.findall(pattern, text)
-                    if matches:
-                        m3u8_url = matches[0]
-                        # Clean up the URL
-                        m3u8_url = m3u8_url.split('"')[0].split("'")[0]
-                        
-                        # Build proper headers for the m3u8
-                        referer = iframe_url
-                        origin = f"https://{urlparse(referer).netloc}"
-                        
-                        return {
-                            'url': m3u8_url,
-                            'headers': {
-                                'Origin': origin,
-                                'Referer': referer,
-                                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-                            }
-                        }
-                
-                return None
-            except Exception as e:
-                print(f"Error extracting m3u8 from {iframe_url}: {e}")
-                return None
-        
-        def get_stream_link(stream_url, max_retries=2):
-            """Get the playable m3u8 link from a stream page"""
-            try:
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
-                }
-                
-                # Fetch the stream page
-                response = requests.get(stream_url, headers=headers, verify=False, timeout=15)
-                soup = BeautifulSoup(response.text, "html.parser")
-                
-                # Find iframe with id="thatframe" or any iframe
-                iframe = soup.select_one("iframe#thatframe")
-                if not iframe:
-                    iframe = soup.find("iframe")
-                
-                if iframe and iframe.get("src"):
-                    iframe_src = iframe.get("src")
-                    
-                    # Make absolute URL if relative
-                    if iframe_src.startswith("//"):
-                        iframe_src = "https:" + iframe_src
-                    elif iframe_src.startswith("/"):
-                        parsed = urlparse(stream_url)
-                        iframe_src = f"{parsed.scheme}://{parsed.netloc}{iframe_src}"
-                    
-                    # Extract m3u8 from iframe
-                    m3u8_data = extract_m3u8_from_iframe(iframe_src)
-                    return m3u8_data
-                
-                return None
-            except Exception as e:
-                print(f"Error getting stream link from {stream_url}: {e}")
-                return None
-        
-        def scrape_daddylive():
-            domains = ["dlhd.dad"]
-            timeout = 30
-            items = []
+            def random_delay(self, min_sec=1, max_sec=3):
+                """Add random delay to avoid rate limiting"""
+                time.sleep(random.uniform(min_sec, max_sec))
             
-            # Scrape schedule
-            try:
-                response = requests.get(f"https://{domains[0]}/schedule/schedule-generated.json", 
-                                       timeout=timeout, 
-                                       verify=False,
-                                       headers={'User-Agent': 'Mozilla/5.0'})
-                
-                # Try to clean up potentially malformed JSON
-                text = response.text.strip()
-                
-                # Check if it's wrapped in JavaScript
-                if 'var ' in text or 'const ' in text or 'let ' in text:
-                    # Extract JSON from JavaScript variable
-                    match = re.search(r'[{[].*[}\]]', text, re.DOTALL)
-                    if match:
-                        text = match.group(0)
-                
-                # Try to parse
+            def extract_m3u8_from_iframe(self, iframe_url):
+                """Extract m3u8 link from iframe source with improved patterns"""
                 try:
-                    r = json.loads(text)
-                except json.JSONDecodeError:
-                    # If still failing, try to extract just the JSON object/array
-                    start = text.find('{') if '{' in text else text.find('[')
-                    end = text.rfind('}') if '}' in text else text.rfind(']')
-                    if start != -1 and end != -1:
-                        text = text[start:end+1]
-                        r = json.loads(text)
-                    else:
-                        raise
-                        
-            except Exception as e:
-                print(f"Error fetching schedule JSON: {e}")
-                if 'response' in locals():
-                    print(f"Status code: {response.status_code}")
-                    print(f"Response text (first 500 chars): {response.text[:500]}")
-                r = {}
-            
-            for header, events in r.items():
-                for event_type, event_list in events.items():
-                    for event in event_list:
-                        title = event.get("event", "")
-                        starttime = event.get("time", "")
-                        league = event_type
-                        channels = event.get("channels", [])
-                        if isinstance(channels, dict):
-                            channels = list(channels.values())
-                        
+                    headers = self.headers.copy()
+                    headers['Referer'] = iframe_url
+                    
+                    response = self.session.get(iframe_url, headers=headers, timeout=20)
+                    text = response.text
+                    
+                    # Extended patterns for m3u8 detection
+                    m3u8_patterns = [
+                        r'source:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'file:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'src:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'var\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'const\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'let\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                        r'["\']([^"\']*//[^"\']*\.m3u8[^"\']*)["\']',
+                        r'(https?://[^\s<>"\']+\.m3u8(?:\?[^\s<>"\']*)?)',
+                        r'data-[^=]*=["\']([^"\']*\.m3u8[^"\']*)["\']',
+                    ]
+                    
+                    found_urls = []
+                    for pattern in m3u8_patterns:
+                        matches = re.findall(pattern, text, re.IGNORECASE)
+                        found_urls.extend(matches)
+                    
+                    # Try base64 decoding
+                    base64_pattern = r'atob\(["\']([^"\']+)["\']\)'
+                    base64_matches = re.findall(base64_pattern, text)
+                    for b64 in base64_matches:
                         try:
-                            timestamp = parser.parse(header[:header.index("-")] + " " + starttime)
-                            timestamp = timestamp.replace(year=2024)
-                            utc_time = timestamp - timedelta(hours=1)
+                            import base64
+                            decoded = base64.b64decode(b64).decode('utf-8')
+                            if '.m3u8' in decoded:
+                                found_urls.append(decoded)
                         except:
-                            try:
-                                utc_time = datetime.now().replace(hour=int(starttime.split(":")[0]), minute=int(starttime.split(":")[1])) - timedelta(hours=1)
-                            except:
-                                utc_time = datetime.now()
-                        
-                        items.append({
-                            "title": title,
-                            "league": league,
-                            "starttime": utc_time.isoformat(),
-                            "links": [
-                                {
-                                    "address": f"https://{domains[0]}/stream/stream-{channel['channel_id']}.php",
-                                    "name": channel["channel_name"]
-                                } for channel in channels
-                            ]
-                        })
-            
-            # Scrape 24/7 channels from daddy.json
-            try:
-                r_channels = requests.get(f"https://{domains[0]}/daddy.json", 
-                                         timeout=timeout,
-                                         verify=False,
-                                         headers={'User-Agent': 'Mozilla/5.0'})
-                channels_data = r_channels.json()
-                
-                # daddy.json likely contains channel data in a structured format
-                # Adjust parsing based on actual structure
-                if isinstance(channels_data, list):
-                    for channel in channels_data:
-                        if isinstance(channel, dict):
-                            title = channel.get('name', channel.get('title', 'Unknown'))
-                            channel_id = channel.get('id', channel.get('channel_id', ''))
-                            
-                            if '18+' in title:
-                                continue
-                            
-                            href = f"https://{domains[0]}/stream/stream-{channel_id}.php"
-                            
-                            items.append({
-                                "title": title,
-                                "league": "[COLORorange]24/7",
-                                "starttime": None,
-                                "links": [{
-                                    "address": href,
-                                    "name": title,
-                                    "m3u8": None
-                                }]
-                            })
-                elif isinstance(channels_data, dict):
-                    # If it's a dict, iterate through values
-                    for key, channel in channels_data.items():
-                        if isinstance(channel, dict):
-                            title = channel.get('name', channel.get('title', key))
-                            channel_id = channel.get('id', channel.get('channel_id', key))
-                            
-                            if '18+' in title:
-                                continue
-                            
-                            href = f"https://{domains[0]}/stream/stream-{channel_id}.php"
-                            
-                            items.append({
-                                "title": title,
-                                "league": "[COLORorange]24/7",
-                                "starttime": None,
-                                "links": [{
-                                    "address": href,
-                                    "name": title,
-                                    "m3u8": None
-                                }]
-                            })
-                        
-            except Exception as e:
-                print(f"Error fetching 24/7 channels from daddy.json: {e}")
-                print(f"Falling back to scraping 24-7-channels.php")
-                
-                # Fallback to old method if daddy.json fails
-                try:
-                    r_channels = requests.get(f"https://{domains[0]}/24-7-channels.php", 
-                                             timeout=timeout,
-                                             verify=False,
-                                             headers={'User-Agent': 'Mozilla/5.0'})
-                    soup_channels = BeautifulSoup(r_channels.text, "html.parser")
-                    A_link = soup_channels.find_all('a')[:2]
-                    b_link = soup_channels.find_all('a')[8:]
-                    links = A_link + b_link
+                            pass
                     
-                    unique_hrefs = set()
-                    for link in links:
-                        title = link.text
-                        if '18+' in title:
+                    # Validate URLs
+                    for m3u8_url in found_urls:
+                        m3u8_url = m3u8_url.split('"')[0].split("'")[0].split('\\')[0].strip()
+                        
+                        if not m3u8_url or len(m3u8_url) < 10:
                             continue
                         
-                        href = f"https://{domains[0]}{link['href']}"
-                        if href in unique_hrefs:
+                        # Make absolute URL
+                        if m3u8_url.startswith('//'):
+                            m3u8_url = 'https:' + m3u8_url
+                        elif m3u8_url.startswith('/'):
+                            parsed = urlparse(iframe_url)
+                            m3u8_url = f"{parsed.scheme}://{parsed.netloc}{m3u8_url}"
+                        elif not m3u8_url.startswith('http'):
                             continue
-                        unique_hrefs.add(href)
                         
-                        items.append({
-                            "title": title,
-                            "league": "[COLORorange]24/7",
-                            "starttime": None,
-                            "links": [{
-                                "address": href,
-                                "name": "",
-                                "m3u8": None
-                            }]
-                        })
-                except Exception as fallback_error:
-                    print(f"Fallback also failed: {fallback_error}")
+                        # Quick validation
+                        try:
+                            test_headers = headers.copy()
+                            test_headers['Range'] = 'bytes=0-1024'
+                            test_response = self.session.head(m3u8_url, headers=test_headers, timeout=5, allow_redirects=True)
+                            
+                            if test_response.status_code in [200, 206, 302, 301]:
+                                referer = iframe_url
+                                origin = f"https://{urlparse(referer).netloc}"
+                                
+                                return {
+                                    'url': m3u8_url,
+                                    'headers': {
+                                        'Origin': origin,
+                                        'Referer': referer,
+                                        'User-Agent': self.headers['User-Agent']
+                                    }
+                                }
+                        except:
+                            continue
+                    
+                    return None
+                    
+                except Exception as e:
+                    return None
             
-            return items
+            def get_stream_link(self, stream_url):
+                """Get the playable m3u8 link from a stream page"""
+                try:
+                    headers = self.headers.copy()
+                    response = self.session.get(stream_url, headers=headers, timeout=20)
+                    soup = BeautifulSoup(response.text, "html.parser")
+                    
+                    # Find iframe
+                    iframe = soup.select_one("iframe#thatframe")
+                    if not iframe:
+                        iframe = soup.find("iframe")
+                    
+                    # Check scripts for dynamic iframes
+                    if not iframe:
+                        scripts = soup.find_all('script')
+                        for script in scripts:
+                            if script.string:
+                                iframe_match = re.search(r'iframe.*?src\s*=\s*["\']([^"\']+)["\']', script.string)
+                                if iframe_match:
+                                    class MockIframe:
+                                        def get(self, attr):
+                                            return iframe_match.group(1) if attr == "src" else None
+                                    iframe = MockIframe()
+                                    break
+                    
+                    if iframe and iframe.get("src"):
+                        iframe_src = iframe.get("src")
+                        
+                        # Make absolute URL
+                        if iframe_src.startswith("//"):
+                            iframe_src = "https:" + iframe_src
+                        elif iframe_src.startswith("/"):
+                            parsed = urlparse(stream_url)
+                            iframe_src = f"{parsed.scheme}://{parsed.netloc}{iframe_src}"
+                        elif not iframe_src.startswith("http"):
+                            iframe_src = urljoin(stream_url, iframe_src)
+                        
+                        self.random_delay(0.5, 1.5)
+                        m3u8_data = self.extract_m3u8_from_iframe(iframe_src)
+                        return m3u8_data
+                    
+                    return None
+                    
+                except Exception as e:
+                    return None
+            
+            def scrape_schedule(self):
+                """Scrape scheduled events"""
+                items = []
+                try:
+                    url = f"https://{self.domains[0]}/schedule/schedule-generated.json"
+                    response = self.session.get(url, headers=self.headers, timeout=30)
+                    
+                    text = response.text.strip()
+                    
+                    if 'var ' in text or 'const ' in text or 'let ' in text:
+                        match = re.search(r'[{[].*[}\]]', text, re.DOTALL)
+                        if match:
+                            text = match.group(0)
+                    
+                    data = json.loads(text)
+                    
+                    for header, events in data.items():
+                        for event_type, event_list in events.items():
+                            for event in event_list:
+                                title = event.get("event", "")
+                                starttime = event.get("time", "")
+                                league = event_type
+                                channels = event.get("channels", [])
+                                
+                                if isinstance(channels, dict):
+                                    channels = list(channels.values())
+                                
+                                try:
+                                    timestamp = parser.parse(header[:header.index("-")] + " " + starttime)
+                                    timestamp = timestamp.replace(year=datetime.now().year)
+                                    utc_time = timestamp - timedelta(hours=1)
+                                except:
+                                    try:
+                                        utc_time = datetime.now().replace(
+                                            hour=int(starttime.split(":")[0]), 
+                                            minute=int(starttime.split(":")[1])
+                                        ) - timedelta(hours=1)
+                                    except:
+                                        utc_time = datetime.now()
+                                
+                                items.append({
+                                    "title": title,
+                                    "league": league,
+                                    "starttime": utc_time.isoformat(),
+                                    "links": [
+                                        {
+                                            "address": f"https://{self.domains[0]}/stream/stream-{ch['channel_id']}.php",
+                                            "name": ch["channel_name"],
+                                            "m3u8": None
+                                        } for ch in channels
+                                    ]
+                                })
+                    
+                    print(f"✓ Scraped {len(items)} scheduled events")
+                    
+                except Exception as e:
+                    print(f"✗ Error scraping schedule: {e}")
+                
+                return items
+            
+            def scrape_247_channels(self):
+                """Scrape 24/7 channels"""
+                items = []
+                
+                try:
+                    url = f"https://{self.domains[0]}/daddy.json"
+                    response = self.session.get(url, headers=self.headers, timeout=30)
+                    channels_data = response.json()
+                    
+                    if isinstance(channels_data, list):
+                        for channel in channels_data:
+                            if isinstance(channel, dict):
+                                self._process_247_channel(channel, items)
+                    elif isinstance(channels_data, dict):
+                        for key, channel in channels_data.items():
+                            if isinstance(channel, dict):
+                                self._process_247_channel(channel, items)
+                    
+                    print(f"✓ Scraped {len(items)} 24/7 channels")
+                    
+                except Exception as e:
+                    print(f"✗ daddy.json failed, trying fallback...")
+                    
+                    try:
+                        url = f"https://{self.domains[0]}/24-7-channels.php"
+                        response = self.session.get(url, headers=self.headers, timeout=30)
+                        soup = BeautifulSoup(response.text, "html.parser")
+                        
+                        links = soup.find_all('a')
+                        unique_hrefs = set()
+                        
+                        for link in links:
+                            title = link.text.strip()
+                            if '18+' in title or not title:
+                                continue
+                            
+                            href = link.get('href')
+                            if not href:
+                                continue
+                            
+                            full_url = urljoin(f"https://{self.domains[0]}", href)
+                            
+                            if full_url in unique_hrefs:
+                                continue
+                            unique_hrefs.add(full_url)
+                            
+                            items.append({
+                                "title": title,
+                                "league": "24/7",
+                                "starttime": None,
+                                "links": [{
+                                    "address": full_url,
+                                    "name": title,
+                                    "m3u8": None
+                                }]
+                            })
+                        
+                        print(f"✓ Fallback: scraped {len(items)} channels")
+                        
+                    except Exception as fe:
+                        print(f"✗ Fallback also failed: {fe}")
+                
+                return items
+            
+            def _process_247_channel(self, channel, items):
+                """Process a single 24/7 channel"""
+                title = channel.get('name', channel.get('title', 'Unknown'))
+                channel_id = channel.get('id', channel.get('channel_id', ''))
+                
+                if '18+' in title:
+                    return
+                
+                href = f"https://{self.domains[0]}/stream/stream-{channel_id}.php"
+                
+                items.append({
+                    "title": title,
+                    "league": "24/7",
+                    "starttime": None,
+                    "links": [{
+                        "address": href,
+                        "name": title,
+                        "m3u8": None
+                    }]
+                })
+            
+            def run(self, resolve_m3u8=True, max_resolve=15):
+                """Run the complete scraper"""
+                print("=" * 60)
+                print("Daddylive Scraper - Enhanced Version")
+                print("=" * 60)
+                
+                schedule_items = self.scrape_schedule()
+                channel_items = self.scrape_247_channels()
+                all_items = schedule_items + channel_items
+                
+                print(f"\n✓ Total items: {len(all_items)}")
+                
+                if resolve_m3u8 and max_resolve > 0:
+                    print(f"\n{'=' * 60}")
+                    print(f"Resolving M3U8 (limit: {max_resolve})")
+                    print("=" * 60)
+                    
+                    resolved_count = 0
+                    items_to_resolve = [item for item in all_items if item.get('links')]
+                    
+                    for idx, item in enumerate(items_to_resolve[:max_resolve], 1):
+                        for link in item.get('links', []):
+                            stream_url = link.get('address')
+                            if stream_url and '/stream/' in stream_url:
+                                print(f"\n[{idx}/{min(max_resolve, len(items_to_resolve))}] {item['title'][:50]}")
+                                
+                                m3u8_data = self.get_stream_link(stream_url)
+                                
+                                if m3u8_data:
+                                    link['m3u8'] = m3u8_data
+                                    resolved_count += 1
+                                    print(f"  ✓ Found")
+                                else:
+                                    print(f"  ✗ Not found")
+                                
+                                if idx < min(max_resolve, len(items_to_resolve)):
+                                    self.random_delay(2, 4)
+                    
+                    print(f"\n✓ Resolved: {resolved_count}/{max_resolve}")
+                
+                output = {
+                    "scraped_at": datetime.utcnow().isoformat() + "Z",
+                    "total_items": len(all_items),
+                    "scheduled_events": len(schedule_items),
+                    "247_channels": len(channel_items),
+                    "resolved_m3u8_count": sum(
+                        1 for item in all_items 
+                        for link in item.get('links', []) 
+                        if link.get('m3u8')
+                    ),
+                    "items": all_items
+                }
+                
+                with open('daddylive_data.json', 'w', encoding='utf-8') as f:
+                    json.dump(output, f, indent=2, ensure_ascii=False)
+                
+                print(f"\n✓ Saved to daddylive_data.json")
+                return output
+        
         
         if __name__ == "__main__":
-            print("Starting Daddylive scraper...")
-            items = scrape_daddylive()
-            print(f"Scraped {len(items)} items")
+            # Get max_resolve from command line or use default
+            max_resolve = 15
+            if len(sys.argv) > 1:
+                try:
+                    max_resolve = int(sys.argv[1])
+                except:
+                    pass
             
-            # Resolve m3u8 links for a sample of streams (to avoid too many requests)
-            print("\nResolving m3u8 links for streams...")
-            resolved_count = 0
-            max_to_resolve = 50  # Limit to avoid rate limiting
-            
-            for item in items[:max_to_resolve]:
-                for link in item.get('links', []):
-                    stream_url = link.get('address')
-                    if stream_url and '/stream/' in stream_url:
-                        print(f"Resolving: {item['title']} - {link.get('name', 'Unknown')}")
-                        m3u8_data = get_stream_link(stream_url)
-                        if m3u8_data:
-                            link['m3u8'] = m3u8_data
-                            resolved_count += 1
-                            print(f"  ✓ Found: {m3u8_data['url'][:80]}...")
-                        else:
-                            print(f"  ✗ No m3u8 found")
-            
-            print(f"\nResolved {resolved_count} m3u8 links")
-            
-            output = {
-                "scraped_at": datetime.utcnow().isoformat() + "Z",
-                "total_items": len(items),
-                "resolved_m3u8_count": resolved_count,
-                "items": items
-            }
-            
-            with open('daddylive_data.json', 'w') as f:
-                json.dump(output, f, indent=2)
-            
-            print(f"\nSuccessfully saved {len(items)} items to daddylive_data.json")
+            scraper = DaddyliveScraper()
+            scraper.run(resolve_m3u8=True, max_resolve=max_resolve)
         SCRIPT
     
     - name: Run scraper
-      run: python scraper.py
+      run: |
+        MAX_RESOLVE="${{ github.event.inputs.max_resolve || '15' }}"
+        python scraper.py "$MAX_RESOLVE"
+      
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --quiet daddylive_data.json || echo "changed=true" >> $GITHUB_OUTPUT
         
     - name: Commit and push if changes
+      if: steps.check_changes.outputs.changed == 'true'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add daddylive_data.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Update Daddylive data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')" && git push)
+        git commit -m "Update Daddylive data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+        git push
+        
+    - name: Upload artifact on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: scraper-logs
+        path: |
+          *.json
+          *.log
+        retention-days: 7
