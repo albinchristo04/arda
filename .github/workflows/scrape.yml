@@ -33,10 +33,91 @@ jobs:
         from datetime import datetime, timedelta
         import json
         import re
+        from urllib.parse import urlparse
         
         # Disable SSL warnings for this scraper
         import urllib3
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        
+        def extract_m3u8_from_iframe(iframe_url):
+            """Extract m3u8 link from iframe source"""
+            try:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+                    'Referer': iframe_url
+                }
+                
+                response = requests.get(iframe_url, headers=headers, verify=False, timeout=15)
+                text = response.text
+                
+                # Common patterns for m3u8 links
+                m3u8_patterns = [
+                    r'source:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                    r'file:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                    r'src:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                    r'["\']([^"\']*\.m3u8[^"\']*)["\']',
+                    r'(https?://[^\s<>"\']+\.m3u8[^\s<>"\']*)',
+                ]
+                
+                for pattern in m3u8_patterns:
+                    matches = re.findall(pattern, text)
+                    if matches:
+                        m3u8_url = matches[0]
+                        # Clean up the URL
+                        m3u8_url = m3u8_url.split('"')[0].split("'")[0]
+                        
+                        # Build proper headers for the m3u8
+                        referer = iframe_url
+                        origin = f"https://{urlparse(referer).netloc}"
+                        
+                        return {
+                            'url': m3u8_url,
+                            'headers': {
+                                'Origin': origin,
+                                'Referer': referer,
+                                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+                            }
+                        }
+                
+                return None
+            except Exception as e:
+                print(f"Error extracting m3u8 from {iframe_url}: {e}")
+                return None
+        
+        def get_stream_link(stream_url, max_retries=2):
+            """Get the playable m3u8 link from a stream page"""
+            try:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+                }
+                
+                # Fetch the stream page
+                response = requests.get(stream_url, headers=headers, verify=False, timeout=15)
+                soup = BeautifulSoup(response.text, "html.parser")
+                
+                # Find iframe with id="thatframe" or any iframe
+                iframe = soup.select_one("iframe#thatframe")
+                if not iframe:
+                    iframe = soup.find("iframe")
+                
+                if iframe and iframe.get("src"):
+                    iframe_src = iframe.get("src")
+                    
+                    # Make absolute URL if relative
+                    if iframe_src.startswith("//"):
+                        iframe_src = "https:" + iframe_src
+                    elif iframe_src.startswith("/"):
+                        parsed = urlparse(stream_url)
+                        iframe_src = f"{parsed.scheme}://{parsed.netloc}{iframe_src}"
+                    
+                    # Extract m3u8 from iframe
+                    m3u8_data = extract_m3u8_from_iframe(iframe_src)
+                    return m3u8_data
+                
+                return None
+            except Exception as e:
+                print(f"Error getting stream link from {stream_url}: {e}")
+                return None
         
         def scrape_daddylive():
             domains = ["dlhd.dad"]
@@ -137,7 +218,11 @@ jobs:
                                 "title": title,
                                 "league": "[COLORorange]24/7",
                                 "starttime": None,
-                                "links": [{"address": href, "name": title}]
+                                "links": [{
+                                    "address": href,
+                                    "name": title,
+                                    "m3u8": None
+                                }]
                             })
                 elif isinstance(channels_data, dict):
                     # If it's a dict, iterate through values
@@ -155,7 +240,11 @@ jobs:
                                 "title": title,
                                 "league": "[COLORorange]24/7",
                                 "starttime": None,
-                                "links": [{"address": href, "name": title}]
+                                "links": [{
+                                    "address": href,
+                                    "name": title,
+                                    "m3u8": None
+                                }]
                             })
                         
             except Exception as e:
@@ -188,7 +277,11 @@ jobs:
                             "title": title,
                             "league": "[COLORorange]24/7",
                             "starttime": None,
-                            "links": [{"address": href, "name": ""}]
+                            "links": [{
+                                "address": href,
+                                "name": "",
+                                "m3u8": None
+                            }]
                         })
                 except Exception as fallback_error:
                     print(f"Fallback also failed: {fallback_error}")
@@ -196,18 +289,41 @@ jobs:
             return items
         
         if __name__ == "__main__":
+            print("Starting Daddylive scraper...")
             items = scrape_daddylive()
+            print(f"Scraped {len(items)} items")
+            
+            # Resolve m3u8 links for a sample of streams (to avoid too many requests)
+            print("\nResolving m3u8 links for streams...")
+            resolved_count = 0
+            max_to_resolve = 50  # Limit to avoid rate limiting
+            
+            for item in items[:max_to_resolve]:
+                for link in item.get('links', []):
+                    stream_url = link.get('address')
+                    if stream_url and '/stream/' in stream_url:
+                        print(f"Resolving: {item['title']} - {link.get('name', 'Unknown')}")
+                        m3u8_data = get_stream_link(stream_url)
+                        if m3u8_data:
+                            link['m3u8'] = m3u8_data
+                            resolved_count += 1
+                            print(f"  ✓ Found: {m3u8_data['url'][:80]}...")
+                        else:
+                            print(f"  ✗ No m3u8 found")
+            
+            print(f"\nResolved {resolved_count} m3u8 links")
             
             output = {
                 "scraped_at": datetime.utcnow().isoformat() + "Z",
                 "total_items": len(items),
+                "resolved_m3u8_count": resolved_count,
                 "items": items
             }
             
             with open('daddylive_data.json', 'w') as f:
                 json.dump(output, f, indent=2)
             
-            print(f"Successfully scraped {len(items)} items")
+            print(f"\nSuccessfully saved {len(items)} items to daddylive_data.json")
         SCRIPT
     
     - name: Run scraper
