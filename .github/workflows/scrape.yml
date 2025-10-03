@@ -3,8 +3,8 @@ name: Daddylive Scraper
 
 on:
   schedule:
-    - cron: "0 * * * *"  # Every hour
-  workflow_dispatch:     # Manual run
+    - cron: "0 * * * *"  # every hour
+  workflow_dispatch:
 
 jobs:
   scrape:
