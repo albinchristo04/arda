@@ -1,57 +1,41 @@
-import json
-import sys
-import os
-from datetime import datetime
+name: Scrape 720pStream Data
 
-# Add the lib directory to the Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'repo', 'script.module.jetextractors', 'lib'))
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual trigger
 
-from jetextractors.plytvsites.stream720p import Stream720p
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-def serialize_game(game):
-    """Convert Game object to dictionary"""
-    return {
-        'title': game.title,
-        'league': game.league,
-        'icon': game.icon,
-        'starttime': game.starttime.isoformat() if game.starttime else None,
-        'links': [
-            {
-                'address': link.address,
-                'name': link.name if hasattr(link, 'name') else None,
-                'is_links': link.is_links if hasattr(link, 'is_links') else False
-            }
-            for link in game.links
-        ]
-    }
-
-def main():
-    try:
-        scraper = Stream720p()
-        print("Starting scrape...")
-        
-        games = scraper.get_games()
-        print(f"Found {len(games)} games")
-        
-        # Convert games to JSON-serializable format
-        games_data = [serialize_game(game) for game in games]
-        
-        # Prepare output data
-        output = {
-            'timestamp': datetime.utcnow().isoformat(),
-            'total_games': len(games_data),
-            'games': games_data
-        }
-        
-        # Write to JSON file
-        with open('scraped_data.json', 'w', encoding='utf-8') as f:
-            json.dump(output, f, indent=2, ensure_ascii=False)
-        
-        print("Data successfully written to scraped_data.json")
-        
-    except Exception as e:
-        print(f"Error during scraping: {e}")
-        sys.exit(1)
-
-if __name__ == "__main__":
-    main()
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+          # Check if requirements.txt exists and install
+          if [ -f "repo/script.module.jetextractors/requirements.txt" ]; then
+            pip install -r repo/script.module.jetextractors/requirements.txt
+          fi
+          
+      - name: Run scraper
+        run: |
+          python scraper_runner.py
+          
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update scraped data - $(date -u)" && git push)
