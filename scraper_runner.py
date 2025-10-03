@@ -12,7 +12,7 @@ def get_games():
     games = []
     
     # Try different possible domains
-    possible_domains = ["720pstream.lc", "720pstream.nu", "720pstream.me", "720pstream.ic"]
+    possible_domains = ["720pstream.lc", "https://720pstream.lc/", "720pstream.me", "720pstream.ic"]
     base_url = None
     
     for domain in possible_domains:
