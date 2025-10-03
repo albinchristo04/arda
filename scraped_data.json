@@ -1,5 +1,1280 @@
 {
-  "timestamp": "2025-10-03T16:50:09.323073",
-  "total_games": 0,
-  "games": []
+  "timestamp": "2025-10-03T16:55:49.724281",
+  "total_games": 182,
+  "games": [
+    {
+      "title": "NFL Network",
+      "league": "NFL",
+      "icon": "https://cdn.720pstream.nu/img/team/nfl/nfl-network.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/nfl/nfl-network"
+    },
+    {
+      "title": "NFL Redzone",
+      "league": "NFL",
+      "icon": "https://cdn.720pstream.nu/img/team/nfl/nfl-redzone.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/nfl/nfl-redzone"
+    },
+    {
+      "title": "NHL Network",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/nhl-network.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/nhl/nhl-network"
+    },
+    {
+      "title": "Pittsburgh Penguins",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/pittsburgh-penguins.svg",
+      "starttime": "2025-10-03T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/pittsburgh-penguins"
+    },
+    {
+      "title": "Chicago Blackhawks",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/chicago-blackhawks.svg",
+      "starttime": "2025-10-04T00:00:00",
+      "link": "https://720pstream.lc/live/nhl/chicago-blackhawks"
+    },
+    {
+      "title": "Calgary Flames",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/calgary-flames.svg",
+      "starttime": "2025-10-04T01:00:00",
+      "link": "https://720pstream.lc/live/nhl/calgary-flames"
+    },
+    {
+      "title": "Vegas Golden Knights",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/vegas-golden-knights.svg",
+      "starttime": "2025-10-04T02:00:00",
+      "link": "https://720pstream.lc/live/nhl/vegas-golden-knights"
+    },
+    {
+      "title": "Vancouver Canucks",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/vancouver-canucks.svg",
+      "starttime": "2025-10-04T02:00:00",
+      "link": "https://720pstream.lc/live/nhl/vancouver-canucks"
+    },
+    {
+      "title": "Philadelphia Flyers",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/philadelphia-flyers.svg",
+      "starttime": "2025-10-04T16:30:00",
+      "link": "https://720pstream.lc/live/nhl/philadelphia-flyers"
+    },
+    {
+      "title": "Boston Bruins",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/boston-bruins.svg",
+      "starttime": "2025-10-04T18:00:00",
+      "link": "https://720pstream.lc/live/nhl/boston-bruins"
+    },
+    {
+      "title": "Los Angeles Kings",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/los-angeles-kings.svg",
+      "starttime": "2025-10-04T20:00:00",
+      "link": "https://720pstream.lc/live/nhl/los-angeles-kings"
+    },
+    {
+      "title": "Nashville Predators",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/nashville-predators.svg",
+      "starttime": "2025-10-04T20:00:00",
+      "link": "https://720pstream.lc/live/nhl/nashville-predators"
+    },
+    {
+      "title": "Dallas Stars",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/dallas-stars.svg",
+      "starttime": "2025-10-04T22:00:00",
+      "link": "https://720pstream.lc/live/nhl/dallas-stars"
+    },
+    {
+      "title": "Washington Capitals",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/washington-capitals.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/washington-capitals"
+    },
+    {
+      "title": "Florida Panthers",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/florida-panthers.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/florida-panthers"
+    },
+    {
+      "title": "Detroit Red Wings",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/detroit-red-wings.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/detroit-red-wings"
+    },
+    {
+      "title": "Montreal Canadiens",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/montreal-canadiens.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/montreal-canadiens"
+    },
+    {
+      "title": "Chicago Blackhawks",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/chicago-blackhawks.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/nhl/chicago-blackhawks"
+    },
+    {
+      "title": "Utah Mammoth",
+      "league": "NHL",
+      "icon": "https://cdn.720pstream.nu/img/team/nhl/utah-mammoth.svg",
+      "starttime": "2025-10-05T00:00:00",
+      "link": "https://720pstream.lc/live/nhl/utah-mammoth"
+    },
+    {
+      "title": "NBA TV",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/nba-tv.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/nba/nba-tv"
+    },
+    {
+      "title": "ESPN",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/espn.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/nba/espn"
+    },
+    {
+      "title": "Las Vegas Aces",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/las-vegas-aces.svg",
+      "starttime": "2025-10-04T00:00:00",
+      "link": "https://720pstream.lc/live/nba/las-vegas-aces"
+    },
+    {
+      "title": "Los Angeles Lakers",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/los-angeles-lakers.svg",
+      "starttime": "2025-10-04T02:00:00",
+      "link": "https://720pstream.lc/live/nba/los-angeles-lakers"
+    },
+    {
+      "title": "Philadelphia 76ers",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/philadelphia-76ers.svg",
+      "starttime": "2025-10-04T15:00:00",
+      "link": "https://720pstream.lc/live/nba/philadelphia-76ers"
+    },
+    {
+      "title": "Brooklyn Nets",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/brooklyn-nets.svg",
+      "starttime": "2025-10-05T00:00:00",
+      "link": "https://720pstream.lc/live/nba/brooklyn-nets"
+    },
+    {
+      "title": "Miami Heat",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/miami-heat.svg",
+      "starttime": "2025-10-05T00:00:00",
+      "link": "https://720pstream.lc/live/nba/miami-heat"
+    },
+    {
+      "title": "Denver Nuggets",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/denver-nuggets.svg",
+      "starttime": "2025-10-05T01:00:00",
+      "link": "https://720pstream.lc/live/nba/denver-nuggets"
+    },
+    {
+      "title": "New Orleans Pelicans",
+      "league": "NBA",
+      "icon": "https://cdn.720pstream.nu/img/team/nba/new-orleans-pelicans.svg",
+      "starttime": "2025-10-05T03:00:00",
+      "link": "https://720pstream.lc/live/nba/new-orleans-pelicans"
+    },
+    {
+      "title": "MLB Network",
+      "league": "MLB",
+      "icon": "https://cdn.720pstream.nu/img/team/mlb/mlb-network.svg",
+      "starttime": null,
+      "link": "https://720pstream.lc/live/mlb/mlb-network"
+    },
+    {
+      "title": "Milwaukee Brewers",
+      "league": "MLB",
+      "icon": "https://cdn.720pstream.nu/img/team/mlb/milwaukee-brewers.svg",
+      "starttime": "2025-10-04T18:08:00",
+      "link": "https://720pstream.lc/live/mlb/milwaukee-brewers"
+    },
+    {
+      "title": "Toronto Blue Jays",
+      "league": "MLB",
+      "icon": "https://cdn.720pstream.nu/img/team/mlb/toronto-blue-jays.svg",
+      "starttime": "2025-10-04T20:08:00",
+      "link": "https://720pstream.lc/live/mlb/toronto-blue-jays"
+    },
+    {
+      "title": "Philadelphia Phillies",
+      "league": "MLB",
+      "icon": "https://cdn.720pstream.nu/img/team/mlb/philadelphia-phillies.svg",
+      "starttime": "2025-10-04T22:38:00",
+      "link": "https://720pstream.lc/live/mlb/philadelphia-phillies"
+    },
+    {
+      "title": "Seattle Mariners",
+      "league": "MLB",
+      "icon": "https://cdn.720pstream.nu/img/team/mlb/seattle-mariners.svg",
+      "starttime": "2025-10-05T00:38:00",
+      "link": "https://720pstream.lc/live/mlb/seattle-mariners"
+    },
+    {
+      "title": "Delaware",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/delaware.svg",
+      "starttime": "2025-10-03T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/delaware"
+    },
+    {
+      "title": "South Florida",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/south-florida.svg",
+      "starttime": "2025-10-03T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/south-florida"
+    },
+    {
+      "title": "San José State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/san-jose-state.svg",
+      "starttime": "2025-10-04T02:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/san-jose-state"
+    },
+    {
+      "title": "BYU",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/byu.svg",
+      "starttime": "2025-10-04T02:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/byu"
+    },
+    {
+      "title": "San Diego State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/san-diego-state.svg",
+      "starttime": "2025-10-04T02:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/san-diego-state"
+    },
+    {
+      "title": "Georgia",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/georgia.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/georgia"
+    },
+    {
+      "title": "Cincinnati",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/cincinnati.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/cincinnati"
+    },
+    {
+      "title": "Michigan",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/michigan.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/michigan"
+    },
+    {
+      "title": "Purdue",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/purdue.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/purdue"
+    },
+    {
+      "title": "Pittsburgh",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/pittsburgh.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/pittsburgh"
+    },
+    {
+      "title": "North Carolina",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/north-carolina.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/north-carolina"
+    },
+    {
+      "title": "Baylor",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/baylor.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/baylor"
+    },
+    {
+      "title": "Navy",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/navy.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/navy"
+    },
+    {
+      "title": "UAB",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/uab.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/uab"
+    },
+    {
+      "title": "Ball State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/ball-state.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/ball-state"
+    },
+    {
+      "title": "Virginia Tech",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/virginia-tech.svg",
+      "starttime": "2025-10-04T17:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/virginia-tech"
+    },
+    {
+      "title": "Temple",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/temple.svg",
+      "starttime": "2025-10-04T17:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/temple"
+    },
+    {
+      "title": "NC State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/nc-state.svg",
+      "starttime": "2025-10-04T18:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/nc-state"
+    },
+    {
+      "title": "Massachusetts",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/massachusetts.svg",
+      "starttime": "2025-10-04T18:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/massachusetts"
+    },
+    {
+      "title": "Arizona",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/arizona.svg",
+      "starttime": "2025-10-04T19:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/arizona"
+    },
+    {
+      "title": "UCLA",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/ucla.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/ucla"
+    },
+    {
+      "title": "Florida",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/florida.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/florida"
+    },
+    {
+      "title": "Alabama",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/alabama.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/alabama"
+    },
+    {
+      "title": "Notre Dame",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/notre-dame.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/notre-dame"
+    },
+    {
+      "title": "Louisville",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/louisville.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/louisville"
+    },
+    {
+      "title": "Maryland",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/maryland.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/maryland"
+    },
+    {
+      "title": "Northwestern",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/northwestern.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/northwestern"
+    },
+    {
+      "title": "App State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/app-state.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/app-state"
+    },
+    {
+      "title": "SMU",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/smu.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/smu"
+    },
+    {
+      "title": "UConn",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/uconn.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/uconn"
+    },
+    {
+      "title": "Georgia State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/georgia-state.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/georgia-state"
+    },
+    {
+      "title": "Akron",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/akron.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/akron"
+    },
+    {
+      "title": "Buffalo",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/buffalo.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/buffalo"
+    },
+    {
+      "title": "Northern Illinois",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/northern-illinois.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/northern-illinois"
+    },
+    {
+      "title": "Oklahoma",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/oklahoma.svg",
+      "starttime": "2025-10-04T20:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/oklahoma"
+    },
+    {
+      "title": "Nebraska",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/nebraska.svg",
+      "starttime": "2025-10-04T20:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/nebraska"
+    },
+    {
+      "title": "Arkansas State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/arkansas-state.svg",
+      "starttime": "2025-10-04T20:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/arkansas-state"
+    },
+    {
+      "title": "Old Dominion",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/old-dominion.svg",
+      "starttime": "2025-10-04T22:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/old-dominion"
+    },
+    {
+      "title": "Houston",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/houston.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/houston"
+    },
+    {
+      "title": "Wyoming",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/wyoming.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/wyoming"
+    },
+    {
+      "title": "Troy",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/troy.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/troy"
+    },
+    {
+      "title": "Rice",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/rice.svg",
+      "starttime": "2025-10-04T23:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/rice"
+    },
+    {
+      "title": "Ohio State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/ohio-state.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/ohio-state"
+    },
+    {
+      "title": "Florida State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/florida-state.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/florida-state"
+    },
+    {
+      "title": "Texas A&M",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/texas-a-m.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/texas-a-m"
+    },
+    {
+      "title": "TCU",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/tcu.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/tcu"
+    },
+    {
+      "title": "UCF",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/ucf.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/ucf"
+    },
+    {
+      "title": "Memphis",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/memphis.svg",
+      "starttime": "2025-10-05T00:00:00",
+      "link": "https://720pstream.lc/live/ncaaf/memphis"
+    },
+    {
+      "title": "California",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/california.svg",
+      "starttime": "2025-10-05T02:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/california"
+    },
+    {
+      "title": "Fresno State",
+      "league": "NCAAF",
+      "icon": "https://cdn.720pstream.nu/img/team/ncaaf/fresno-state.svg",
+      "starttime": "2025-10-05T02:30:00",
+      "link": "https://720pstream.lc/live/ncaaf/fresno-state"
+    },
+    {
+      "title": "UFC 320: Magomed Ankalaev",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/ufc-320-magomed-ankalaev"
+    },
+    {
+      "title": "PFL Champions Series 2: Usman Nurmagomedov",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/pfl-champions-series-2-usman-nurmagomedov"
+    },
+    {
+      "title": "Unified MMA 64",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/unified-mma-64"
+    },
+    {
+      "title": "RWS: Aguiar vs Eduarda",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/rws-aguiar-vs-eduarda"
+    },
+    {
+      "title": "ACA 193:",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/aca-193"
+    },
+    {
+      "title": "Oktagon 77: Kerim Engizek",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/oktagon-77-kerim-engizek"
+    },
+    {
+      "title": "Gladius World Series: Aarhus 2025",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/gladius-world-series-aarhus-2025"
+    },
+    {
+      "title": "Cage Warriors 195",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/cage-warriors-195"
+    },
+    {
+      "title": "Fighting Alliance Champinoship 31: Fight 4 the Cure",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/fighting-alliance-champinoship-31-fight-4-the-cure"
+    },
+    {
+      "title": "Muay Thai For Life # 14",
+      "league": "MMA",
+      "icon": "https://cdn.720pstream.nu/img/team/mma/mma.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/mma/muay-thai-for-life-14"
+    },
+    {
+      "title": "Azael Villar",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/azael-villar"
+    },
+    {
+      "title": "ONE Fight Night 36: Prajanchai",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/one-fight-night-36-prajanchai"
+    },
+    {
+      "title": "Hollywood Fight Nights: Umar Dzambekov",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/hollywood-fight-nights-umar-dzambekov"
+    },
+    {
+      "title": "Ema Kozin",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/ema-kozin"
+    },
+    {
+      "title": "Nathaniel Collins",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/nathaniel-collins"
+    },
+    {
+      "title": "WWE Friday Night Smackdown",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/wwe-friday-night-smackdown"
+    },
+    {
+      "title": "NXT Level Up",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/nxt-level-up"
+    },
+    {
+      "title": "AEW Collision",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/aew-collision"
+    },
+    {
+      "title": "Monday Night RAW",
+      "league": "BOXING",
+      "icon": "https://cdn.720pstream.nu/img/team/boxing/boxing.svg",
+      "starttime": "2024-08-03T15:00:00",
+      "link": "https://720pstream.lc/live/boxing/monday-night-raw"
+    },
+    {
+      "title": "NAC Breda",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/nac-breda.svg",
+      "starttime": "2025-10-03T18:00:00",
+      "link": "https://720pstream.lc/live/soccer/nac-breda"
+    },
+    {
+      "title": "TSG Hoffenheim",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/tsg-hoffenheim.svg",
+      "starttime": "2025-10-03T18:30:00",
+      "link": "https://720pstream.lc/live/soccer/tsg-hoffenheim"
+    },
+    {
+      "title": "Hellas Verona",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/hellas-verona.svg",
+      "starttime": "2025-10-03T18:45:00",
+      "link": "https://720pstream.lc/live/soccer/hellas-verona"
+    },
+    {
+      "title": "Paris FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/paris-fc.svg",
+      "starttime": "2025-10-03T18:45:00",
+      "link": "https://720pstream.lc/live/soccer/paris-fc"
+    },
+    {
+      "title": "AFC Bournemouth",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/afc-bournemouth.svg",
+      "starttime": "2025-10-03T19:00:00",
+      "link": "https://720pstream.lc/live/soccer/afc-bournemouth"
+    },
+    {
+      "title": "Wrexham",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/wrexham.svg",
+      "starttime": "2025-10-03T19:00:00",
+      "link": "https://720pstream.lc/live/soccer/wrexham"
+    },
+    {
+      "title": "Osasuna",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/osasuna.svg",
+      "starttime": "2025-10-03T19:00:00",
+      "link": "https://720pstream.lc/live/soccer/osasuna"
+    },
+    {
+      "title": "Casa Pia",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/casa-pia.svg",
+      "starttime": "2025-10-03T19:15:00",
+      "link": "https://720pstream.lc/live/soccer/casa-pia"
+    },
+    {
+      "title": "Shimizu S-Pulse",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/shimizu-s-pulse.svg",
+      "starttime": "2025-10-04T04:00:00",
+      "link": "https://720pstream.lc/live/soccer/shimizu-s-pulse"
+    },
+    {
+      "title": "Nagoya Grampus",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/nagoya-grampus.svg",
+      "starttime": "2025-10-04T04:30:00",
+      "link": "https://720pstream.lc/live/soccer/nagoya-grampus"
+    },
+    {
+      "title": "Albirex Niigata",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/albirex-niigata.svg",
+      "starttime": "2025-10-04T05:00:00",
+      "link": "https://720pstream.lc/live/soccer/albirex-niigata"
+    },
+    {
+      "title": "Avispa Fukuoka",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/avispa-fukuoka.svg",
+      "starttime": "2025-10-04T06:00:00",
+      "link": "https://720pstream.lc/live/soccer/avispa-fukuoka"
+    },
+    {
+      "title": "Sanfrecce Hiroshima",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/sanfrecce-hiroshima.svg",
+      "starttime": "2025-10-04T07:00:00",
+      "link": "https://720pstream.lc/live/soccer/sanfrecce-hiroshima"
+    },
+    {
+      "title": "Urawa Red Diamonds",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/urawa-red-diamonds.svg",
+      "starttime": "2025-10-04T08:00:00",
+      "link": "https://720pstream.lc/live/soccer/urawa-red-diamonds"
+    },
+    {
+      "title": "Kashiwa Reysol",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/kashiwa-reysol.svg",
+      "starttime": "2025-10-04T08:30:00",
+      "link": "https://720pstream.lc/live/soccer/kashiwa-reysol"
+    },
+    {
+      "title": "Kyoto Sanga",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/kyoto-sanga.svg",
+      "starttime": "2025-10-04T10:00:00",
+      "link": "https://720pstream.lc/live/soccer/kyoto-sanga"
+    },
+    {
+      "title": "Leeds United",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/leeds-united.svg",
+      "starttime": "2025-10-04T11:30:00",
+      "link": "https://720pstream.lc/live/soccer/leeds-united"
+    },
+    {
+      "title": "Blackburn Rovers",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/blackburn-rovers.svg",
+      "starttime": "2025-10-04T11:30:00",
+      "link": "https://720pstream.lc/live/soccer/blackburn-rovers"
+    },
+    {
+      "title": "Hull City",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/hull-city.svg",
+      "starttime": "2025-10-04T11:30:00",
+      "link": "https://720pstream.lc/live/soccer/hull-city"
+    },
+    {
+      "title": "Sheffield Wednesday",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/sheffield-wednesday.svg",
+      "starttime": "2025-10-04T11:30:00",
+      "link": "https://720pstream.lc/live/soccer/sheffield-wednesday"
+    },
+    {
+      "title": "Real Oviedo",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/real-oviedo.svg",
+      "starttime": "2025-10-04T12:00:00",
+      "link": "https://720pstream.lc/live/soccer/real-oviedo"
+    },
+    {
+      "title": "Lazio",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/lazio.svg",
+      "starttime": "2025-10-04T13:00:00",
+      "link": "https://720pstream.lc/live/soccer/lazio"
+    },
+    {
+      "title": "Parma",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/parma.svg",
+      "starttime": "2025-10-04T13:00:00",
+      "link": "https://720pstream.lc/live/soccer/parma"
+    },
+    {
+      "title": "Bayer 04 Leverkusen",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/bayer-04-leverkusen.svg",
+      "starttime": "2025-10-04T13:30:00",
+      "link": "https://720pstream.lc/live/soccer/bayer-04-leverkusen"
+    },
+    {
+      "title": "Borussia Dortmund",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/borussia-dortmund.svg",
+      "starttime": "2025-10-04T13:30:00",
+      "link": "https://720pstream.lc/live/soccer/borussia-dortmund"
+    },
+    {
+      "title": "FC Augsburg",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/fc-augsburg.svg",
+      "starttime": "2025-10-04T13:30:00",
+      "link": "https://720pstream.lc/live/soccer/fc-augsburg"
+    },
+    {
+      "title": "Werder Bremen",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/werder-bremen.svg",
+      "starttime": "2025-10-04T13:30:00",
+      "link": "https://720pstream.lc/live/soccer/werder-bremen"
+    },
+    {
+      "title": "Arsenal",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/arsenal.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/arsenal"
+    },
+    {
+      "title": "Manchester United",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/manchester-united.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/manchester-united"
+    },
+    {
+      "title": "Bristol City",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/bristol-city.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/bristol-city"
+    },
+    {
+      "title": "Derby County",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/derby-county.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/derby-county"
+    },
+    {
+      "title": "Millwall",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/millwall.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/millwall"
+    },
+    {
+      "title": "Portsmouth",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/portsmouth.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/portsmouth"
+    },
+    {
+      "title": "Preston North End",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/preston-north-end.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/preston-north-end"
+    },
+    {
+      "title": "Swansea City",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/swansea-city.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/swansea-city"
+    },
+    {
+      "title": "Watford",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/watford.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/watford"
+    },
+    {
+      "title": "Dundee United",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/dundee-united.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/dundee-united"
+    },
+    {
+      "title": "Kilmarnock",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/kilmarnock.svg",
+      "starttime": "2025-10-04T14:00:00",
+      "link": "https://720pstream.lc/live/soccer/kilmarnock"
+    },
+    {
+      "title": "Girona",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/girona.svg",
+      "starttime": "2025-10-04T14:15:00",
+      "link": "https://720pstream.lc/live/soccer/girona"
+    },
+    {
+      "title": "C.D. Nacional",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/c-d-nacional.svg",
+      "starttime": "2025-10-04T14:30:00",
+      "link": "https://720pstream.lc/live/soccer/c-d-nacional"
+    },
+    {
+      "title": "Gil Vicente",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/gil-vicente.svg",
+      "starttime": "2025-10-04T14:30:00",
+      "link": "https://720pstream.lc/live/soccer/gil-vicente"
+    },
+    {
+      "title": "Sparta Rotterdam",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/sparta-rotterdam.svg",
+      "starttime": "2025-10-04T14:30:00",
+      "link": "https://720pstream.lc/live/soccer/sparta-rotterdam"
+    },
+    {
+      "title": "Alberite",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/alberite.svg",
+      "starttime": "2025-10-04T14:45:00",
+      "link": "https://720pstream.lc/live/soccer/alberite"
+    },
+    {
+      "title": "Metz",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/metz.svg",
+      "starttime": "2025-10-04T15:00:00",
+      "link": "https://720pstream.lc/live/soccer/metz"
+    },
+    {
+      "title": "Betis CF",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/betis-cf.svg",
+      "starttime": "2025-10-04T15:00:00",
+      "link": "https://720pstream.lc/live/soccer/betis-cf"
+    },
+    {
+      "title": "Atlético Calatayud",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/atletico-calatayud.svg",
+      "starttime": "2025-10-04T15:30:00",
+      "link": "https://720pstream.lc/live/soccer/atletico-calatayud"
+    },
+    {
+      "title": "Lourdes",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/lourdes.svg",
+      "starttime": "2025-10-04T15:30:00",
+      "link": "https://720pstream.lc/live/soccer/lourdes"
+    },
+    {
+      "title": "Negreira",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/negreira.svg",
+      "starttime": "2025-10-04T15:30:00",
+      "link": "https://720pstream.lc/live/soccer/negreira"
+    },
+    {
+      "title": "Internazionale",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/internazionale.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/soccer/internazionale"
+    },
+    {
+      "title": "Palma del Río",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/palma-del-rio.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/soccer/palma-del-rio"
+    },
+    {
+      "title": "Unión Deportiva Los Garres",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/union-deportiva-los-garres.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/soccer/union-deportiva-los-garres"
+    },
+    {
+      "title": "Yuncos",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/yuncos.svg",
+      "starttime": "2025-10-04T16:00:00",
+      "link": "https://720pstream.lc/live/soccer/yuncos"
+    },
+    {
+      "title": "Eintracht Frankfurt",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/eintracht-frankfurt.svg",
+      "starttime": "2025-10-04T16:30:00",
+      "link": "https://720pstream.lc/live/soccer/eintracht-frankfurt"
+    },
+    {
+      "title": "Chelsea",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/chelsea.svg",
+      "starttime": "2025-10-04T16:30:00",
+      "link": "https://720pstream.lc/live/soccer/chelsea"
+    },
+    {
+      "title": "Athletic Club",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/athletic-club.svg",
+      "starttime": "2025-10-04T16:30:00",
+      "link": "https://720pstream.lc/live/soccer/athletic-club"
+    },
+    {
+      "title": "Maracena",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/maracena.svg",
+      "starttime": "2025-10-04T16:30:00",
+      "link": "https://720pstream.lc/live/soccer/maracena"
+    },
+    {
+      "title": "Fortuna Sittard",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/fortuna-sittard.svg",
+      "starttime": "2025-10-04T16:45:00",
+      "link": "https://720pstream.lc/live/soccer/fortuna-sittard"
+    },
+    {
+      "title": "Heart of Midlothian",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/heart-of-midlothian.svg",
+      "starttime": "2025-10-04T16:45:00",
+      "link": "https://720pstream.lc/live/soccer/heart-of-midlothian"
+    },
+    {
+      "title": "AVS",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/avs.svg",
+      "starttime": "2025-10-04T17:00:00",
+      "link": "https://720pstream.lc/live/soccer/avs"
+    },
+    {
+      "title": "Brest",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/brest.svg",
+      "starttime": "2025-10-04T17:00:00",
+      "link": "https://720pstream.lc/live/soccer/brest"
+    },
+    {
+      "title": "PEC Zwolle",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/pec-zwolle.svg",
+      "starttime": "2025-10-04T18:00:00",
+      "link": "https://720pstream.lc/live/soccer/pec-zwolle"
+    },
+    {
+      "title": "Universitario FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/universitario-fc.svg",
+      "starttime": "2025-10-04T18:00:00",
+      "link": "https://720pstream.lc/live/soccer/universitario-fc"
+    },
+    {
+      "title": "CF Montréal",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/cf-montreal.svg",
+      "starttime": "2025-10-04T18:30:00",
+      "link": "https://720pstream.lc/live/soccer/cf-montreal"
+    },
+    {
+      "title": "D.C. United",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/d-c-united.svg",
+      "starttime": "2025-10-04T18:30:00",
+      "link": "https://720pstream.lc/live/soccer/d-c-united"
+    },
+    {
+      "title": "Atalanta",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/atalanta.svg",
+      "starttime": "2025-10-04T18:45:00",
+      "link": "https://720pstream.lc/live/soccer/atalanta"
+    },
+    {
+      "title": "Real Madrid",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/real-madrid.svg",
+      "starttime": "2025-10-04T19:00:00",
+      "link": "https://720pstream.lc/live/soccer/real-madrid"
+    },
+    {
+      "title": "Heerenveen",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/heerenveen.svg",
+      "starttime": "2025-10-04T19:00:00",
+      "link": "https://720pstream.lc/live/soccer/heerenveen"
+    },
+    {
+      "title": "AJ Auxerre",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/aj-auxerre.svg",
+      "starttime": "2025-10-04T19:05:00",
+      "link": "https://720pstream.lc/live/soccer/aj-auxerre"
+    },
+    {
+      "title": "Guimaraes",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/guimaraes.svg",
+      "starttime": "2025-10-04T19:30:00",
+      "link": "https://720pstream.lc/live/soccer/guimaraes"
+    },
+    {
+      "title": "FC Dallas",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/fc-dallas.svg",
+      "starttime": "2025-10-04T20:30:00",
+      "link": "https://720pstream.lc/live/soccer/fc-dallas"
+    },
+    {
+      "title": "Inter Miami CF",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/inter-miami-cf.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/soccer/inter-miami-cf"
+    },
+    {
+      "title": "New York Red Bulls",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/new-york-red-bulls.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/soccer/new-york-red-bulls"
+    },
+    {
+      "title": "Orlando City SC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/orlando-city-sc.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/soccer/orlando-city-sc"
+    },
+    {
+      "title": "Philadelphia Union",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/philadelphia-union.svg",
+      "starttime": "2025-10-04T23:30:00",
+      "link": "https://720pstream.lc/live/soccer/philadelphia-union"
+    },
+    {
+      "title": "Austin FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/austin-fc.svg",
+      "starttime": "2025-10-05T00:30:00",
+      "link": "https://720pstream.lc/live/soccer/austin-fc"
+    },
+    {
+      "title": "Chicago Fire FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/chicago-fire-fc.svg",
+      "starttime": "2025-10-05T00:30:00",
+      "link": "https://720pstream.lc/live/soccer/chicago-fire-fc"
+    },
+    {
+      "title": "Houston Dynamo FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/houston-dynamo-fc.svg",
+      "starttime": "2025-10-05T00:30:00",
+      "link": "https://720pstream.lc/live/soccer/houston-dynamo-fc"
+    },
+    {
+      "title": "Minnesota United FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/minnesota-united-fc.svg",
+      "starttime": "2025-10-05T00:30:00",
+      "link": "https://720pstream.lc/live/soccer/minnesota-united-fc"
+    },
+    {
+      "title": "Real Salt Lake",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/real-salt-lake.svg",
+      "starttime": "2025-10-05T01:30:00",
+      "link": "https://720pstream.lc/live/soccer/real-salt-lake"
+    },
+    {
+      "title": "Seattle Sounders FC",
+      "league": "SOCCER",
+      "icon": "https://cdn.720pstream.nu/img/team/soccer/seattle-sounders-fc.svg",
+      "starttime": "2025-10-05T02:30:00",
+      "link": "https://720pstream.lc/live/soccer/seattle-sounders-fc"
+    }
+  ]
 }
