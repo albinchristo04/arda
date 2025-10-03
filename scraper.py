@@ -7,16 +7,21 @@ import re
 from urllib.parse import urlparse, urljoin
 import time
 import random
+import asyncio
+from playwright.async_api import async_playwright, TimeoutError as PlaywrightTimeout
 
 # Disable SSL warnings
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class DaddyliveScraper:
-    def __init__(self):
+    def __init__(self, use_playwright=True):
         self.domains = ["dlhd.dad"]
         self.session = requests.Session()
         self.session.verify = False
+        self.use_playwright = use_playwright
+        self.browser = None
+        self.context = None
         
         # More realistic headers
         self.headers = {
@@ -27,52 +32,185 @@ class DaddyliveScraper:
             'DNT': '1',
             'Connection': 'keep-alive',
             'Upgrade-Insecure-Requests': '1',
-            'Sec-Fetch-Dest': 'iframe',  # Changed to 'iframe'
+            'Sec-Fetch-Dest': 'iframe',
             'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'cross-site',  # Changed to 'cross-site'
+            'Sec-Fetch-Site': 'cross-site',
             'Cache-Control': 'max-age=0',
         }
-        
+    
+    async def init_browser(self):
+        """Initialize Playwright browser"""
+        if self.use_playwright and not self.browser:
+            playwright = await async_playwright().start()
+            self.browser = await playwright.chromium.launch(
+                headless=True,
+                args=[
+                    '--disable-blink-features=AutomationControlled',
+                    '--disable-dev-shm-usage',
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                ]
+            )
+            self.context = await self.browser.new_context(
+                viewport={'width': 1920, 'height': 1080},
+                user_agent=self.headers['User-Agent'],
+                extra_http_headers={
+                    'Accept-Language': 'en-US,en;q=0.9',
+                }
+            )
+            # Mask automation
+            await self.context.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});
+                Object.defineProperty(navigator, 'languages', {get: () => ['en-US', 'en']});
+            """)
+    
+    async def close_browser(self):
+        """Close Playwright browser"""
+        if self.context:
+            await self.context.close()
+        if self.browser:
+            await self.browser.close()
+    
     def random_delay(self, min_sec=1, max_sec=3):
         """Add random delay to avoid rate limiting"""
         time.sleep(random.uniform(min_sec, max_sec))
     
+    async def extract_m3u8_playwright(self, url, parent_url):
+        """Extract m3u8 using Playwright to handle JavaScript"""
+        try:
+            page = await self.context.new_page()
+            
+            # Set referer
+            await page.set_extra_http_headers({'Referer': parent_url})
+            
+            # Intercept network requests to catch m3u8 URLs
+            m3u8_urls = []
+            
+            async def handle_route(route, request):
+                url = request.url
+                if '.m3u8' in url:
+                    m3u8_urls.append(url)
+                await route.continue_()
+            
+            await page.route('**/*', handle_route)
+            
+            # Navigate and wait for network idle
+            try:
+                await page.goto(url, wait_until='networkidle', timeout=30000)
+            except PlaywrightTimeout:
+                pass  # Continue even if timeout
+            
+            # Wait a bit for any delayed scripts
+            await page.wait_for_timeout(3000)
+            
+            # Get page content
+            content = await page.content()
+            
+            # Extended patterns for m3u8 detection
+            m3u8_patterns = [
+                r'source\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'file\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'src\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'var\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'const\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'let\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'["\']([^"\']*//[^"\']*\.m3u8[^"\']*)["\']',
+                r'(https?://[^\s<>"\'()]+\.m3u8(?:\?[^\s<>"\'()]*)?)',
+                r'data-[\w-]+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
+                r'url\s*=\s*([^\s&]+\.m3u8[^\s&]*)',
+            ]
+            
+            found_urls = []
+            for pattern in m3u8_patterns:
+                matches = re.findall(pattern, content, re.IGNORECASE)
+                found_urls.extend(matches)
+            
+            # Add intercepted URLs
+            found_urls.extend(m3u8_urls)
+            
+            # Check for base64 encoded URLs
+            base64_pattern = r'atob\(["\']([A-Za-z0-9+/=]{20,})["\']'
+            base64_matches = re.findall(base64_pattern, content)
+            for b64 in base64_matches:
+                try:
+                    import base64
+                    decoded = base64.b64decode(b64).decode('utf-8', errors='ignore')
+                    if '.m3u8' in decoded:
+                        found_urls.append(decoded)
+                except:
+                    pass
+            
+            await page.close()
+            
+            # Process and validate found URLs
+            for m3u8_url in found_urls:
+                # Clean up the URL
+                m3u8_url = m3u8_url.split('"')[0].split("'")[0].split('\\')[0].strip()
+                m3u8_url = m3u8_url.replace('\\/', '/')
+                
+                # Skip invalid URLs
+                if not m3u8_url or len(m3u8_url) < 10:
+                    continue
+                
+                # Skip obvious non-URLs
+                if m3u8_url.startswith('javascript:') or m3u8_url.startswith('data:'):
+                    continue
+                
+                # Make absolute URL
+                if m3u8_url.startswith('//'):
+                    m3u8_url = 'https:' + m3u8_url
+                elif m3u8_url.startswith('/'):
+                    parsed = urlparse(url)
+                    m3u8_url = f"{parsed.scheme}://{parsed.netloc}{m3u8_url}"
+                elif not m3u8_url.startswith('http'):
+                    try:
+                        m3u8_url = urljoin(url, m3u8_url)
+                    except:
+                        continue
+                
+                # Return first valid m3u8 URL
+                parsed_url = urlparse(url)
+                return {
+                    'url': m3u8_url,
+                    'headers': {
+                        'Origin': f"https://{parsed_url.netloc}",
+                        'Referer': url,
+                        'User-Agent': self.headers['User-Agent']
+                    }
+                }
+            
+            return None
+            
+        except Exception as e:
+            print(f"    ✗ Playwright exception: {str(e)[:80]}")
+            return None
+    
     def extract_m3u8_from_page(self, url, parent_url):
-        """Extract m3u8 link from page with proper iframe headers"""
+        """Extract m3u8 link from page with requests (fallback)"""
         try:
             headers = self.headers.copy()
-            # CRITICAL: Set referer to the parent stream page, not the embed URL itself
             headers['Referer'] = parent_url
-            headers['Sec-Fetch-Dest'] = 'iframe'
-            headers['Sec-Fetch-Mode'] = 'navigate'
-            headers['Sec-Fetch-Site'] = 'cross-site'
             
-            # First request might be blocked, but establishes session
             response = self.session.get(url, headers=headers, timeout=20, allow_redirects=True)
             
-            # Check if we got blocked
             if 'direct access blocked' in response.text.lower() or response.status_code == 403:
-                print(f"    ⚠ Blocked by referer check, trying alternative methods...")
+                print(f"    ⚠ Blocked by referer check")
                 return None
             
             text = response.text
             
             # Extended patterns for m3u8 detection
             m3u8_patterns = [
-                # Jwplayer and common video players
                 r'source\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
                 r'file\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
                 r'src\s*:\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                # Variable assignments
                 r'var\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
                 r'const\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
                 r'let\s+\w+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                # Direct URLs with various quote styles
                 r'["\']([^"\']*//[^"\']*\.m3u8[^"\']*)["\']',
                 r'(https?://[^\s<>"\'()]+\.m3u8(?:\?[^\s<>"\'()]*)?)',
-                # In data attributes
                 r'data-[\w-]+\s*=\s*["\']([^"\']*\.m3u8[^"\']*)["\']',
-                # URL encoded
                 r'url\s*=\s*([^\s&]+\.m3u8[^\s&]*)',
             ]
             
@@ -99,11 +237,9 @@ class DaddyliveScraper:
                 m3u8_url = m3u8_url.split('"')[0].split("'")[0].split('\\')[0].strip()
                 m3u8_url = m3u8_url.replace('\\/', '/')
                 
-                # Skip invalid URLs
                 if not m3u8_url or len(m3u8_url) < 10:
                     continue
                 
-                # Skip obvious non-URLs
                 if m3u8_url.startswith('javascript:') or m3u8_url.startswith('data:'):
                     continue
                 
@@ -114,14 +250,11 @@ class DaddyliveScraper:
                     parsed = urlparse(url)
                     m3u8_url = f"{parsed.scheme}://{parsed.netloc}{m3u8_url}"
                 elif not m3u8_url.startswith('http'):
-                    # Try to resolve relative URL
                     try:
                         m3u8_url = urljoin(url, m3u8_url)
                     except:
                         continue
                 
-                # Return first valid-looking m3u8 URL
-                # We skip validation to avoid additional blocked requests
                 parsed_url = urlparse(url)
                 return {
                     'url': m3u8_url,
@@ -138,16 +271,24 @@ class DaddyliveScraper:
             print(f"    ✗ Exception: {str(e)[:80]}")
             return None
     
-    def get_stream_link(self, stream_url):
+    async def get_stream_link(self, stream_url):
         """Get the playable m3u8 link from a stream page"""
         try:
-            headers = self.headers.copy()
-            # First visit to get cookies and establish session
-            headers['Sec-Fetch-Dest'] = 'document'
-            headers['Sec-Fetch-Site'] = 'none'
-            
-            response = self.session.get(stream_url, headers=headers, timeout=20)
-            soup = BeautifulSoup(response.text, "html.parser")
+            # Use Playwright for initial page load if available
+            if self.use_playwright and self.context:
+                page = await self.context.new_page()
+                try:
+                    await page.goto(stream_url, wait_until='domcontentloaded', timeout=15000)
+                    content = await page.content()
+                    await page.close()
+                    soup = BeautifulSoup(content, "html.parser")
+                except:
+                    await page.close()
+                    response = self.session.get(stream_url, headers=self.headers, timeout=20)
+                    soup = BeautifulSoup(response.text, "html.parser")
+            else:
+                response = self.session.get(stream_url, headers=self.headers, timeout=20)
+                soup = BeautifulSoup(response.text, "html.parser")
             
             # Method 1: Look for iframe with ID
             iframe = soup.select_one("iframe#thatframe")
@@ -155,7 +296,6 @@ class DaddyliveScraper:
             # Method 2: Look for any iframe
             if not iframe:
                 iframes = soup.find_all("iframe")
-                # Filter out ads/tracking iframes
                 for ifr in iframes:
                     src = ifr.get("src", "")
                     if src and not any(x in src.lower() for x in ['ad', 'doubleclick', 'analytics', 'pixel']):
@@ -167,7 +307,6 @@ class DaddyliveScraper:
                 scripts = soup.find_all('script')
                 for script in scripts:
                     if script.string:
-                        # Look for iframe creation in JS
                         iframe_matches = re.findall(
                             r'(?:iframe\.src|src\s*=|setAttribute\(["\']src["\']\s*,)\s*["\']([^"\']+)["\']', 
                             script.string
@@ -197,9 +336,15 @@ class DaddyliveScraper:
                     iframe_src = urljoin(stream_url, iframe_src)
                 
                 # Add slight delay
-                self.random_delay(0.3, 0.8)
+                await asyncio.sleep(random.uniform(0.5, 1.5))
                 
-                # Extract m3u8, passing the parent URL as referer
+                # Try Playwright first, then fallback to requests
+                if self.use_playwright and self.context:
+                    m3u8_data = await self.extract_m3u8_playwright(iframe_src, stream_url)
+                    if m3u8_data:
+                        return m3u8_data
+                
+                # Fallback to requests method
                 m3u8_data = self.extract_m3u8_from_page(iframe_src, stream_url)
                 return m3u8_data
             
@@ -218,7 +363,6 @@ class DaddyliveScraper:
             
             text = response.text.strip()
             
-            # Clean JavaScript wrapper
             if 'var ' in text or 'const ' in text or 'let ' in text:
                 match = re.search(r'[{[].*[}\]]', text, re.DOTALL)
                 if match:
@@ -355,10 +499,10 @@ class DaddyliveScraper:
             }]
         })
     
-    def run(self, resolve_m3u8=True, max_resolve=15):
-        """Run the complete scraper"""
+    async def run_async(self, resolve_m3u8=True, max_resolve=15):
+        """Async runner for the scraper"""
         print("=" * 60)
-        print("Daddylive Scraper - Enhanced Version v2")
+        print("Daddylive Scraper - Enhanced with Playwright v3")
         print("=" * 60)
         
         schedule_items = self.scrape_schedule()
@@ -370,8 +514,11 @@ class DaddyliveScraper:
         if resolve_m3u8 and max_resolve > 0:
             print(f"\n{'=' * 60}")
             print(f"Resolving M3U8 (limit: {max_resolve})")
-            print(f"Note: Many streams use iframe protection and may not resolve")
+            print(f"Using {'Playwright' if self.use_playwright else 'Requests'}")
             print("=" * 60)
+            
+            if self.use_playwright:
+                await self.init_browser()
             
             resolved_count = 0
             items_to_resolve = [item for item in all_items if item.get('links')]
@@ -383,7 +530,7 @@ class DaddyliveScraper:
                         title_short = item['title'][:50]
                         print(f"\n[{idx}/{min(max_resolve, len(items_to_resolve))}] {title_short}")
                         
-                        m3u8_data = self.get_stream_link(stream_url)
+                        m3u8_data = await self.get_stream_link(stream_url)
                         
                         if m3u8_data:
                             link['m3u8'] = m3u8_data
@@ -393,14 +540,16 @@ class DaddyliveScraper:
                         else:
                             print(f"  ✗ Not found")
                         
-                        # Delay between requests
                         if idx < min(max_resolve, len(items_to_resolve)):
-                            self.random_delay(2, 4)
+                            await asyncio.sleep(random.uniform(2, 4))
+            
+            if self.use_playwright:
+                await self.close_browser()
             
             print(f"\n{'=' * 60}")
             print(f"✓ Resolved: {resolved_count}/{max_resolve}")
             if resolved_count == 0:
-                print("⚠ No m3u8 links found - site may use advanced protection")
+                print("⚠ No m3u8 links found - site may require VPN or has advanced protection")
             print("=" * 60)
         
         output = {
@@ -421,6 +570,10 @@ class DaddyliveScraper:
         
         print(f"\n✓ Saved to daddylive_data.json")
         return output
+    
+    def run(self, resolve_m3u8=True, max_resolve=15):
+        """Synchronous wrapper"""
+        return asyncio.run(self.run_async(resolve_m3u8, max_resolve))
 
 
 if __name__ == "__main__":
@@ -428,11 +581,16 @@ if __name__ == "__main__":
     
     # Get max_resolve from command line or use default
     max_resolve = 15
+    use_playwright = True
+    
     if len(sys.argv) > 1:
         try:
             max_resolve = int(sys.argv[1])
         except:
             pass
     
-    scraper = DaddyliveScraper()
+    if len(sys.argv) > 2:
+        use_playwright = sys.argv[2].lower() == 'true'
+    
+    scraper = DaddyliveScraper(use_playwright=use_playwright)
     scraper.run(resolve_m3u8=True, max_resolve=max_resolve)
