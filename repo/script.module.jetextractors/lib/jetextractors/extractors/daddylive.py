@@ -10,7 +10,7 @@ from ..util import m3u8_src
 
 class Daddylive(JetExtractor):
     def __init__(self) -> None:
-        self.domains = ["dlhd.so", "1.dlhd.sx", "dlhd.sx", "d.daddylivehd.sx", "daddylive.sx", "daddylivehd.com"]
+        self.domains = ["dlhd.so", "1.dlhd.sx", "dlhd.dad", "d.daddylivehd.sx", "daddylivestream.com", "daddylivehd.com"]
         self.name = "Daddylive"
     
     
