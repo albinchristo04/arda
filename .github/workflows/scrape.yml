@@ -24,51 +24,99 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4 python-dateutil
         
-    - name: Run scraper
+    - name: Create standalone scraper script
       run: |
-        python << 'EOF'
-        import sys
+        cat > scraper.py << 'SCRIPT'
+        import requests
+        from bs4 import BeautifulSoup
+        from dateutil import parser
+        from datetime import datetime, timedelta
         import json
-        from datetime import datetime
         
-        # Add the module to path
-        sys.path.insert(0, 'script.module.jetextractors/lib')
+        def scrape_daddylive():
+            domains = ["dlhd.so"]
+            timeout = 30
+            items = []
+            
+            # Scrape schedule
+            r = requests.get(f"https://{domains[0]}/schedule/schedule-generated.json", timeout=timeout).json()
+            
+            for header, events in r.items():
+                for event_type, event_list in events.items():
+                    for event in event_list:
+                        title = event.get("event", "")
+                        starttime = event.get("time", "")
+                        league = event_type
+                        channels = event.get("channels", [])
+                        if isinstance(channels, dict):
+                            channels = list(channels.values())
+                        
+                        try:
+                            timestamp = parser.parse(header[:header.index("-")] + " " + starttime)
+                            timestamp = timestamp.replace(year=2024)
+                            utc_time = timestamp - timedelta(hours=1)
+                        except:
+                            try:
+                                utc_time = datetime.now().replace(hour=int(starttime.split(":")[0]), minute=int(starttime.split(":")[1])) - timedelta(hours=1)
+                            except:
+                                utc_time = datetime.now()
+                        
+                        items.append({
+                            "title": title,
+                            "league": league,
+                            "starttime": utc_time.isoformat(),
+                            "links": [
+                                {
+                                    "address": f"https://{domains[0]}/stream/stream-{channel['channel_id']}.php",
+                                    "name": channel["channel_name"]
+                                } for channel in channels
+                            ]
+                        })
+            
+            # Scrape 24/7 channels
+            r_channels = requests.get(f"https://{domains[0]}/24-7-channels.php", timeout=timeout)
+            soup_channels = BeautifulSoup(r_channels.text, "html.parser")
+            A_link = soup_channels.find_all('a')[:2]
+            b_link = soup_channels.find_all('a')[8:]
+            links = A_link + b_link
+            
+            unique_hrefs = set()
+            for link in links:
+                title = link.text
+                if '18+' in title:
+                    continue
+                
+                href = f"https://{domains[0]}{link['href']}"
+                if href in unique_hrefs:
+                    continue
+                unique_hrefs.add(href)
+                
+                items.append({
+                    "title": title,
+                    "league": "[COLORorange]24/7",
+                    "starttime": None,
+                    "links": [{"address": href, "name": ""}]
+                })
+            
+            return items
         
-        from jetextractors.extractors.daddylive import Daddylive
-        
-        # Initialize scraper
-        scraper = Daddylive()
-        
-        # Get items
-        items = scraper.get_items()
-        
-        # Convert to serializable format
-        output = {
-            "scraped_at": datetime.utcnow().isoformat() + "Z",
-            "total_items": len(items),
-            "items": []
-        }
-        
-        for item in items:
-            item_data = {
-                "title": item.title,
-                "league": getattr(item, 'league', ''),
-                "starttime": item.starttime.isoformat() if hasattr(item, 'starttime') and item.starttime else None,
-                "links": [
-                    {
-                        "address": link.address,
-                        "name": getattr(link, 'name', '')
-                    } for link in item.links
-                ]
+        if __name__ == "__main__":
+            items = scrape_daddylive()
+            
+            output = {
+                "scraped_at": datetime.utcnow().isoformat() + "Z",
+                "total_items": len(items),
+                "items": items
             }
-            output["items"].append(item_data)
-        
-        # Save to JSON
-        with open('daddylive_data.json', 'w') as f:
-            json.dump(output, f, indent=2)
-        
-        print(f"Successfully scraped {len(items)} items")
-        EOF
+            
+            with open('daddylive_data.json', 'w') as f:
+                json.dump(output, f, indent=2)
+            
+            print(f"Successfully scraped {len(items)} items")
+        SCRIPT
+    
+    - name: Run scraper
+      run: python scraper.py
         
     - name: Commit and push if changes
       run: |
