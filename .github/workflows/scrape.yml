@@ -22,7 +22,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests beautifulsoup4 python-dateutil
+        pip install requests beautifulsoup4 python-dateutil urllib3
         
     - name: Create standalone scraper script
       run: |
@@ -32,14 +32,53 @@ jobs:
         from dateutil import parser
         from datetime import datetime, timedelta
         import json
+        import re
+        
+        # Disable SSL warnings for this scraper
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
         def scrape_daddylive():
-            domains = ["dlhd.so"]
+            domains = ["dlhd.dad"]
             timeout = 30
             items = []
             
             # Scrape schedule
-            r = requests.get(f"https://{domains[0]}/schedule/schedule-generated.json", timeout=timeout).json()
+            try:
+                response = requests.get(f"https://{domains[0]}/schedule/schedule-generated.json", 
+                                       timeout=timeout, 
+                                       verify=False,
+                                       headers={'User-Agent': 'Mozilla/5.0'})
+                
+                # Try to clean up potentially malformed JSON
+                text = response.text.strip()
+                
+                # Check if it's wrapped in JavaScript
+                if 'var ' in text or 'const ' in text or 'let ' in text:
+                    # Extract JSON from JavaScript variable
+                    match = re.search(r'[{[].*[}\]]', text, re.DOTALL)
+                    if match:
+                        text = match.group(0)
+                
+                # Try to parse
+                try:
+                    r = json.loads(text)
+                except json.JSONDecodeError:
+                    # If still failing, try to extract just the JSON object/array
+                    start = text.find('{') if '{' in text else text.find('[')
+                    end = text.rfind('}') if '}' in text else text.rfind(']')
+                    if start != -1 and end != -1:
+                        text = text[start:end+1]
+                        r = json.loads(text)
+                    else:
+                        raise
+                        
+            except Exception as e:
+                print(f"Error fetching schedule JSON: {e}")
+                if 'response' in locals():
+                    print(f"Status code: {response.status_code}")
+                    print(f"Response text (first 500 chars): {response.text[:500]}")
+                r = {}
             
             for header, events in r.items():
                 for event_type, event_list in events.items():
@@ -73,30 +112,86 @@ jobs:
                             ]
                         })
             
-            # Scrape 24/7 channels
-            r_channels = requests.get(f"https://{domains[0]}/24-7-channels.php", timeout=timeout)
-            soup_channels = BeautifulSoup(r_channels.text, "html.parser")
-            A_link = soup_channels.find_all('a')[:2]
-            b_link = soup_channels.find_all('a')[8:]
-            links = A_link + b_link
-            
-            unique_hrefs = set()
-            for link in links:
-                title = link.text
-                if '18+' in title:
-                    continue
+            # Scrape 24/7 channels from daddy.json
+            try:
+                r_channels = requests.get(f"https://{domains[0]}/daddy.json", 
+                                         timeout=timeout,
+                                         verify=False,
+                                         headers={'User-Agent': 'Mozilla/5.0'})
+                channels_data = r_channels.json()
                 
-                href = f"https://{domains[0]}{link['href']}"
-                if href in unique_hrefs:
-                    continue
-                unique_hrefs.add(href)
+                # daddy.json likely contains channel data in a structured format
+                # Adjust parsing based on actual structure
+                if isinstance(channels_data, list):
+                    for channel in channels_data:
+                        if isinstance(channel, dict):
+                            title = channel.get('name', channel.get('title', 'Unknown'))
+                            channel_id = channel.get('id', channel.get('channel_id', ''))
+                            
+                            if '18+' in title:
+                                continue
+                            
+                            href = f"https://{domains[0]}/stream/stream-{channel_id}.php"
+                            
+                            items.append({
+                                "title": title,
+                                "league": "[COLORorange]24/7",
+                                "starttime": None,
+                                "links": [{"address": href, "name": title}]
+                            })
+                elif isinstance(channels_data, dict):
+                    # If it's a dict, iterate through values
+                    for key, channel in channels_data.items():
+                        if isinstance(channel, dict):
+                            title = channel.get('name', channel.get('title', key))
+                            channel_id = channel.get('id', channel.get('channel_id', key))
+                            
+                            if '18+' in title:
+                                continue
+                            
+                            href = f"https://{domains[0]}/stream/stream-{channel_id}.php"
+                            
+                            items.append({
+                                "title": title,
+                                "league": "[COLORorange]24/7",
+                                "starttime": None,
+                                "links": [{"address": href, "name": title}]
+                            })
+                        
+            except Exception as e:
+                print(f"Error fetching 24/7 channels from daddy.json: {e}")
+                print(f"Falling back to scraping 24-7-channels.php")
                 
-                items.append({
-                    "title": title,
-                    "league": "[COLORorange]24/7",
-                    "starttime": None,
-                    "links": [{"address": href, "name": ""}]
-                })
+                # Fallback to old method if daddy.json fails
+                try:
+                    r_channels = requests.get(f"https://{domains[0]}/24-7-channels.php", 
+                                             timeout=timeout,
+                                             verify=False,
+                                             headers={'User-Agent': 'Mozilla/5.0'})
+                    soup_channels = BeautifulSoup(r_channels.text, "html.parser")
+                    A_link = soup_channels.find_all('a')[:2]
+                    b_link = soup_channels.find_all('a')[8:]
+                    links = A_link + b_link
+                    
+                    unique_hrefs = set()
+                    for link in links:
+                        title = link.text
+                        if '18+' in title:
+                            continue
+                        
+                        href = f"https://{domains[0]}{link['href']}"
+                        if href in unique_hrefs:
+                            continue
+                        unique_hrefs.add(href)
+                        
+                        items.append({
+                            "title": title,
+                            "league": "[COLORorange]24/7",
+                            "starttime": None,
+                            "links": [{"address": href, "name": ""}]
+                        })
+                except Exception as fallback_error:
+                    print(f"Fallback also failed: {fallback_error}")
             
             return items
         
