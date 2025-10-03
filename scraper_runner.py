@@ -10,7 +10,26 @@ from bs4 import BeautifulSoup
 def get_games():
     """Scrape games from 720pstream"""
     games = []
-    base_url = "http://720pstream.ic"
+    
+    # Try different possible domains
+    possible_domains = ["720pstream.lc", "720pstream.nu", "720pstream.me", "720pstream.ic"]
+    base_url = None
+    
+    for domain in possible_domains:
+        try:
+            test_url = f"http://{domain}"
+            print(f"Trying domain: {domain}")
+            r = requests.get(test_url, timeout=5)
+            if r.status_code == 200:
+                base_url = test_url
+                print(f"Successfully connected to: {domain}")
+                break
+        except:
+            continue
+    
+    if not base_url:
+        print("Could not connect to any 720pstream domain")
+        return []
     
     try:
         r = requests.get(base_url, timeout=10).text
