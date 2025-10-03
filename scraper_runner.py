@@ -1,82 +1,90 @@
 import json
 import sys
 import os
-from datetime import datetime
+import requests
+import re
+import time
+from datetime import datetime, timedelta
+from bs4 import BeautifulSoup
 
-# Mock Kodi modules before importing jetextractors
-class MockAddon:
-    def getAddonInfo(self, info):
-        return "mock_value"
-
-class MockXBMCAddon:
-    def Addon(self, *args):
-        return MockAddon()
-
-class MockXBMC:
-    def log(self, *args, **kwargs):
-        pass
+def get_games():
+    """Scrape games from 720pstream"""
+    games = []
+    base_url = "http://720pstream.ic"
     
-    def translatePath(self, path):
-        return path
-
-class MockXBMCGUI:
-    pass
-
-class MockXBMCVFS:
-    pass
-
-# Install mocks
-sys.modules['xbmcaddon'] = MockXBMCAddon()
-sys.modules['xbmc'] = MockXBMC()
-sys.modules['xbmcgui'] = MockXBMCGUI()
-sys.modules['xbmcvfs'] = MockXBMCVFS()
-
-# Add the lib directory to the Python path
-lib_path = os.path.join(os.path.dirname(__file__), 'repo', 'script.module.jetextractors', 'lib')
-sys.path.insert(0, lib_path)
-
-try:
-    from jetextractors.plytvsites.stream720p import Stream720p
-except ImportError as e:
-    print(f"Import error: {e}")
-    print(f"Current path: {os.getcwd()}")
-    print(f"Lib path: {lib_path}")
-    print(f"Lib path exists: {os.path.exists(lib_path)}")
-    sys.exit(1)
-
-def serialize_game(game):
-    """Convert Game object to dictionary"""
-    return {
-        'title': game.title,
-        'league': game.league,
-        'icon': game.icon,
-        'starttime': game.starttime.isoformat() if game.starttime else None,
-        'links': [
-            {
-                'address': link.address,
-                'name': link.name if hasattr(link, 'name') else None,
-                'is_links': link.is_links if hasattr(link, 'is_links') else False
-            }
-            for link in game.links
-        ]
-    }
+    try:
+        r = requests.get(base_url, timeout=10).text
+        soup = BeautifulSoup(r, "html.parser")
+        
+        for li in soup.select("li.nav-item"):
+            league = li.text.strip()
+            icon_tag = li.find("img")
+            icon = icon_tag.get("src") if icon_tag else None
+            
+            a_tag = li.find("a")
+            if not a_tag:
+                continue
+                
+            href = base_url + a_tag.get("href")
+            
+            try:
+                r_league = requests.get(href, timeout=10).text
+                soup_league = BeautifulSoup(r_league, "html.parser")
+                
+                for game in soup_league.select("a.btn"):
+                    title_tag = game.select_one("span.text-success")
+                    game_title = title_tag.text if title_tag else "Unknown"
+                    
+                    img_tag = game.select_one("img")
+                    game_icon = img_tag.get("src") if img_tag else None
+                    
+                    game_href = base_url + game.get("href")
+                    
+                    game_time_tag = game.select_one("div.text-warning")
+                    utc_time = None
+                    
+                    if game_time_tag and game_time_tag.text != "24/7":
+                        time_tag = game_time_tag.find("time")
+                        if time_tag:
+                            time_str = time_tag.get("datetime")
+                            try:
+                                if "-04" in time_str:
+                                    utc_time = datetime(*(time.strptime(time_str, "%Y-%m-%dT%H:%M:%S-04:00")[:6])) + timedelta(hours=4)
+                                else:
+                                    utc_time = datetime(*(time.strptime(time_str, "%Y-%m-%dT%H:%M:%S-05:00")[:6])) + timedelta(hours=5)
+                            except:
+                                pass
+                    
+                    games.append({
+                        'title': game_title,
+                        'league': league,
+                        'icon': game_icon,
+                        'starttime': utc_time.isoformat() if utc_time else None,
+                        'link': game_href
+                    })
+                    
+            except Exception as e:
+                print(f"Error fetching league {league}: {e}")
+                continue
+                
+    except Exception as e:
+        print(f"Error fetching main page: {e}")
+        return []
+    
+    return games
 
 def main():
     try:
-        scraper = Stream720p()
         print("Starting scrape...")
         
-        games = scraper.get_games()
+        games = get_games()
         print(f"Found {len(games)} games")
-        
-        # Convert games to JSON-serializable format
-        games_data = [serialize_game(game) for game in games]
         
         # Prepare output data
         output = {
             'timestamp': datetime.utcnow().isoformat(),
-            'total_games': len(games_data),
-            'games': games_data
+            'total_games': len(games),
+            'games': games
         }
         
         # Write to JSON file
