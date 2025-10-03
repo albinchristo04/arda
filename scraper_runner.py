@@ -11,20 +11,30 @@ def get_games():
     """Scrape games from 720pstream"""
     games = []
     
-    # Try different possible domains
-    possible_domains = ["720pstream.lc", "https://720pstream.lc/", "720pstream.lc", "720pstream.ic"]
+    # Try different possible domains with HTTPS
+    possible_domains = ["720pstream.lc", "720pstream.nu", "720pstream.me", "720pstream.ic"]
     base_url = None
     
     for domain in possible_domains:
         try:
-            test_url = f"http://{domain}"
+            # Use HTTPS instead of HTTP
+            test_url = f"https://{domain}"
             print(f"Trying domain: {domain}")
-            r = requests.get(test_url, timeout=5)
+            
+            # Add headers to mimic a browser
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+            
+            r = requests.get(test_url, timeout=10, headers=headers, verify=True)
             if r.status_code == 200:
                 base_url = test_url
                 print(f"Successfully connected to: {domain}")
                 break
-        except:
+            else:
+                print(f"Failed with status code: {r.status_code}")
+        except Exception as e:
+            print(f"Error connecting to {domain}: {str(e)}")
             continue
     
     if not base_url:
@@ -32,7 +42,11 @@ def get_games():
         return []
     
     try:
-        r = requests.get(base_url, timeout=10).text
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        
+        r = requests.get(base_url, timeout=15, headers=headers).text
         soup = BeautifulSoup(r, "html.parser")
         
         for li in soup.select("li.nav-item"):
@@ -44,20 +58,29 @@ def get_games():
             if not a_tag:
                 continue
                 
-            href = base_url + a_tag.get("href")
+            href = a_tag.get("href")
+            # Handle both relative and absolute URLs
+            if href.startswith("http"):
+                full_href = href
+            else:
+                full_href = base_url + href if not href.startswith("/") else base_url + href
             
             try:
-                r_league = requests.get(href, timeout=10).text
+                r_league = requests.get(full_href, timeout=15, headers=headers).text
                 soup_league = BeautifulSoup(r_league, "html.parser")
                 
                 for game in soup_league.select("a.btn"):
                     title_tag = game.select_one("span.text-success")
-                    game_title = title_tag.text if title_tag else "Unknown"
+                    game_title = title_tag.text.strip() if title_tag else "Unknown"
                     
                     img_tag = game.select_one("img")
                     game_icon = img_tag.get("src") if img_tag else None
                     
-                    game_href = base_url + game.get("href")
+                    game_href_raw = game.get("href")
+                    if game_href_raw.startswith("http"):
+                        game_href = game_href_raw
+                    else:
+                        game_href = base_url + game_href_raw if not game_href_raw.startswith("/") else base_url + game_href_raw
                     
                     game_time_tag = game.select_one("div.text-warning")
                     utc_time = None
@@ -71,7 +94,8 @@ def get_games():
                                     utc_time = datetime(*(time.strptime(time_str, "%Y-%m-%dT%H:%M:%S-04:00")[:6])) + timedelta(hours=4)
                                 else:
                                     utc_time = datetime(*(time.strptime(time_str, "%Y-%m-%dT%H:%M:%S-05:00")[:6])) + timedelta(hours=5)
-                            except:
+                            except Exception as e:
+                                print(f"Error parsing time: {e}")
                                 pass
                     
                     games.append({
@@ -81,6 +105,8 @@ def get_games():
                         'starttime': utc_time.isoformat() if utc_time else None,
                         'link': game_href
                     })
+                
+                print(f"Found {len(games)} games so far from {league}")
                     
             except Exception as e:
                 print(f"Error fetching league {league}: {e}")
@@ -88,6 +114,8 @@ def get_games():
                 
     except Exception as e:
         print(f"Error fetching main page: {e}")
+        import traceback
+        traceback.print_exc()
         return []
     
     return games
@@ -95,9 +123,10 @@ def get_games():
 def main():
     try:
         print("Starting scrape...")
+        print(f"Current time: {datetime.utcnow().isoformat()}")
         
         games = get_games()
-        print(f"Found {len(games)} games")
+        print(f"Found {len(games)} total games")
         
         # Prepare output data
         output = {
@@ -111,6 +140,11 @@ def main():
             json.dump(output, f, indent=2, ensure_ascii=False)
         
         print("Data successfully written to scraped_data.json")
+        
+        # Print summary
+        if games:
+            leagues = set(game['league'] for game in games)
+            print(f"Leagues found: {', '.join(leagues)}")
         
     except Exception as e:
         print(f"Error during scraping: {e}")
