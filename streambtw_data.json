@@ -1,10 +1,10 @@
 {
   "extractor": "StreamBTW",
-  "last_updated": "2025-10-04T12:21:46.407194",
+  "last_updated": "2025-10-04T15:11:16.018703",
   "total_items": 37,
   "sports_count": 11,
   "m3u8_extracted": 37,
-  "accessible_streams": 22,
+  "accessible_streams": 35,
   "sports": [
     "UFC",
     "BOXING",
@@ -25,9 +25,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ufc.php",
       "thumbnail": "https://artwork.espncdn.com/categories/394dad60-8a1a-31a8-912c-a207555bc939/logo/original_20211113210745.svg",
-      "extracted_at": "2025-10-04T12:20:15.284178",
+      "extracted_at": "2025-10-04T15:09:49.741529",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_ufc.m3u8?md5=SjMdIKslG5ouFWCMn5kISw&expires=1759584017",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_ufc.m3u8?md5=8RX6hTdSnDlpqWoP8Tsq8g&expires=1759594191",
         "iframe_url": "https://streambtw.com/iframe/ufc.php",
         "page_url": "https://streambtw.com/iframe/ufc.php",
         "headers": {
@@ -44,7 +44,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ufc.php",
-        "extracted_at": "2025-10-04T12:20:18.098594"
+        "extracted_at": "2025-10-04T15:09:51.775611"
       }
     },
     {
@@ -53,9 +53,9 @@
       "icon": "🥊",
       "link": "https://streambtw.com/iframe/box1.php",
       "thumbnail": "https://artwork.espncdn.com/categories/889c6d08-03c6-31cc-93da-ef344c22a1c4/logo/original_201809051644.svg",
-      "extracted_at": "2025-10-04T12:20:15.284535",
+      "extracted_at": "2025-10-04T15:09:49.741764",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_box1.m3u8?md5=Cf7PLpgOkcRyj8q9DpnJeg&expires=1759584019",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_box1.m3u8?md5=yQ2GIDvxRUavhe8XN0mqAA&expires=1759594193",
         "iframe_url": "https://streambtw.com/iframe/box1.php",
         "page_url": "https://streambtw.com/iframe/box1.php",
         "headers": {
@@ -72,7 +72,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/box1.php",
-        "extracted_at": "2025-10-04T12:20:20.328757"
+        "extracted_at": "2025-10-04T15:09:54.260433"
       }
     },
     {
@@ -81,7 +81,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/nba1.php",
       "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-      "extracted_at": "2025-10-04T12:20:15.284802",
+      "extracted_at": "2025-10-04T15:09:49.741916",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_nba1.m3u8",
         "iframe_url": "https://streambtw.com/iframe/nba1.php",
@@ -97,10 +97,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/nba1.php",
-        "extracted_at": "2025-10-04T12:20:22.815187"
+        "extracted_at": "2025-10-04T15:09:56.381725"
       }
     },
     {
@@ -109,7 +109,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/nba1.php",
       "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-      "extracted_at": "2025-10-04T12:20:15.285050",
+      "extracted_at": "2025-10-04T15:09:49.742056",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_nba1.m3u8",
         "iframe_url": "https://streambtw.com/iframe/nba1.php",
@@ -125,10 +125,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/nba1.php",
-        "extracted_at": "2025-10-04T12:20:24.784599"
+        "extracted_at": "2025-10-04T15:09:58.659054"
       }
     },
     {
@@ -137,7 +137,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/nba2.php",
       "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-      "extracted_at": "2025-10-04T12:20:15.285309",
+      "extracted_at": "2025-10-04T15:09:49.742198",
       "playable_link": {
         "m3u8_url": "https://xry.services/hls/chnba1.m3u8",
         "iframe_url": "https://streambtw.com/iframe/nba2.php",
@@ -156,7 +156,7 @@
         "is_accessible": false,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/nba2.php",
-        "extracted_at": "2025-10-04T12:20:46.538170"
+        "extracted_at": "2025-10-04T15:10:20.211596"
       }
     },
     {
@@ -165,7 +165,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/f1.php",
       "thumbnail": "https://artwork.espncdn.com/categories/23bf83ee-6d7a-3957-8b67-8014ddb9ca47/logo/original_201809071300.svg",
-      "extracted_at": "2025-10-04T12:20:15.285560",
+      "extracted_at": "2025-10-04T15:09:49.742333",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_f1.m3u8",
         "iframe_url": "https://streambtw.com/iframe/f1.php",
@@ -184,7 +184,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/f1.php",
-        "extracted_at": "2025-10-04T12:20:48.512318"
+        "extracted_at": "2025-10-04T15:10:21.804786"
       }
     },
     {
@@ -193,9 +193,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch1.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-      "extracted_at": "2025-10-04T12:20:15.285804",
+      "extracted_at": "2025-10-04T15:09:49.742467",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=5FkK2APIb93nM7-Bq5iZyg&expires=1759584049",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=Aywzf7qWl2mGeNMLdPMs_w&expires=1759594222",
         "iframe_url": "https://streambtw.com/iframe/ch1.php",
         "page_url": "https://streambtw.com/iframe/ch1.php",
         "headers": {
@@ -212,7 +212,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch1.php",
-        "extracted_at": "2025-10-04T12:20:50.377705"
+        "extracted_at": "2025-10-04T15:10:23.404226"
       }
     },
     {
@@ -221,9 +221,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch2.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-      "extracted_at": "2025-10-04T12:20:15.286057",
+      "extracted_at": "2025-10-04T15:09:49.742602",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_2.m3u8?md5=TjvA0Z5kW4a9EU6Xtx7m7g&expires=1759584051",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_2.m3u8?md5=aLB6B9twEfhbyF29AOmgIw&expires=1759594224",
         "iframe_url": "https://streambtw.com/iframe/ch2.php",
         "page_url": "https://streambtw.com/iframe/ch2.php",
         "headers": {
@@ -240,7 +240,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch2.php",
-        "extracted_at": "2025-10-04T12:20:52.277519"
+        "extracted_at": "2025-10-04T15:10:25.062564"
       }
     },
     {
@@ -249,9 +249,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch1.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-      "extracted_at": "2025-10-04T12:20:15.286300",
+      "extracted_at": "2025-10-04T15:09:49.742746",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=b0DIhz6Db0cRz3qpqltjLg&expires=1759584053",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=x4Fz3IebCDDr0XmM82VA3A&expires=1759594226",
         "iframe_url": "https://streambtw.com/iframe/ch1.php",
         "page_url": "https://streambtw.com/iframe/ch1.php",
         "headers": {
@@ -268,7 +268,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch1.php",
-        "extracted_at": "2025-10-04T12:20:54.533227"
+        "extracted_at": "2025-10-04T15:10:26.800077"
       }
     },
     {
@@ -277,9 +277,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch1.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-      "extracted_at": "2025-10-04T12:20:15.286659",
+      "extracted_at": "2025-10-04T15:09:49.742880",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=qZSzl7q28nJZ-1Q2FPSgqg&expires=1759584055",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=4VjywtfaCB3YjYvzNPkvAA&expires=1759594228",
         "iframe_url": "https://streambtw.com/iframe/ch1.php",
         "page_url": "https://streambtw.com/iframe/ch1.php",
         "headers": {
@@ -296,7 +296,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch1.php",
-        "extracted_at": "2025-10-04T12:20:56.355688"
+        "extracted_at": "2025-10-04T15:10:29.077037"
       }
     },
     {
@@ -305,9 +305,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch6.php",
       "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-      "extracted_at": "2025-10-04T12:20:15.286845",
+      "extracted_at": "2025-10-04T15:09:49.743010",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=gMXb1NB7rzO5DE-_C0WgwA&expires=1759584057",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=HMm6UG-pTGEWnHKCTRT2eA&expires=1759594230",
         "iframe_url": "https://streambtw.com/iframe/ch6.php",
         "page_url": "https://streambtw.com/iframe/ch6.php",
         "headers": {
@@ -324,7 +324,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch6.php",
-        "extracted_at": "2025-10-04T12:20:58.215055"
+        "extracted_at": "2025-10-04T15:10:31.033931"
       }
     },
     {
@@ -333,9 +333,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch6.php",
       "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-      "extracted_at": "2025-10-04T12:20:15.287011",
+      "extracted_at": "2025-10-04T15:09:49.743142",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=Hk52G0E-nT8Yhp7V7IqPdw&expires=1759584059",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=4XLiCC3DpdBpBRJj8IOKaQ&expires=1759594232",
         "iframe_url": "https://streambtw.com/iframe/ch6.php",
         "page_url": "https://streambtw.com/iframe/ch6.php",
         "headers": {
@@ -352,7 +352,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch6.php",
-        "extracted_at": "2025-10-04T12:21:00.269303"
+        "extracted_at": "2025-10-04T15:10:32.738577"
       }
     },
     {
@@ -361,9 +361,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch6.php",
       "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-      "extracted_at": "2025-10-04T12:20:15.287175",
+      "extracted_at": "2025-10-04T15:09:49.743272",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=AJUbY_ZzboucRUI1qxlolQ&expires=1759584061",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=w1N8ZlEVb2vpeTBLJ5Aq_Q&expires=1759594234",
         "iframe_url": "https://streambtw.com/iframe/ch6.php",
         "page_url": "https://streambtw.com/iframe/ch6.php",
         "headers": {
@@ -380,7 +380,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch6.php",
-        "extracted_at": "2025-10-04T12:21:02.113645"
+        "extracted_at": "2025-10-04T15:10:35.272296"
       }
     },
     {
@@ -389,9 +389,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch6.php",
       "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-      "extracted_at": "2025-10-04T12:20:15.287449",
+      "extracted_at": "2025-10-04T15:09:49.743405",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=4GA9Xy3OA7ieEs3TEW19kQ&expires=1759584063",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=ggL3Iev2Ccle2pFPpBR3yA&expires=1759594236",
         "iframe_url": "https://streambtw.com/iframe/ch6.php",
         "page_url": "https://streambtw.com/iframe/ch6.php",
         "headers": {
@@ -408,7 +408,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch6.php",
-        "extracted_at": "2025-10-04T12:21:03.948027"
+        "extracted_at": "2025-10-04T15:10:36.886699"
       }
     },
     {
@@ -417,9 +417,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch5.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-      "extracted_at": "2025-10-04T12:20:15.287624",
+      "extracted_at": "2025-10-04T15:09:49.743538",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_5.m3u8?md5=QqX9En81hDrlKqFR-elIIA&expires=1759584065",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_5.m3u8?md5=3TkRzbBx7yGq1wpgsZjcDQ&expires=1759594238",
         "iframe_url": "https://streambtw.com/iframe/ch5.php",
         "page_url": "https://streambtw.com/iframe/ch5.php",
         "headers": {
@@ -436,7 +436,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch5.php",
-        "extracted_at": "2025-10-04T12:21:05.779123"
+        "extracted_at": "2025-10-04T15:10:38.980770"
       }
     },
     {
@@ -445,9 +445,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch7.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-      "extracted_at": "2025-10-04T12:20:15.287802",
+      "extracted_at": "2025-10-04T15:09:49.743679",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=UaOZZIxpid7hhUEQLkvnPw&expires=1759584066",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=6sQcTLJDMEMXbNY3AU90TA&expires=1759594240",
         "iframe_url": "https://streambtw.com/iframe/ch7.php",
         "page_url": "https://streambtw.com/iframe/ch7.php",
         "headers": {
@@ -464,7 +464,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch7.php",
-        "extracted_at": "2025-10-04T12:21:07.646212"
+        "extracted_at": "2025-10-04T15:10:40.725980"
       }
     },
     {
@@ -473,9 +473,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch7.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-      "extracted_at": "2025-10-04T12:20:15.287964",
+      "extracted_at": "2025-10-04T15:09:49.743812",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=UN38NefVK23fctIsn4mpZA&expires=1759584068",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=mb7KaFWy3Yk4FnaJ46QhRQ&expires=1759594241",
         "iframe_url": "https://streambtw.com/iframe/ch7.php",
         "page_url": "https://streambtw.com/iframe/ch7.php",
         "headers": {
@@ -492,7 +492,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch7.php",
-        "extracted_at": "2025-10-04T12:21:09.648038"
+        "extracted_at": "2025-10-04T15:10:42.457774"
       }
     },
     {
@@ -501,9 +501,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch7.php",
       "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-      "extracted_at": "2025-10-04T12:20:15.288127",
+      "extracted_at": "2025-10-04T15:09:49.743941",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=Bcq7tXlOz6sT_EawmsOW3A&expires=1759584070",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=TcI3XEwirB9LQtFG8PEr5A&expires=1759594243",
         "iframe_url": "https://streambtw.com/iframe/ch7.php",
         "page_url": "https://streambtw.com/iframe/ch7.php",
         "headers": {
@@ -520,7 +520,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch7.php",
-        "extracted_at": "2025-10-04T12:21:11.476570"
+        "extracted_at": "2025-10-04T15:10:44.264439"
       }
     },
     {
@@ -529,9 +529,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch8.php",
       "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-      "extracted_at": "2025-10-04T12:20:15.288292",
+      "extracted_at": "2025-10-04T15:09:49.744071",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=Tv0KXrPZurVPEO-Nm14naQ&expires=1759584072",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=-G3OjntOhh8arIeaUUPc2A&expires=1759594245",
         "iframe_url": "https://streambtw.com/iframe/ch8.php",
         "page_url": "https://streambtw.com/iframe/ch8.php",
         "headers": {
@@ -548,7 +548,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch8.php",
-        "extracted_at": "2025-10-04T12:21:13.348639"
+        "extracted_at": "2025-10-04T15:10:46.391048"
       }
     },
     {
@@ -557,9 +557,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch8.php",
       "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-      "extracted_at": "2025-10-04T12:20:15.288470",
+      "extracted_at": "2025-10-04T15:09:49.744203",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=68HY2oWZUNNxQ2tWFkn83g&expires=1759584074",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=vmM-J188sizeSrPXjIg31g&expires=1759594247",
         "iframe_url": "https://streambtw.com/iframe/ch8.php",
         "page_url": "https://streambtw.com/iframe/ch8.php",
         "headers": {
@@ -576,7 +576,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch8.php",
-        "extracted_at": "2025-10-04T12:21:15.197399"
+        "extracted_at": "2025-10-04T15:10:48.563588"
       }
     },
     {
@@ -585,9 +585,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch8.php",
       "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-      "extracted_at": "2025-10-04T12:20:15.288622",
+      "extracted_at": "2025-10-04T15:09:49.744333",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=Ry91WPXkTKhgU4lgTaauLg&expires=1759584076",
+        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=xX7h5qXcw-T_UVG6XfUeNQ&expires=1759594249",
         "iframe_url": "https://streambtw.com/iframe/ch8.php",
         "page_url": "https://streambtw.com/iframe/ch8.php",
         "headers": {
@@ -604,7 +604,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch8.php",
-        "extracted_at": "2025-10-04T12:21:17.072340"
+        "extracted_at": "2025-10-04T15:10:50.332795"
       }
     },
     {
@@ -613,9 +613,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch9.php",
       "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-      "extracted_at": "2025-10-04T12:20:15.288754",
+      "extracted_at": "2025-10-04T15:09:49.744463",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_9.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_9.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch9.php",
         "page_url": "https://streambtw.com/iframe/ch9.php",
         "headers": {
@@ -629,10 +629,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch9.php",
-        "extracted_at": "2025-10-04T12:21:18.905096"
+        "extracted_at": "2025-10-04T15:10:51.891515"
       }
     },
     {
@@ -641,9 +641,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch10.php",
       "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-      "extracted_at": "2025-10-04T12:20:15.288887",
+      "extracted_at": "2025-10-04T15:09:49.744596",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_10.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_10.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch10.php",
         "page_url": "https://streambtw.com/iframe/ch10.php",
         "headers": {
@@ -657,10 +657,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch10.php",
-        "extracted_at": "2025-10-04T12:21:20.741086"
+        "extracted_at": "2025-10-04T15:10:53.504540"
       }
     },
     {
@@ -669,7 +669,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch11.php",
       "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-      "extracted_at": "2025-10-04T12:20:15.289016",
+      "extracted_at": "2025-10-04T15:09:49.744735",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_11.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch11.php",
@@ -688,7 +688,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch11.php",
-        "extracted_at": "2025-10-04T12:21:22.557824"
+        "extracted_at": "2025-10-04T15:10:55.210645"
       }
     },
     {
@@ -697,9 +697,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch14.php",
       "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-      "extracted_at": "2025-10-04T12:20:15.289145",
+      "extracted_at": "2025-10-04T15:09:49.744865",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_14.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_14.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch14.php",
         "page_url": "https://streambtw.com/iframe/ch14.php",
         "headers": {
@@ -713,10 +713,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch14.php",
-        "extracted_at": "2025-10-04T12:21:24.377709"
+        "extracted_at": "2025-10-04T15:10:56.809545"
       }
     },
     {
@@ -725,9 +725,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch9.php",
       "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-      "extracted_at": "2025-10-04T12:20:15.289275",
+      "extracted_at": "2025-10-04T15:09:49.744997",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_9.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_9.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch9.php",
         "page_url": "https://streambtw.com/iframe/ch9.php",
         "headers": {
@@ -741,10 +741,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch9.php",
-        "extracted_at": "2025-10-04T12:21:26.234819"
+        "extracted_at": "2025-10-04T15:10:58.395045"
       }
     },
     {
@@ -753,9 +753,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch13.php",
       "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-      "extracted_at": "2025-10-04T12:20:15.289409",
+      "extracted_at": "2025-10-04T15:09:49.745129",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_13.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_13.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch13.php",
         "page_url": "https://streambtw.com/iframe/ch13.php",
         "headers": {
@@ -772,7 +772,7 @@
         "is_accessible": false,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch13.php",
-        "extracted_at": "2025-10-04T12:21:28.063121"
+        "extracted_at": "2025-10-04T15:11:00.020291"
       }
     },
     {
@@ -781,7 +781,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch12.php",
       "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-      "extracted_at": "2025-10-04T12:20:15.289550",
+      "extracted_at": "2025-10-04T15:09:49.745260",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -800,7 +800,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch12.php",
-        "extracted_at": "2025-10-04T12:21:29.873913"
+        "extracted_at": "2025-10-04T15:11:01.591012"
       }
     },
     {
@@ -809,7 +809,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch12.php",
       "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-      "extracted_at": "2025-10-04T12:20:15.289683",
+      "extracted_at": "2025-10-04T15:09:49.745393",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -828,7 +828,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch12.php",
-        "extracted_at": "2025-10-04T12:21:31.696800"
+        "extracted_at": "2025-10-04T15:11:03.173279"
       }
     },
     {
@@ -837,7 +837,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch12.php",
       "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-      "extracted_at": "2025-10-04T12:20:15.289814",
+      "extracted_at": "2025-10-04T15:09:49.745525",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -856,7 +856,7 @@
         "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch12.php",
-        "extracted_at": "2025-10-04T12:21:33.658248"
+        "extracted_at": "2025-10-04T15:11:04.739826"
       }
     },
     {
@@ -865,9 +865,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch15.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.289947",
+      "extracted_at": "2025-10-04T15:09:49.745665",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_15.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_15.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch15.php",
         "page_url": "https://streambtw.com/iframe/ch15.php",
         "headers": {
@@ -881,10 +881,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch15.php",
-        "extracted_at": "2025-10-04T12:21:35.485328"
+        "extracted_at": "2025-10-04T15:11:06.327130"
       }
     },
     {
@@ -893,7 +893,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch16.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290080",
+      "extracted_at": "2025-10-04T15:09:49.745799",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_16.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch16.php",
@@ -909,10 +909,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch16.php",
-        "extracted_at": "2025-10-04T12:21:37.293747"
+        "extracted_at": "2025-10-04T15:11:07.905640"
       }
     },
     {
@@ -921,9 +921,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch17.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290210",
+      "extracted_at": "2025-10-04T15:09:49.745930",
       "playable_link": {
-        "m3u8_url": "https://streameast247.com/live/stream_17.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_17.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch17.php",
         "page_url": "https://streambtw.com/iframe/ch17.php",
         "headers": {
@@ -937,10 +937,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch17.php",
-        "extracted_at": "2025-10-04T12:21:39.116579"
+        "extracted_at": "2025-10-04T15:11:09.626263"
       }
     },
     {
@@ -949,9 +949,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch15.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290342",
+      "extracted_at": "2025-10-04T15:09:49.746063",
       "playable_link": {
-        "m3u8_url": "https://playlist.streameast247.com/playlist/stream_15.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_15.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch15.php",
         "page_url": "https://streambtw.com/iframe/ch15.php",
         "headers": {
@@ -965,10 +965,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch15.php",
-        "extracted_at": "2025-10-04T12:21:40.939553"
+        "extracted_at": "2025-10-04T15:11:11.209049"
       }
     },
     {
@@ -977,7 +977,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch16.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290487",
+      "extracted_at": "2025-10-04T15:09:49.746193",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_16.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch16.php",
@@ -993,10 +993,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch16.php",
-        "extracted_at": "2025-10-04T12:21:42.750795"
+        "extracted_at": "2025-10-04T15:11:12.771219"
       }
     },
     {
@@ -1005,9 +1005,9 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch17.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290622",
+      "extracted_at": "2025-10-04T15:09:49.746325",
       "playable_link": {
-        "m3u8_url": "https://streameast247.com/live/stream_17.m3u8",
+        "m3u8_url": "https://streameast247.com/playlist/stream_17.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch17.php",
         "page_url": "https://streambtw.com/iframe/ch17.php",
         "headers": {
@@ -1021,10 +1021,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch17.php",
-        "extracted_at": "2025-10-04T12:21:44.585752"
+        "extracted_at": "2025-10-04T15:11:14.411726"
       }
     },
     {
@@ -1033,7 +1033,7 @@
       "icon": "🎯",
       "link": "https://streambtw.com/iframe/ch18.php",
       "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-      "extracted_at": "2025-10-04T12:20:15.290754",
+      "extracted_at": "2025-10-04T15:09:49.746458",
       "playable_link": {
         "m3u8_url": "https://streameast247.com/playlist/stream_18.m3u8",
         "iframe_url": "https://streambtw.com/iframe/ch18.php",
@@ -1049,10 +1049,10 @@
           "Sec-Fetch-Mode": "cors",
           "Sec-Fetch-Site": "cross-site"
         },
-        "is_accessible": false,
+        "is_accessible": true,
         "origin": "https://streambtw.com",
         "referer": "https://streambtw.com/iframe/ch18.php",
-        "extracted_at": "2025-10-04T12:21:46.407137"
+        "extracted_at": "2025-10-04T15:11:16.018644"
       }
     }
   ],
@@ -1064,9 +1064,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ufc.php",
         "thumbnail": "https://artwork.espncdn.com/categories/394dad60-8a1a-31a8-912c-a207555bc939/logo/original_20211113210745.svg",
-        "extracted_at": "2025-10-04T12:20:15.284178",
+        "extracted_at": "2025-10-04T15:09:49.741529",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_ufc.m3u8?md5=SjMdIKslG5ouFWCMn5kISw&expires=1759584017",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_ufc.m3u8?md5=8RX6hTdSnDlpqWoP8Tsq8g&expires=1759594191",
           "iframe_url": "https://streambtw.com/iframe/ufc.php",
           "page_url": "https://streambtw.com/iframe/ufc.php",
           "headers": {
@@ -1083,7 +1083,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ufc.php",
-          "extracted_at": "2025-10-04T12:20:18.098594"
+          "extracted_at": "2025-10-04T15:09:51.775611"
         }
       }
     ],
@@ -1094,9 +1094,9 @@
         "icon": "🥊",
         "link": "https://streambtw.com/iframe/box1.php",
         "thumbnail": "https://artwork.espncdn.com/categories/889c6d08-03c6-31cc-93da-ef344c22a1c4/logo/original_201809051644.svg",
-        "extracted_at": "2025-10-04T12:20:15.284535",
+        "extracted_at": "2025-10-04T15:09:49.741764",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_box1.m3u8?md5=Cf7PLpgOkcRyj8q9DpnJeg&expires=1759584019",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_box1.m3u8?md5=yQ2GIDvxRUavhe8XN0mqAA&expires=1759594193",
           "iframe_url": "https://streambtw.com/iframe/box1.php",
           "page_url": "https://streambtw.com/iframe/box1.php",
           "headers": {
@@ -1113,7 +1113,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/box1.php",
-          "extracted_at": "2025-10-04T12:20:20.328757"
+          "extracted_at": "2025-10-04T15:09:54.260433"
         }
       }
     ],
@@ -1124,7 +1124,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/nba1.php",
         "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-        "extracted_at": "2025-10-04T12:20:15.284802",
+        "extracted_at": "2025-10-04T15:09:49.741916",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_nba1.m3u8",
           "iframe_url": "https://streambtw.com/iframe/nba1.php",
@@ -1140,10 +1140,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/nba1.php",
-          "extracted_at": "2025-10-04T12:20:22.815187"
+          "extracted_at": "2025-10-04T15:09:56.381725"
         }
       },
       {
@@ -1152,7 +1152,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/nba1.php",
         "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-        "extracted_at": "2025-10-04T12:20:15.285050",
+        "extracted_at": "2025-10-04T15:09:49.742056",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_nba1.m3u8",
           "iframe_url": "https://streambtw.com/iframe/nba1.php",
@@ -1168,10 +1168,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/nba1.php",
-          "extracted_at": "2025-10-04T12:20:24.784599"
+          "extracted_at": "2025-10-04T15:09:58.659054"
         }
       },
       {
@@ -1180,7 +1180,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/nba2.php",
         "thumbnail": "https://artwork.espncdn.com/categories/7b3729c9-7f69-308a-bf8a-ee15a6aba154/logo/original_20191002200202.svg",
-        "extracted_at": "2025-10-04T12:20:15.285309",
+        "extracted_at": "2025-10-04T15:09:49.742198",
         "playable_link": {
           "m3u8_url": "https://xry.services/hls/chnba1.m3u8",
           "iframe_url": "https://streambtw.com/iframe/nba2.php",
@@ -1199,7 +1199,7 @@
           "is_accessible": false,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/nba2.php",
-          "extracted_at": "2025-10-04T12:20:46.538170"
+          "extracted_at": "2025-10-04T15:10:20.211596"
         }
       }
     ],
@@ -1210,7 +1210,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/f1.php",
         "thumbnail": "https://artwork.espncdn.com/categories/23bf83ee-6d7a-3957-8b67-8014ddb9ca47/logo/original_201809071300.svg",
-        "extracted_at": "2025-10-04T12:20:15.285560",
+        "extracted_at": "2025-10-04T15:09:49.742333",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_f1.m3u8",
           "iframe_url": "https://streambtw.com/iframe/f1.php",
@@ -1229,7 +1229,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/f1.php",
-          "extracted_at": "2025-10-04T12:20:48.512318"
+          "extracted_at": "2025-10-04T15:10:21.804786"
         }
       }
     ],
@@ -1240,9 +1240,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch1.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-        "extracted_at": "2025-10-04T12:20:15.285804",
+        "extracted_at": "2025-10-04T15:09:49.742467",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=5FkK2APIb93nM7-Bq5iZyg&expires=1759584049",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=Aywzf7qWl2mGeNMLdPMs_w&expires=1759594222",
           "iframe_url": "https://streambtw.com/iframe/ch1.php",
           "page_url": "https://streambtw.com/iframe/ch1.php",
           "headers": {
@@ -1259,7 +1259,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch1.php",
-          "extracted_at": "2025-10-04T12:20:50.377705"
+          "extracted_at": "2025-10-04T15:10:23.404226"
         }
       },
       {
@@ -1268,9 +1268,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch2.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-        "extracted_at": "2025-10-04T12:20:15.286057",
+        "extracted_at": "2025-10-04T15:09:49.742602",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_2.m3u8?md5=TjvA0Z5kW4a9EU6Xtx7m7g&expires=1759584051",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_2.m3u8?md5=aLB6B9twEfhbyF29AOmgIw&expires=1759594224",
           "iframe_url": "https://streambtw.com/iframe/ch2.php",
           "page_url": "https://streambtw.com/iframe/ch2.php",
           "headers": {
@@ -1287,7 +1287,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch2.php",
-          "extracted_at": "2025-10-04T12:20:52.277519"
+          "extracted_at": "2025-10-04T15:10:25.062564"
         }
       },
       {
@@ -1296,9 +1296,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch1.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-        "extracted_at": "2025-10-04T12:20:15.286300",
+        "extracted_at": "2025-10-04T15:09:49.742746",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=b0DIhz6Db0cRz3qpqltjLg&expires=1759584053",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=x4Fz3IebCDDr0XmM82VA3A&expires=1759594226",
           "iframe_url": "https://streambtw.com/iframe/ch1.php",
           "page_url": "https://streambtw.com/iframe/ch1.php",
           "headers": {
@@ -1315,7 +1315,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch1.php",
-          "extracted_at": "2025-10-04T12:20:54.533227"
+          "extracted_at": "2025-10-04T15:10:26.800077"
         }
       },
       {
@@ -1324,9 +1324,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch1.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png",
-        "extracted_at": "2025-10-04T12:20:15.286659",
+        "extracted_at": "2025-10-04T15:09:49.742880",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=qZSzl7q28nJZ-1Q2FPSgqg&expires=1759584055",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_1.m3u8?md5=4VjywtfaCB3YjYvzNPkvAA&expires=1759594228",
           "iframe_url": "https://streambtw.com/iframe/ch1.php",
           "page_url": "https://streambtw.com/iframe/ch1.php",
           "headers": {
@@ -1343,7 +1343,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch1.php",
-          "extracted_at": "2025-10-04T12:20:56.355688"
+          "extracted_at": "2025-10-04T15:10:29.077037"
         }
       }
     ],
@@ -1354,9 +1354,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch6.php",
         "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-        "extracted_at": "2025-10-04T12:20:15.286845",
+        "extracted_at": "2025-10-04T15:09:49.743010",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=gMXb1NB7rzO5DE-_C0WgwA&expires=1759584057",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=HMm6UG-pTGEWnHKCTRT2eA&expires=1759594230",
           "iframe_url": "https://streambtw.com/iframe/ch6.php",
           "page_url": "https://streambtw.com/iframe/ch6.php",
           "headers": {
@@ -1373,7 +1373,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch6.php",
-          "extracted_at": "2025-10-04T12:20:58.215055"
+          "extracted_at": "2025-10-04T15:10:31.033931"
         }
       },
       {
@@ -1382,9 +1382,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch6.php",
         "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-        "extracted_at": "2025-10-04T12:20:15.287011",
+        "extracted_at": "2025-10-04T15:09:49.743142",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=Hk52G0E-nT8Yhp7V7IqPdw&expires=1759584059",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=4XLiCC3DpdBpBRJj8IOKaQ&expires=1759594232",
           "iframe_url": "https://streambtw.com/iframe/ch6.php",
           "page_url": "https://streambtw.com/iframe/ch6.php",
           "headers": {
@@ -1401,7 +1401,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch6.php",
-          "extracted_at": "2025-10-04T12:21:00.269303"
+          "extracted_at": "2025-10-04T15:10:32.738577"
         }
       },
       {
@@ -1410,9 +1410,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch6.php",
         "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-        "extracted_at": "2025-10-04T12:20:15.287175",
+        "extracted_at": "2025-10-04T15:09:49.743272",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=AJUbY_ZzboucRUI1qxlolQ&expires=1759584061",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=w1N8ZlEVb2vpeTBLJ5Aq_Q&expires=1759594234",
           "iframe_url": "https://streambtw.com/iframe/ch6.php",
           "page_url": "https://streambtw.com/iframe/ch6.php",
           "headers": {
@@ -1429,7 +1429,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch6.php",
-          "extracted_at": "2025-10-04T12:21:02.113645"
+          "extracted_at": "2025-10-04T15:10:35.272296"
         }
       },
       {
@@ -1438,9 +1438,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch6.php",
         "thumbnail": "https://artwork.espncdn.com/categories/cf7b0c51-7c48-3e9a-8abb-0c01b1a973a0/logo/original_20230704130007.svg",
-        "extracted_at": "2025-10-04T12:20:15.287449",
+        "extracted_at": "2025-10-04T15:09:49.743405",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=4GA9Xy3OA7ieEs3TEW19kQ&expires=1759584063",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_6.m3u8?md5=ggL3Iev2Ccle2pFPpBR3yA&expires=1759594236",
           "iframe_url": "https://streambtw.com/iframe/ch6.php",
           "page_url": "https://streambtw.com/iframe/ch6.php",
           "headers": {
@@ -1457,7 +1457,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch6.php",
-          "extracted_at": "2025-10-04T12:21:03.948027"
+          "extracted_at": "2025-10-04T15:10:36.886699"
         }
       }
     ],
@@ -1468,9 +1468,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch5.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-        "extracted_at": "2025-10-04T12:20:15.287624",
+        "extracted_at": "2025-10-04T15:09:49.743538",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_5.m3u8?md5=QqX9En81hDrlKqFR-elIIA&expires=1759584065",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_5.m3u8?md5=3TkRzbBx7yGq1wpgsZjcDQ&expires=1759594238",
           "iframe_url": "https://streambtw.com/iframe/ch5.php",
           "page_url": "https://streambtw.com/iframe/ch5.php",
           "headers": {
@@ -1487,7 +1487,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch5.php",
-          "extracted_at": "2025-10-04T12:21:05.779123"
+          "extracted_at": "2025-10-04T15:10:38.980770"
         }
       },
       {
@@ -1496,9 +1496,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch7.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-        "extracted_at": "2025-10-04T12:20:15.287802",
+        "extracted_at": "2025-10-04T15:09:49.743679",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=UaOZZIxpid7hhUEQLkvnPw&expires=1759584066",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=6sQcTLJDMEMXbNY3AU90TA&expires=1759594240",
           "iframe_url": "https://streambtw.com/iframe/ch7.php",
           "page_url": "https://streambtw.com/iframe/ch7.php",
           "headers": {
@@ -1515,7 +1515,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch7.php",
-          "extracted_at": "2025-10-04T12:21:07.646212"
+          "extracted_at": "2025-10-04T15:10:40.725980"
         }
       },
       {
@@ -1524,9 +1524,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch7.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-        "extracted_at": "2025-10-04T12:20:15.287964",
+        "extracted_at": "2025-10-04T15:09:49.743812",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=UN38NefVK23fctIsn4mpZA&expires=1759584068",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=mb7KaFWy3Yk4FnaJ46QhRQ&expires=1759594241",
           "iframe_url": "https://streambtw.com/iframe/ch7.php",
           "page_url": "https://streambtw.com/iframe/ch7.php",
           "headers": {
@@ -1543,7 +1543,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch7.php",
-          "extracted_at": "2025-10-04T12:21:09.648038"
+          "extracted_at": "2025-10-04T15:10:42.457774"
         }
       },
       {
@@ -1552,9 +1552,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch7.php",
         "thumbnail": "https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&transparent=true&w=80&h=80",
-        "extracted_at": "2025-10-04T12:20:15.288127",
+        "extracted_at": "2025-10-04T15:09:49.743941",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=Bcq7tXlOz6sT_EawmsOW3A&expires=1759584070",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_7.m3u8?md5=TcI3XEwirB9LQtFG8PEr5A&expires=1759594243",
           "iframe_url": "https://streambtw.com/iframe/ch7.php",
           "page_url": "https://streambtw.com/iframe/ch7.php",
           "headers": {
@@ -1571,7 +1571,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch7.php",
-          "extracted_at": "2025-10-04T12:21:11.476570"
+          "extracted_at": "2025-10-04T15:10:44.264439"
         }
       }
     ],
@@ -1582,9 +1582,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch8.php",
         "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-        "extracted_at": "2025-10-04T12:20:15.288292",
+        "extracted_at": "2025-10-04T15:09:49.744071",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=Tv0KXrPZurVPEO-Nm14naQ&expires=1759584072",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=-G3OjntOhh8arIeaUUPc2A&expires=1759594245",
           "iframe_url": "https://streambtw.com/iframe/ch8.php",
           "page_url": "https://streambtw.com/iframe/ch8.php",
           "headers": {
@@ -1601,7 +1601,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch8.php",
-          "extracted_at": "2025-10-04T12:21:13.348639"
+          "extracted_at": "2025-10-04T15:10:46.391048"
         }
       },
       {
@@ -1610,9 +1610,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch8.php",
         "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-        "extracted_at": "2025-10-04T12:20:15.288470",
+        "extracted_at": "2025-10-04T15:09:49.744203",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=68HY2oWZUNNxQ2tWFkn83g&expires=1759584074",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=vmM-J188sizeSrPXjIg31g&expires=1759594247",
           "iframe_url": "https://streambtw.com/iframe/ch8.php",
           "page_url": "https://streambtw.com/iframe/ch8.php",
           "headers": {
@@ -1629,7 +1629,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch8.php",
-          "extracted_at": "2025-10-04T12:21:15.197399"
+          "extracted_at": "2025-10-04T15:10:48.563588"
         }
       },
       {
@@ -1638,9 +1638,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch8.php",
         "thumbnail": "https://ligue1.com/images/Logo_Ligue_1.webp",
-        "extracted_at": "2025-10-04T12:20:15.288622",
+        "extracted_at": "2025-10-04T15:09:49.744333",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=Ry91WPXkTKhgU4lgTaauLg&expires=1759584076",
+          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_8.m3u8?md5=xX7h5qXcw-T_UVG6XfUeNQ&expires=1759594249",
           "iframe_url": "https://streambtw.com/iframe/ch8.php",
           "page_url": "https://streambtw.com/iframe/ch8.php",
           "headers": {
@@ -1657,7 +1657,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch8.php",
-          "extracted_at": "2025-10-04T12:21:17.072340"
+          "extracted_at": "2025-10-04T15:10:50.332795"
         }
       }
     ],
@@ -1668,9 +1668,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch9.php",
         "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-        "extracted_at": "2025-10-04T12:20:15.288754",
+        "extracted_at": "2025-10-04T15:09:49.744463",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_9.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_9.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch9.php",
           "page_url": "https://streambtw.com/iframe/ch9.php",
           "headers": {
@@ -1684,10 +1684,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch9.php",
-          "extracted_at": "2025-10-04T12:21:18.905096"
+          "extracted_at": "2025-10-04T15:10:51.891515"
         }
       },
       {
@@ -1696,9 +1696,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch10.php",
         "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-        "extracted_at": "2025-10-04T12:20:15.288887",
+        "extracted_at": "2025-10-04T15:09:49.744596",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_10.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_10.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch10.php",
           "page_url": "https://streambtw.com/iframe/ch10.php",
           "headers": {
@@ -1712,10 +1712,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch10.php",
-          "extracted_at": "2025-10-04T12:21:20.741086"
+          "extracted_at": "2025-10-04T15:10:53.504540"
         }
       },
       {
@@ -1724,7 +1724,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch11.php",
         "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-        "extracted_at": "2025-10-04T12:20:15.289016",
+        "extracted_at": "2025-10-04T15:09:49.744735",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_11.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch11.php",
@@ -1743,7 +1743,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch11.php",
-          "extracted_at": "2025-10-04T12:21:22.557824"
+          "extracted_at": "2025-10-04T15:10:55.210645"
         }
       },
       {
@@ -1752,9 +1752,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch14.php",
         "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-        "extracted_at": "2025-10-04T12:20:15.289145",
+        "extracted_at": "2025-10-04T15:09:49.744865",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_14.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_14.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch14.php",
           "page_url": "https://streambtw.com/iframe/ch14.php",
           "headers": {
@@ -1768,10 +1768,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch14.php",
-          "extracted_at": "2025-10-04T12:21:24.377709"
+          "extracted_at": "2025-10-04T15:10:56.809545"
         }
       },
       {
@@ -1780,9 +1780,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch9.php",
         "thumbnail": "https://artwork.espncdn.com/categories/30244926-00c4-3f69-8946-f8421c97ff71/logo/original_20200715202333.svg",
-        "extracted_at": "2025-10-04T12:20:15.289275",
+        "extracted_at": "2025-10-04T15:09:49.744997",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_9.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_9.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch9.php",
           "page_url": "https://streambtw.com/iframe/ch9.php",
           "headers": {
@@ -1796,10 +1796,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch9.php",
-          "extracted_at": "2025-10-04T12:21:26.234819"
+          "extracted_at": "2025-10-04T15:10:58.395045"
         }
       }
     ],
@@ -1810,9 +1810,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch13.php",
         "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-        "extracted_at": "2025-10-04T12:20:15.289409",
+        "extracted_at": "2025-10-04T15:09:49.745129",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_13.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_13.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch13.php",
           "page_url": "https://streambtw.com/iframe/ch13.php",
           "headers": {
@@ -1829,7 +1829,7 @@
           "is_accessible": false,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch13.php",
-          "extracted_at": "2025-10-04T12:21:28.063121"
+          "extracted_at": "2025-10-04T15:11:00.020291"
         }
       },
       {
@@ -1838,7 +1838,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch12.php",
         "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-        "extracted_at": "2025-10-04T12:20:15.289550",
+        "extracted_at": "2025-10-04T15:09:49.745260",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -1857,7 +1857,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch12.php",
-          "extracted_at": "2025-10-04T12:21:29.873913"
+          "extracted_at": "2025-10-04T15:11:01.591012"
         }
       },
       {
@@ -1866,7 +1866,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch12.php",
         "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-        "extracted_at": "2025-10-04T12:20:15.289683",
+        "extracted_at": "2025-10-04T15:09:49.745393",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -1885,7 +1885,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch12.php",
-          "extracted_at": "2025-10-04T12:21:31.696800"
+          "extracted_at": "2025-10-04T15:11:03.173279"
         }
       },
       {
@@ -1894,7 +1894,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch12.php",
         "thumbnail": "https://www.ligaportugal.pt/media/app_liga_portugal.png",
-        "extracted_at": "2025-10-04T12:20:15.289814",
+        "extracted_at": "2025-10-04T15:09:49.745525",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_12.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch12.php",
@@ -1913,7 +1913,7 @@
           "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch12.php",
-          "extracted_at": "2025-10-04T12:21:33.658248"
+          "extracted_at": "2025-10-04T15:11:04.739826"
         }
       }
     ],
@@ -1924,9 +1924,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch15.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.289947",
+        "extracted_at": "2025-10-04T15:09:49.745665",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_15.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_15.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch15.php",
           "page_url": "https://streambtw.com/iframe/ch15.php",
           "headers": {
@@ -1940,10 +1940,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch15.php",
-          "extracted_at": "2025-10-04T12:21:35.485328"
+          "extracted_at": "2025-10-04T15:11:06.327130"
         }
       },
       {
@@ -1952,7 +1952,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch16.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290080",
+        "extracted_at": "2025-10-04T15:09:49.745799",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_16.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch16.php",
@@ -1968,10 +1968,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch16.php",
-          "extracted_at": "2025-10-04T12:21:37.293747"
+          "extracted_at": "2025-10-04T15:11:07.905640"
         }
       },
       {
@@ -1980,9 +1980,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch17.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290210",
+        "extracted_at": "2025-10-04T15:09:49.745930",
         "playable_link": {
-          "m3u8_url": "https://streameast247.com/live/stream_17.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_17.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch17.php",
           "page_url": "https://streambtw.com/iframe/ch17.php",
           "headers": {
@@ -1996,10 +1996,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch17.php",
-          "extracted_at": "2025-10-04T12:21:39.116579"
+          "extracted_at": "2025-10-04T15:11:09.626263"
         }
       },
       {
@@ -2008,9 +2008,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch15.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290342",
+        "extracted_at": "2025-10-04T15:09:49.746063",
         "playable_link": {
-          "m3u8_url": "https://playlist.streameast247.com/playlist/stream_15.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_15.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch15.php",
           "page_url": "https://streambtw.com/iframe/ch15.php",
           "headers": {
@@ -2024,10 +2024,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch15.php",
-          "extracted_at": "2025-10-04T12:21:40.939553"
+          "extracted_at": "2025-10-04T15:11:11.209049"
         }
       },
       {
@@ -2036,7 +2036,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch16.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290487",
+        "extracted_at": "2025-10-04T15:09:49.746193",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_16.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch16.php",
@@ -2052,10 +2052,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch16.php",
-          "extracted_at": "2025-10-04T12:21:42.750795"
+          "extracted_at": "2025-10-04T15:11:12.771219"
         }
       },
       {
@@ -2064,9 +2064,9 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch17.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290622",
+        "extracted_at": "2025-10-04T15:09:49.746325",
         "playable_link": {
-          "m3u8_url": "https://streameast247.com/live/stream_17.m3u8",
+          "m3u8_url": "https://streameast247.com/playlist/stream_17.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch17.php",
           "page_url": "https://streambtw.com/iframe/ch17.php",
           "headers": {
@@ -2080,10 +2080,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch17.php",
-          "extracted_at": "2025-10-04T12:21:44.585752"
+          "extracted_at": "2025-10-04T15:11:14.411726"
         }
       },
       {
@@ -2092,7 +2092,7 @@
         "icon": "🎯",
         "link": "https://streambtw.com/iframe/ch18.php",
         "thumbnail": "https://www.efl.com/efl-logo-large.svg",
-        "extracted_at": "2025-10-04T12:20:15.290754",
+        "extracted_at": "2025-10-04T15:09:49.746458",
         "playable_link": {
           "m3u8_url": "https://streameast247.com/playlist/stream_18.m3u8",
           "iframe_url": "https://streambtw.com/iframe/ch18.php",
@@ -2108,10 +2108,10 @@
             "Sec-Fetch-Mode": "cors",
             "Sec-Fetch-Site": "cross-site"
           },
-          "is_accessible": false,
+          "is_accessible": true,
           "origin": "https://streambtw.com",
           "referer": "https://streambtw.com/iframe/ch18.php",
-          "extracted_at": "2025-10-04T12:21:46.407137"
+          "extracted_at": "2025-10-04T15:11:16.018644"
         }
       }
     ]
