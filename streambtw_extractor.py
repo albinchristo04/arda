@@ -32,6 +32,44 @@ class StreamBTWExtractor:
             "racing": "🏁"
         }
     
+    def find_iframes(self, url: str) -> List[Dict[str, str]]:
+        """Find iframe sources in a webpage"""
+        try:
+            headers = {
+                "User-Agent": self.user_agent,
+                "Referer": f"https://{self.domains[0]}/"
+            }
+            r = requests.get(url, headers=headers, timeout=self.timeout)
+            r.raise_for_status()
+            
+            soup = BeautifulSoup(r.text, "html.parser")
+            iframes = []
+            
+            # Find all iframe tags
+            for iframe in soup.find_all("iframe"):
+                src = iframe.get("src") or iframe.get("data-src")
+                if src:
+                    # Handle relative URLs
+                    if src.startswith("//"):
+                        src = "https:" + src
+                    elif src.startswith("/"):
+                        src = f"https://{self.domains[0]}{src}"
+                    iframes.append({"url": src, "type": "iframe_tag"})
+            
+            # Also check for iframes in script tags
+            for script in soup.find_all("script"):
+                if script.string:
+                    # Look for iframe URLs in JavaScript
+                    iframe_matches = re.findall(r'(?:iframe|src)[\s]*[=:][\s]*["\']([^"\']+)["\']', script.string)
+                    for match in iframe_matches:
+                        if match.startswith("http"):
+                            iframes.append({"url": match, "type": "script_tag"})
+            
+            return iframes
+        except Exception as e:
+            print(f"    ⚠️ Error finding iframes: {e}")
+            return []
+    
     def scan_page_for_m3u8(self, url: str, referer: str = "") -> Optional[str]:
         """
         Scan a page for M3U8 stream URLs
@@ -127,42 +165,6 @@ class StreamBTWExtractor:
         except Exception as e:
             print(f"    ❌ Error scanning page: {e}")
             return None
-        """Find iframe sources in a webpage"""
-        try:
-            headers = {
-                "User-Agent": self.user_agent,
-                "Referer": f"https://{self.domains[0]}/"
-            }
-            r = requests.get(url, headers=headers, timeout=self.timeout)
-            r.raise_for_status()
-            
-            soup = BeautifulSoup(r.text, "html.parser")
-            iframes = []
-            
-            # Find all iframe tags
-            for iframe in soup.find_all("iframe"):
-                src = iframe.get("src") or iframe.get("data-src")
-                if src:
-                    # Handle relative URLs
-                    if src.startswith("//"):
-                        src = "https:" + src
-                    elif src.startswith("/"):
-                        src = f"https://{self.domains[0]}{src}"
-                    iframes.append(src)
-            
-            # Also check for iframes in script tags
-            for script in soup.find_all("script"):
-                if script.string:
-                    # Look for iframe URLs in JavaScript
-                    iframe_matches = re.findall(r'(?:iframe|src)[\s]*[=:][\s]*["\']([^"\']+)["\']', script.string)
-                    for match in iframe_matches:
-                        if match.startswith("http"):
-                            iframes.append(match)
-            
-            return iframes
-        except Exception as e:
-            print(f"Error finding iframes: {e}")
-            return []
     
     def get_items(self) -> List[Dict[str, Any]]:
         """Extract all sports streaming items from StreamBTW"""
