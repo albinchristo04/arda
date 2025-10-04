@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install requests pycryptodomex urllib3
+          pip install requests pycryptodomex urllib3 cloudscraper
       
       - name: Run RBTV extractor
         run: |
