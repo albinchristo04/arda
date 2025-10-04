@@ -9,7 +9,15 @@ on:
   workflow_dispatch:
     inputs:
       extract_iframes:
-        description: 'Extract iframe details (slower)'
+        description: 'Extract iframe details (fast)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      extract_playable:
+        description: 'Extract playable M3U8 links (slow, comprehensive)'
         required: false
         default: 'false'
         type: choice
@@ -61,6 +69,7 @@ jobs:
           python streambtw_extractor.py
         env:
           EXTRACT_IFRAMES: ${{ github.event.inputs.extract_iframes || 'false' }}
+          EXTRACT_PLAYABLE: ${{ github.event.inputs.extract_playable || 'false' }}
           CREATE_HTML: ${{ github.event.inputs.create_html || 'true' }}
       
       - name: Check if data file exists
