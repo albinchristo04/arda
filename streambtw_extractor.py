@@ -32,7 +32,101 @@ class StreamBTWExtractor:
             "racing": "🏁"
         }
     
-    def find_iframes(self, url: str) -> List[str]:
+    def scan_page_for_m3u8(self, url: str, referer: str = "") -> Optional[str]:
+        """
+        Scan a page for M3U8 stream URLs
+        Checks: direct links, JavaScript variables, embedded data, API calls
+        """
+        try:
+            headers = {
+                "User-Agent": self.user_agent,
+                "Referer": referer if referer else url
+            }
+            
+            print(f"    🔍 Scanning page for M3U8: {url}")
+            r = requests.get(url, headers=headers, timeout=self.timeout)
+            r.raise_for_status()
+            
+            content = r.text
+            
+            # Method 1: Direct M3U8 links in HTML
+            m3u8_patterns = [
+                r'["\'](https?://[^"\']+\.m3u8[^"\']*)["\']',
+                r'source:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+                r'file:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+                r'src:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+                r'playlist:\s*["\']([^"\']+\.m3u8[^"\']*)["\']',
+            ]
+            
+            for pattern in m3u8_patterns:
+                matches = re.findall(pattern, content, re.IGNORECASE)
+                if matches:
+                    m3u8_url = matches[0]
+                    # Handle relative URLs
+                    if not m3u8_url.startswith('http'):
+                        m3u8_url = urljoin(url, m3u8_url)
+                    print(f"    ✅ Found M3U8 (direct): {m3u8_url}")
+                    return m3u8_url
+            
+            # Method 2: Base64 encoded M3U8
+            base64_pattern = r'atob\(["\']([A-Za-z0-9+/=]+)["\']\)'
+            base64_matches = re.findall(base64_pattern, content)
+            for b64 in base64_matches:
+                try:
+                    import base64
+                    decoded = base64.b64decode(b64).decode('utf-8')
+                    if '.m3u8' in decoded:
+                        if not decoded.startswith('http'):
+                            decoded = urljoin(url, decoded)
+                        print(f"    ✅ Found M3U8 (base64): {decoded}")
+                        return decoded
+                except:
+                    continue
+            
+            # Method 3: JSON responses with stream URLs
+            json_patterns = [
+                r'"url":\s*"([^"]+\.m3u8[^"]*)"',
+                r'"stream":\s*"([^"]+\.m3u8[^"]*)"',
+                r'"hls":\s*"([^"]+\.m3u8[^"]*)"',
+                r'"source":\s*"([^"]+\.m3u8[^"]*)"',
+            ]
+            
+            for pattern in json_patterns:
+                matches = re.findall(pattern, content, re.IGNORECASE)
+                if matches:
+                    m3u8_url = matches[0].replace('\\/', '/')
+                    if not m3u8_url.startswith('http'):
+                        m3u8_url = urljoin(url, m3u8_url)
+                    print(f"    ✅ Found M3U8 (JSON): {m3u8_url}")
+                    return m3u8_url
+            
+            # Method 4: Check for API endpoints that might return M3U8
+            api_patterns = [
+                r'["\'](https?://[^"\']+/api/[^"\']+stream[^"\']*)["\']',
+                r'["\'](https?://[^"\']+/playlist[^"\']*)["\']',
+                r'["\'](https?://[^"\']+/get[^"\']*stream[^"\']*)["\']',
+            ]
+            
+            for pattern in api_patterns:
+                matches = re.findall(pattern, content, re.IGNORECASE)
+                for api_url in matches:
+                    try:
+                        api_response = requests.get(api_url, headers=headers, timeout=10)
+                        if '.m3u8' in api_response.text:
+                            # Try to extract M3U8 from API response
+                            api_m3u8 = re.findall(r'["\'](https?://[^"\']+\.m3u8[^"\']*)["\']', api_response.text)
+                            if api_m3u8:
+                                print(f"    ✅ Found M3U8 (API): {api_m3u8[0]}")
+                                return api_m3u8[0]
+                    except:
+                        continue
+            
+            print(f"    ❌ No M3U8 found on page")
+            return None
+            
+        except Exception as e:
+            print(f"    ❌ Error scanning page: {e}")
+            return None
         """Find iframe sources in a webpage"""
         try:
             headers = {
@@ -136,35 +230,107 @@ class StreamBTWExtractor:
         
         return items
     
-    def get_link_details(self, url: str) -> Optional[Dict[str, Any]]:
-        """Get detailed information about a specific link including iframes"""
+    def get_link(self, url: str) -> Optional[Dict[str, Any]]:
+        """
+        Get playable video link with proper headers
+        1. Opens the page and finds iframes
+        2. Scans iframe for M3U8 stream URL
+        3. Patches headers with Referer/Origin/User-Agent
+        """
         try:
-            print(f"  🔗 Extracting iframes from: {url}")
+            print(f"  🎬 Getting playable link from: {url}")
             
+            # Step 1: Find iframes on the page
             iframes = self.find_iframes(url)
             
-            if iframes:
-                return {
-                    "url": url,
-                    "iframe_count": len(iframes),
-                    "iframes": iframes,
-                    "primary_iframe": iframes[0] if iframes else None,
-                    "headers": {
-                        "Origin": f"https://{self.domains[0]}",
-                        "User-Agent": self.user_agent,
-                        "Referer": url
-                    }
-                }
-            else:
-                return {
-                    "url": url,
-                    "iframe_count": 0,
-                    "iframes": [],
-                    "primary_iframe": None
-                }
-        except Exception as e:
-            print(f"    ❌ Error: {e}")
+            if not iframes:
+                print(f"    ⚠️ No iframes found, trying direct M3U8 scan")
+                m3u8_url = self.scan_page_for_m3u8(url, url)
+                if m3u8_url:
+                    return self._create_playable_link(m3u8_url, url, url)
+                return None
+            
+            print(f"    📺 Found {len(iframes)} iframe(s)")
+            
+            # Step 2: Scan each iframe for M3U8
+            for idx, iframe_info in enumerate(iframes, 1):
+                iframe_url = iframe_info["url"]
+                print(f"    [{idx}/{len(iframes)}] Checking iframe: {iframe_url}")
+                
+                # Scan the iframe page for M3U8
+                m3u8_url = self.scan_page_for_m3u8(iframe_url, url)
+                
+                if m3u8_url:
+                    # Step 3: Create playable link with patched headers
+                    return self._create_playable_link(m3u8_url, iframe_url, url)
+            
+            print(f"    ❌ No playable M3U8 found in any iframe")
             return None
+            
+        except Exception as e:
+            print(f"    ❌ Error getting link: {e}")
+            return None
+    
+    def _create_playable_link(self, m3u8_url: str, iframe_url: str, page_url: str) -> Dict[str, Any]:
+        """
+        Create a playable link with proper headers for Referer/Origin restrictions
+        """
+        # Parse URLs to get origins
+        iframe_parsed = urlparse(iframe_url)
+        page_parsed = urlparse(page_url)
+        m3u8_parsed = urlparse(m3u8_url)
+        
+        # Determine the best origin and referer
+        origin = f"{iframe_parsed.scheme}://{iframe_parsed.netloc}"
+        referer = iframe_url
+        
+        # Build headers that bypass most restrictions
+        headers = {
+            "User-Agent": self.user_agent,
+            "Referer": referer,
+            "Origin": origin,
+            "Accept": "*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Connection": "keep-alive",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "cross-site"
+        }
+        
+        # Test if the M3U8 is accessible
+        is_accessible = self._test_m3u8_access(m3u8_url, headers)
+        
+        playable_link = {
+            "m3u8_url": m3u8_url,
+            "iframe_url": iframe_url,
+            "page_url": page_url,
+            "headers": headers,
+            "is_accessible": is_accessible,
+            "origin": origin,
+            "referer": referer,
+            "extracted_at": datetime.utcnow().isoformat()
+        }
+        
+        print(f"    ✅ Playable link created: {m3u8_url[:80]}...")
+        print(f"    📋 Headers patched: Origin={origin}, Referer={referer[:50]}...")
+        print(f"    🎯 Accessible: {is_accessible}")
+        
+        return playable_link
+    
+    def _test_m3u8_access(self, m3u8_url: str, headers: Dict[str, str]) -> bool:
+        """Test if the M3U8 URL is accessible with the given headers"""
+        try:
+            response = requests.head(m3u8_url, headers=headers, timeout=10, allow_redirects=True)
+            return response.status_code == 200
+        except:
+            # If HEAD fails, try GET with a short timeout
+            try:
+                response = requests.get(m3u8_url, headers=headers, timeout=10, stream=True)
+                # Just read a tiny bit to confirm it's valid
+                next(response.iter_content(1024), None)
+                return response.status_code == 200
+            except:
+                return False
 
 def main():
     print("="*60)
@@ -176,17 +342,36 @@ def main():
     # Extract all items
     items = extractor.get_items()
     
-    # Optionally extract iframe details for each link
+    # Check extraction mode
+    extract_playable = os.getenv('EXTRACT_PLAYABLE', 'false').lower() == 'true'
     extract_iframes = os.getenv('EXTRACT_IFRAMES', 'false').lower() == 'true'
     
-    if extract_iframes and items:
-        print(f"\n🔍 Extracting iframe details for {len(items)} links...")
+    # If playable extraction is enabled, extract M3U8 links
+    if extract_playable and items:
+        print(f"\n🔍 Extracting playable M3U8 links for {len(items)} items...")
+        print(f"⚠️  This will take several minutes...\n")
+        
         for idx, item in enumerate(items, 1):
             if item.get('link'):
-                print(f"\n[{idx}/{len(items)}] Processing: {item['title']}")
-                link_details = extractor.get_link_details(item['link'])
-                if link_details:
-                    item['link_details'] = link_details
+                print(f"[{idx}/{len(items)}] {item['sport']} - {item['title']}")
+                playable_link = extractor.get_link(item['link'])
+                if playable_link:
+                    item['playable_link'] = playable_link
+                    print(f"  ✅ M3U8 extracted\n")
+                else:
+                    print(f"  ❌ Failed to extract M3U8\n")
+    
+    elif extract_iframes and items:
+        print(f"\n🔍 Extracting iframe details for {len(items)} items...")
+        
+        for idx, item in enumerate(items, 1):
+            if item.get('link'):
+                print(f"[{idx}/{len(items)}] Processing: {item['title']}")
+                iframes = extractor.find_iframes(item['link'])
+                if iframes:
+                    item['iframes'] = iframes
+                    item['iframe_count'] = len(iframes)
+                    print(f"  ✅ Found {len(iframes)} iframes\n")
     
     # Organize by sport
     sports_data = {}
@@ -196,12 +381,18 @@ def main():
             sports_data[sport] = []
         sports_data[sport].append(item)
     
+    # Count streams with M3U8
+    m3u8_count = sum(1 for item in items if 'playable_link' in item and item['playable_link'].get('m3u8_url'))
+    accessible_count = sum(1 for item in items if 'playable_link' in item and item['playable_link'].get('is_accessible'))
+    
     # Prepare output
     output_data = {
         "extractor": "StreamBTW",
         "last_updated": datetime.utcnow().isoformat(),
         "total_items": len(items),
         "sports_count": len(sports_data),
+        "m3u8_extracted": m3u8_count,
+        "accessible_streams": accessible_count,
         "sports": list(sports_data.keys()),
         "items": items,
         "by_sport": sports_data
@@ -218,14 +409,21 @@ def main():
     print("="*60)
     print(f"  📦 Total Items: {len(items)}")
     print(f"  🏅 Sports Found: {len(sports_data)}")
+    if m3u8_count > 0:
+        print(f"  🎬 M3U8 Extracted: {m3u8_count}")
+        print(f"  ✅ Accessible: {accessible_count}")
     print(f"\n  Sports breakdown:")
     for sport, sport_items in sorted(sports_data.items()):
         icon = sport_items[0]['icon'] if sport_items else "🎯"
-        print(f"    {icon} {sport}: {len(sport_items)} events")
+        m3u8_sport = sum(1 for i in sport_items if 'playable_link' in i and i['playable_link'].get('m3u8_url'))
+        if m3u8_sport > 0:
+            print(f"    {icon} {sport}: {len(sport_items)} events ({m3u8_sport} with M3U8)")
+        else:
+            print(f"    {icon} {sport}: {len(sport_items)} events")
     print(f"\n  💾 Data saved to: {output_file}")
     print("="*60 + "\n")
     
-    # Create a simple HTML view (optional)
+    # Create HTML only if requested
     create_html = os.getenv('CREATE_HTML', 'false').lower() == 'true'
     if create_html:
         html_content = generate_html(output_data)
