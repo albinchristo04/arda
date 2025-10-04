@@ -1,0 +1,10 @@
+Version 2.1.42 (Mar 17, 2024)
+
+- Resolvers Added:
+    - None
+ 
+- Resolvers Fixed/Updated:
+    - xvideos
+
+- Resolvers Removed
+    - None

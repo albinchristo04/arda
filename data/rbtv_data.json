@@ -1,0 +1,87 @@
+{
+  "extraction_date": "2025-10-04 07:32:53 UTC",
+  "data_age": 1759563173.589201,
+  "domains": [
+    "genegc02.ya8z6nutsz3jhbtmail.shop",
+    "apis-data10.tcgfs39a2.xyz",
+    "fhlsport200.tbafs39a1.xyz",
+    "www.fctv33.buzz",
+    "rbtvplus06.com",
+    "fctv33.com",
+    "rbsports77.lat"
+  ],
+  "api_patterns": {
+    "main_site": "https://genegc02.ya8z6nutsz3jhbtmail.shop",
+    "api_base": "https://apis-data10.tcgfs39a2.xyz",
+    "api_token_old": "sfverc600ec442d9da1c9bfdc814df10b919d5f44d1",
+    "api_token": "sfverb01a39e433f6ca58132cc3cc27a3afd79fb379",
+    "stream_base": "https://fhlsport200.tbafs39a1.xyz",
+    "working_endpoints": [
+      {
+        "url": "https://apis-data10.tcgfs39a2.xyz/api/common/bs",
+        "params": {
+          "code": [
+            "102",
+            "103",
+            "104",
+            "105"
+          ],
+          "matchId": "1995057",
+          "sportType": "3",
+          "stream": "true"
+        },
+        "full_url": "https://apis-data10.tcgfs39a2.xyz/api/common/bs?code=102&code=103&code=104&code=105&matchId=1995057&sportType=3&stream=true"
+      },
+      {
+        "url": "https://apis-data10.tcgfs39a2.xyz/sfverb01a39e433f6ca58132cc3cc27a3afd79fb379/api/match/detail",
+        "params": {
+          "matchId": "1995057",
+          "sportType": "3",
+          "language": "0",
+          "stream": "true"
+        },
+        "full_url": "https://apis-data10.tcgfs39a2.xyz/sfverb01a39e433f6ca58132cc3cc27a3afd79fb379/api/match/detail?matchId=1995057&sportType=3&language=0&stream=true"
+      },
+      {
+        "url": "https://apis-data10.tcgfs39a2.xyz/sfverb01a39e433f6ca58132cc3cc27a3afd79fb379/api/match/detail",
+        "params": {
+          "matchId": "4105537",
+          "sportType": "1",
+          "language": "0",
+          "stream": "true"
+        },
+        "full_url": "https://apis-data10.tcgfs39a2.xyz/sfverb01a39e433f6ca58132cc3cc27a3afd79fb379/api/match/detail?matchId=4105537&sportType=1&language=0&stream=true"
+      }
+    ]
+  },
+  "total_matches": 0,
+  "total_categories": 5,
+  "matches": [],
+  "categories": [
+    {
+      "name": "Football",
+      "slug": "football",
+      "count": 0
+    },
+    {
+      "name": "Basketball",
+      "slug": "basketball",
+      "count": 0
+    },
+    {
+      "name": "Tennis",
+      "slug": "tennis",
+      "count": 0
+    },
+    {
+      "name": "Baseball",
+      "slug": "baseball",
+      "count": 0
+    },
+    {
+      "name": "Home",
+      "slug": "",
+      "count": 0
+    }
+  ]
+}
