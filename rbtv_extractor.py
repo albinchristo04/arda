@@ -101,45 +101,67 @@ class RBTVExtractor:
         """Main method to extract all data"""
         # Try to fetch config from Backendless
         config_fetched = False
+        backendless_config = None
+        
         try:
             print("Attempting to fetch config from Backendless API...")
             self.__fetch_config_from_backendless()
-            config_fetched = True
-            print("✓ Config fetched from Backendless")
+            backendless_config = self.json_config.copy()
+            
+            # Test if the config URL actually works
+            test_url = self.json_config.get("api_url", "") + "adduserinfo.nettv/"
+            print(f"Testing Backendless config URL: {test_url}")
+            test_headers = {
+                "User-Agent": self.app_user_agent,
+                "Accept": "application/json",
+            }
+            try:
+                test_response = scraper.get(test_url, headers=test_headers, timeout=5)
+                if test_response.status_code < 500:
+                    config_fetched = True
+                    print("✓ Backendless config is working")
+                else:
+                    print(f"✗ Backendless config returned {test_response.status_code}")
+            except Exception as e:
+                print(f"✗ Backendless config URL is not reachable: {e}")
         except Exception as e:
             print(f"✗ Backendless API failed: {e}")
         
-        # If Backendless failed, try fallback configs
+        # If Backendless config didn't work, try all fallback configs
         if not config_fetched:
-            print("Trying fallback configurations...")
+            print("\nBackendless config failed, trying fallback configurations...")
             for idx, fallback in enumerate(self.fallback_configs):
                 try:
-                    print(f"  Attempting fallback config #{idx+1}: {fallback['api_url']}")
-                    self.json_config.update(fallback)
-                    # Test the endpoint with proper headers
+                    print(f"\n[Fallback {idx+1}/{len(self.fallback_configs)}]")
+                    print(f"  Testing: {fallback['api_url']}")
+                    self.json_config = fallback.copy()
+                    
+                    # Test user registration endpoint
+                    test_url = fallback['api_url'] + "adduserinfo.nettv/"
                     test_headers = {
-                        "User-Agent": self.user_agent,
-                        "Accept": "application/json, text/plain, */*",
-                        "Accept-Language": "en-US,en;q=0.9",
+                        "User-Agent": self.app_user_agent,
+                        "Accept": "application/json",
                         "Referer": fallback['api_referer'],
-                        "Origin": fallback['api_referer'].rstrip('/'),
-                        "DNT": "1",
-                        "Connection": "keep-alive",
-                        "Sec-Fetch-Dest": "empty",
-                        "Sec-Fetch-Mode": "cors",
-                        "Sec-Fetch-Site": "same-origin",
+                        "Authorization": fallback['api_authorization'],
                     }
-                    test_response = scraper.get(fallback['api_url'], headers=test_headers, timeout=10)
+                    
+                    test_response = scraper.get(test_url, headers=test_headers, timeout=10)
                     if test_response.status_code < 500:
-                        print(f"  ✓ Fallback config #{idx+1} seems reachable")
+                        print(f"  ✓ Fallback config #{idx+1} is reachable (status: {test_response.status_code})")
                         config_fetched = True
                         break
+                    else:
+                        print(f"  ✗ Returned status: {test_response.status_code}")
                 except Exception as e:
-                    print(f"  ✗ Fallback #{idx+1} failed: {e}")
+                    print(f"  ✗ Failed: {e}")
                     continue
         
         if not config_fetched:
-            raise Exception("Could not fetch or verify any API configuration")
+            raise Exception("Could not find any working API configuration. All endpoints are blocked or unreachable.")
+        
+        print(f"\n{'='*60}")
+        print(f"Using API: {self.json_config.get('api_url', 'Unknown')}")
+        print(f"{'='*60}\n")
         
         # Register user
         self.__register_user()
@@ -204,37 +226,28 @@ class RBTVExtractor:
         
         endpoint = self.json_config.get("api_url", "") + "adduserinfo.nettv/"
         
-        # Try multiple times with different endpoints if needed
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                print(f"Registering user (attempt {attempt + 1}/{max_retries})...")
-                result = self.__api_request(endpoint, data)
-                user_id = result.get("user_id")
-                
-                if not user_id:
-                    # Try to extract from response
-                    if isinstance(result, dict):
-                        user_id = result.get("id") or result.get("userId") or str(int(time.time() * 1000))
-                    else:
-                        user_id = str(int(time.time() * 1000))
-                
-                self.json_config["user"] = {"user_id": str(user_id), "check": 41}
-                print(f"✓ User registered with ID: {user_id}")
-                return
-                
-            except Exception as e:
-                print(f"  Attempt {attempt + 1} failed: {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(2)  # Wait before retry
-                    # Try next fallback config
-                    if attempt + 1 < len(self.fallback_configs):
-                        self.json_config.update(self.fallback_configs[attempt + 1])
-                        endpoint = self.json_config.get("api_url", "") + "adduserinfo.nettv/"
-                continue
+        print(f"Registering user at: {endpoint}")
         
-        # If all attempts failed, generate fallback user_id
-        print("⚠ All registration attempts failed, using generated user ID")
+        try:
+            result = self.__api_request(endpoint, data)
+            user_id = result.get("user_id")
+            
+            if not user_id:
+                # Try to extract from response
+                if isinstance(result, dict):
+                    user_id = result.get("id") or result.get("userId") or str(int(time.time() * 1000))
+                else:
+                    user_id = str(int(time.time() * 1000))
+            
+            self.json_config["user"] = {"user_id": str(user_id), "check": 41}
+            print(f"✓ User registered with ID: {user_id}")
+            return
+            
+        except Exception as e:
+            print(f"⚠ User registration failed: {e}")
+        
+        # Generate fallback user_id
+        print("⚠ Using generated user ID")
         self.json_config["user"] = {"user_id": str(int(time.time() * 1000)), "check": 41}
 
     def __fetch_videos(self):
@@ -381,11 +394,34 @@ class RBTVExtractor:
         }
         
         # Add a small delay to avoid rate limiting
-        time.sleep(1)
+        time.sleep(1.5)
         
-        r = scraper.post(url, headers=headers, data=data, timeout=20)
-        r.raise_for_status()
-        return r.json()
+        try:
+            r = scraper.post(url, headers=headers, data=data, timeout=20)
+            
+            # Log the response for debugging
+            print(f"  Response status: {r.status_code}")
+            
+            # If we get 403, it might be Cloudflare - try with different approach
+            if r.status_code == 403:
+                print(f"  Got 403 Forbidden - trying alternate method...")
+                # Try without some headers that might trigger WAF
+                simple_headers = {
+                    "User-Agent": self.app_user_agent,
+                    "Accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Referer": self.json_config.get("api_referer", ""),
+                    "Authorization": self.json_config.get("api_authorization", ""),
+                }
+                time.sleep(2)
+                r = scraper.post(url, headers=simple_headers, data=data, timeout=20)
+                print(f"  Retry response status: {r.status_code}")
+            
+            r.raise_for_status()
+            return r.json()
+        except Exception as e:
+            print(f"  API request failed: {e}")
+            raise
 
     def __safe_decode(self, v):
         """Safely decode base64 value (skip first character)"""
