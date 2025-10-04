@@ -58,6 +58,11 @@ class RBTVExtractorV2:
         # Try to scrape main site for matches
         self._scrape_main_site()
         
+        # If no matches found, try the example match URL
+        if len(self.matches) == 0:
+            print("\n[1b/3] No matches found, trying example match...")
+            self._try_example_match()
+        
         # Try to discover more API endpoints
         self._discover_api_endpoints()
         
@@ -75,23 +80,72 @@ class RBTVExtractorV2:
         
         return data
     
+    def _try_example_match(self):
+        """Try the example match URL you provided"""
+        try:
+            example_url = "https://genegc02.ya8z6nutsz3jhbtmail.shop/football/japanese-j1-league-4105537/albirex-niigata-vs-fagiano-okayama.html"
+            print(f"  Fetching: {example_url}")
+            
+            headers = {
+                "User-Agent": self.user_agent,
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Referer": self.api_patterns["main_site"],
+            }
+            
+            response = scraper.get(example_url, headers=headers, timeout=15)
+            
+            if response.status_code == 200:
+                print(f"    ✓ Page loaded successfully")
+                
+                # Save sample HTML for analysis
+                with open("data/sample_match_page.html", "w", encoding="utf-8") as f:
+                    f.write(response.text[:50000])  # First 50KB
+                print(f"    ✓ Saved sample HTML")
+                
+                # Parse the page
+                matches = self._parse_matches_from_html(response.text, "Football")
+                if matches:
+                    self.matches.extend(matches)
+                    print(f"    ✓ Extracted {len(matches)} matches")
+                
+                # Look for API calls in the HTML/JavaScript
+                api_patterns = re.findall(r'https?://[a-zA-Z0-9.-]+\.[a-z]{2,}/[^"\'\s]+', response.text)
+                unique_apis = list(set(api_patterns))[:20]  # Get unique APIs
+                
+                if unique_apis:
+                    print(f"    Found {len(unique_apis)} API patterns in page:")
+                    for api in unique_apis[:5]:
+                        print(f"      - {api}")
+                    self.api_patterns["discovered_from_page"] = unique_apis
+            else:
+                print(f"    ✗ Status {response.status_code}")
+                
+        except Exception as e:
+            print(f"    ✗ Error: {e}")
+    
     def _scrape_main_site(self):
         """Scrape the main site for match listings"""
         print("\n[1/3] Scraping main site for matches...")
         
         base_url = self.api_patterns["main_site"]
         
-        # Try different sport categories
+        # Try different sport categories with .html extension
         categories = [
             ("football", "Football"),
             ("basketball", "Basketball"),
             ("tennis", "Tennis"),
             ("baseball", "Baseball"),
+            ("", "Home"),  # Also try home page
         ]
         
         for cat_slug, cat_name in categories:
             try:
-                url = f"{base_url}/{cat_slug}"
+                # Construct URL with .html extension
+                if cat_slug:
+                    url = f"{base_url}/{cat_slug}.html"
+                else:
+                    url = base_url
                 print(f"  Fetching: {url}")
                 
                 headers = {
@@ -128,22 +182,56 @@ class RBTVExtractorV2:
         """Parse match information from HTML"""
         matches = []
         
-        # Look for match IDs in URLs
-        match_id_pattern = r'(?:match|league)-(\d+)'
-        match_ids = re.findall(match_id_pattern, html)
+        # Look for match URLs with various patterns
+        patterns = [
+            r'/([a-z-]+)/([a-z0-9-]+)-(\d+)/([^"\']+?)\.html',  # Full match URL
+            r'league-(\d+)',  # League ID
+            r'match[/-](\d+)',  # Match ID
+            r'id[=:](\d+)',  # ID parameter
+        ]
         
-        # Look for match names/titles
-        title_pattern = r'<a[^>]*>([^<]+vs[^<]+)</a>'
-        titles = re.findall(title_pattern, html, re.IGNORECASE)
+        match_data = {}
         
-        # Combine findings
-        for i, match_id in enumerate(set(match_ids)):
+        for pattern in patterns:
+            matches_found = re.findall(pattern, html)
+            for match in matches_found:
+                if isinstance(match, tuple):
+                    # Extract ID from tuple
+                    match_id = None
+                    for item in match:
+                        if item.isdigit():
+                            match_id = item
+                            break
+                    if match_id:
+                        match_data[match_id] = match
+                elif match.isdigit():
+                    match_data[match] = match
+        
+        # Look for match titles separately
+        title_patterns = [
+            r'<[^>]*title[^>]*>([^<]*vs[^<]*)</[^>]*>',
+            r'<[^>]*>([A-Za-z\s]+\s+vs\s+[A-Za-z\s]+)</[^>]*>',
+            r'alt=["\']([^"\']*vs[^"\']*)["\']',
+        ]
+        
+        titles = []
+        for pattern in title_patterns:
+            titles.extend(re.findall(pattern, html, re.IGNORECASE))
+        
+        # Build match list
+        for idx, (match_id, data) in enumerate(match_data.items()):
             match = {
                 "match_id": int(match_id),
                 "category": category,
-                "title": titles[i] if i < len(titles) else f"Match {match_id}",
-                "url": f"{self.api_patterns['main_site']}/match-{match_id}/",
+                "title": titles[idx] if idx < len(titles) else f"Match {match_id}",
             }
+            
+            # Try to construct the URL
+            if isinstance(data, tuple) and len(data) >= 4:
+                match["url"] = f"{self.api_patterns['main_site']}/{data[0]}/{data[1]}-{data[2]}/{data[3]}.html"
+            else:
+                match["url"] = f"{self.api_patterns['main_site']}/match-{match_id}.html"
+            
             matches.append(match)
         
         return matches
@@ -155,13 +243,27 @@ class RBTVExtractorV2:
         api_base = self.api_patterns["api_base"]
         api_token = self.api_patterns["api_token"]
         
-        # Test API endpoints
+        # Test various API endpoint patterns
         endpoints_to_test = [
+            # With token prefix
             f"{api_base}/{api_token}/api/match/list",
+            f"{api_base}/{api_token}/api/match/detail",
             f"{api_base}/{api_token}/api/live/list",
             f"{api_base}/{api_token}/api/category/list",
             f"{api_base}/{api_token}/api/channel/list",
+            # Without token prefix
+            f"{api_base}/api/match/list",
+            f"{api_base}/api/live/list",
+            f"{api_base}/api/match/detail",
+            # Alternative paths
+            f"{api_base}/{api_token}/match/list",
+            f"{api_base}/{api_token}/live",
+            f"{api_base}/{api_token}/channels",
+            # Try the exact endpoint pattern from your example
+            f"{api_base}/{api_token}/api/match/detail?matchId=4105537&sportType=1&language=0&stream=true",
         ]
+        
+        working_endpoints = []
         
         for endpoint in endpoints_to_test:
             try:
@@ -171,24 +273,43 @@ class RBTVExtractorV2:
                     "User-Agent": self.user_agent,
                     "Accept": "application/json",
                     "Referer": self.api_patterns["main_site"],
+                    "Origin": self.api_patterns["main_site"],
                 }
                 
                 response = scraper.get(endpoint, headers=headers, timeout=10)
                 
+                print(f"    Status: {response.status_code}")
+                
                 if response.status_code == 200:
                     print(f"    ✓ Endpoint working!")
+                    working_endpoints.append(endpoint)
                     try:
                         data = response.json()
+                        print(f"    Response type: {type(data)}")
+                        if isinstance(data, dict):
+                            print(f"    Keys: {list(data.keys())[:10]}")
                         self._process_api_data(data, endpoint)
-                    except:
-                        print(f"    ⚠ Response is not JSON")
+                    except Exception as e:
+                        print(f"    ⚠ Could not parse JSON: {e}")
+                        # Try to extract match IDs from response text
+                        match_ids = re.findall(r'"(?:match_?id|id)":\s*(\d+)', response.text)
+                        if match_ids:
+                            print(f"    Found {len(set(match_ids))} potential match IDs")
+                elif response.status_code == 403:
+                    print(f"    ✗ Forbidden (may need authentication)")
+                elif response.status_code == 404:
+                    print(f"    ✗ Not found")
                 else:
-                    print(f"    ✗ Status {response.status_code}")
+                    print(f"    ✗ Unexpected status")
                 
                 time.sleep(1)
                 
             except Exception as e:
                 print(f"    ✗ Error: {e}")
+        
+        if working_endpoints:
+            print(f"\n  ✓ Found {len(working_endpoints)} working endpoints")
+            self.api_patterns["working_endpoints"] = working_endpoints
     
     def _process_api_data(self, data, endpoint):
         """Process data from API endpoints"""
