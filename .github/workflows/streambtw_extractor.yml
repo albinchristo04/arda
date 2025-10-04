@@ -1,0 +1,196 @@
+name: StreamBTW Sports Data Extractor
+
+on:
+  # Run on schedule (every 3 hours for live sports)
+  schedule:
+    - cron: '0 */3 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      extract_iframes:
+        description: 'Extract iframe details (slower)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      create_html:
+        description: 'Create HTML view'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+  
+  # Run on push to main branch
+  push:
+    branches:
+      - main
+    paths:
+      - 'streambtw_extractor.py'
+      - '.github/workflows/streambtw_extractor.yml'
+
+jobs:
+  extract-and-store:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+      
+      - name: Run extractor
+        run: |
+          python streambtw_extractor.py
+        env:
+          EXTRACT_IFRAMES: ${{ github.event.inputs.extract_iframes || 'false' }}
+          CREATE_HTML: ${{ github.event.inputs.create_html || 'true' }}
+      
+      - name: Check if data file exists
+        id: check_file
+        run: |
+          if [ -f "streambtw_data.json" ]; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+            echo "✅ Data file created successfully"
+            
+            # Show file size
+            FILE_SIZE=$(du -h streambtw_data.json | cut -f1)
+            echo "📦 File size: $FILE_SIZE"
+            
+            # Show item count
+            ITEM_COUNT=$(jq '.total_items' streambtw_data.json)
+            echo "📊 Total items: $ITEM_COUNT"
+          else
+            echo "file_exists=false" >> $GITHUB_OUTPUT
+            echo "❌ Data file not created"
+            exit 1
+          fi
+      
+      - name: Generate README
+        if: steps.check_file.outputs.file_exists == 'true'
+        run: |
+          python - <<'EOF'
+          import json
+          from datetime import datetime
+          
+          with open('streambtw_data.json', 'r') as f:
+              data = json.load(f)
+          
+          readme = f"""# StreamBTW Sports Data
+          
+          🏆 Automated extraction of sports streaming events from StreamBTW
+          
+          ## 📊 Statistics
+          
+          - **Last Updated**: {data['last_updated']}
+          - **Total Events**: {data['total_items']}
+          - **Sports Categories**: {data['sports_count']}
+          
+          ## 🏅 Available Sports
+          
+          """
+          
+          for sport, items in sorted(data['by_sport'].items()):
+              icon = items[0]['icon'] if items else "🎯"
+              readme += f"- {icon} **{sport}**: {len(items)} events\n"
+          
+          readme += f"""
+          
+          ## 📁 Files
+          
+          - `streambtw_data.json` - Complete data in JSON format
+          - `streambtw_data.html` - Interactive HTML view
+          
+          ## 🔄 Update Frequency
+          
+          This data is automatically updated every 3 hours to catch live sports events.
+          
+          ## 📖 Usage
+          
+          ### View the data
+          ```bash
+          # View JSON
+          cat streambtw_data.json | jq '.'
+          
+          # Get events by sport
+          cat streambtw_data.json | jq '.by_sport.FOOTBALL'
+          
+          # Count total events
+          cat streambtw_data.json | jq '.total_items'
+          ```
+          
+          ### Open HTML view
+          Open `streambtw_data.html` in your browser for an interactive view.
+          
+          ---
+          
+          *Generated automatically by GitHub Actions*
+          """
+          
+          with open('STREAMBTW_README.md', 'w') as f:
+              f.write(readme)
+          
+          print("✅ README generated")
+          EOF
+      
+      - name: Commit and push results
+        if: steps.check_file.outputs.file_exists == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Add files
+          git add streambtw_data.json || echo "No JSON to add"
+          git add streambtw_data.html || echo "No HTML to add"
+          git add STREAMBTW_README.md || echo "No README to add"
+          
+          # Check if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            # Get stats for commit message
+            ITEM_COUNT=$(jq '.total_items' streambtw_data.json)
+            SPORTS_COUNT=$(jq '.sports_count' streambtw_data.json)
+            
+            git commit -m "Update StreamBTW data - $(date +'%Y-%m-%d %H:%M:%S UTC') | Events: $ITEM_COUNT | Sports: $SPORTS_COUNT"
+            git push
+          fi
+      
+      - name: Upload artifacts
+        if: always() && steps.check_file.outputs.file_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: streambtw-data-${{ github.run_number }}
+          path: |
+            streambtw_data.json
+            streambtw_data.html
+            STREAMBTW_README.md
+          retention-days: 7
+      
+      - name: Deploy to GitHub Pages
+        if: steps.check_file.outputs.file_exists == 'true' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          enable_jekyll: false
+          keep_files: false
+          exclude_assets: '.github/**'
