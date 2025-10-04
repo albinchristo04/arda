@@ -1,11 +1,26 @@
 import base64
-import requests
 import uuid
 import os
 import time
 import json
 import struct
 from itertools import chain
+
+# Try to import cloudscraper first, fall back to requests
+try:
+    import cloudscraper
+    scraper = cloudscraper.create_scraper(
+        browser={
+            'browser': 'chrome',
+            'platform': 'android',
+            'mobile': True,
+        }
+    )
+    print("✓ Using cloudscraper for Cloudflare bypass")
+except ImportError:
+    import requests
+    scraper = requests.Session()
+    print("⚠ cloudscraper not available, using requests (may be blocked by Cloudflare)")
 
 try:
     from Cryptodome.Cipher import AES
@@ -21,7 +36,10 @@ except:
 class RBTVExtractor:
     json_config = {}
     config_url = "https://api.backendless.com/A73E1615-C86F-F0EF-FFDC-58ED0DFC6B00/7B3DFBA7-F6CE-EDB8-FF0F-45195CF5CA00/binary"
-    user_agent = "Dalvik/2.1.0 (Linux; U; Android 9; AFTKA Build/PS7255)"
+    
+    # More realistic mobile user agent
+    user_agent = "Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+    app_user_agent = "Dalvik/2.1.0 (Linux; U; Android 10; SM-G973F Build/QP1A.190711.020)"
     
     # Additional domains to try
     domains = [
@@ -98,8 +116,20 @@ class RBTVExtractor:
                 try:
                     print(f"  Attempting fallback config #{idx+1}: {fallback['api_url']}")
                     self.json_config.update(fallback)
-                    # Test the endpoint
-                    test_response = requests.get(fallback['api_url'], timeout=5, verify=False)
+                    # Test the endpoint with proper headers
+                    test_headers = {
+                        "User-Agent": self.user_agent,
+                        "Accept": "application/json, text/plain, */*",
+                        "Accept-Language": "en-US,en;q=0.9",
+                        "Referer": fallback['api_referer'],
+                        "Origin": fallback['api_referer'].rstrip('/'),
+                        "DNT": "1",
+                        "Connection": "keep-alive",
+                        "Sec-Fetch-Dest": "empty",
+                        "Sec-Fetch-Mode": "cors",
+                        "Sec-Fetch-Site": "same-origin",
+                    }
+                    test_response = scraper.get(fallback['api_url'], headers=test_headers, timeout=10)
                     if test_response.status_code < 500:
                         print(f"  ✓ Fallback config #{idx+1} seems reachable")
                         config_fetched = True
@@ -130,9 +160,12 @@ class RBTVExtractor:
         
         headers = {
             "User-Agent": self.user_agent,
+            "Accept": "application/json",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Referer": "https://backendless.com/",
         }
         
-        resp = requests.get(rest_url, headers=headers, timeout=10, verify=False)
+        resp = scraper.get(rest_url, headers=headers, timeout=15)
         resp.raise_for_status()
         
         data = resp.json()
@@ -330,13 +363,27 @@ class RBTVExtractor:
     def __api_request(self, url, data):
         """Make API request with headers"""
         headers = {
+            "User-Agent": self.app_user_agent,
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Accept-Encoding": "gzip, deflate, br",
+            "Content-Type": "application/x-www-form-urlencoded",
             "Referer": self.json_config.get("api_referer", "https://www.whatyousee.info/"),
             "Authorization": self.json_config.get("api_authorization", "Basic cmVkYm94OlNlY3VyZUFQSTE5MjE2OA=="),
-            "User-Agent": self.user_agent,
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Origin": self.json_config.get("api_referer", "https://www.whatyousee.info/").rstrip('/'),
+            "Connection": "keep-alive",
+            "DNT": "1",
+            "Sec-Fetch-Dest": "empty",
+            "Sec-Fetch-Mode": "cors",
+            "Sec-Fetch-Site": "same-origin",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
         }
         
-        r = requests.post(url, headers=headers, data=data, timeout=15, verify=False)
+        # Add a small delay to avoid rate limiting
+        time.sleep(1)
+        
+        r = scraper.post(url, headers=headers, data=data, timeout=20)
         r.raise_for_status()
         return r.json()
 
