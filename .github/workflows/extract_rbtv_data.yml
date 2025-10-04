@@ -9,7 +9,7 @@ on:
     branches:
       - main
     paths:
-      - 'rbtv_extractor.py'
+      - 'rbtv_extractor*.py'
       - '.github/workflows/extract_rbtv_data.yml'
 
 jobs:
@@ -33,30 +33,74 @@ jobs:
           pip install --upgrade pip
           pip install requests pycryptodomex urllib3 cloudscraper
       
-      - name: Run RBTV extractor
+      - name: Try V2 Extractor (New API Method)
+        id: extractor_v2
+        continue-on-error: true
         run: |
-          python rbtv_extractor.py
-        continue-on-error: false
-      
-      - name: Verify data files
-        run: |
+          echo "Attempting extraction with V2 (discovered API endpoints)..."
+          python rbtv_extractor_v2.py
           if [ -f "data/rbtv_data.json" ]; then
-            echo "✓ rbtv_data.json created"
-            ls -lh data/rbtv_data.json
+            echo "success=true" >> $GITHUB_OUTPUT
+            echo "✓ V2 extractor succeeded!"
           else
-            echo "✗ rbtv_data.json not found"
+            echo "success=false" >> $GITHUB_OUTPUT
+            echo "✗ V2 extractor failed"
+            exit 1
+          fi
+      
+      - name: Try V1 Extractor (Fallback Method)
+        if: steps.extractor_v2.outputs.success != 'true'
+        id: extractor_v1
+        continue-on-error: true
+        run: |
+          echo "V2 failed, trying V1 (Backendless API method)..."
+          python rbtv_extractor.py
+          if [ -f "data/rbtv_data.json" ]; then
+            echo "success=true" >> $GITHUB_OUTPUT
+            echo "✓ V1 extractor succeeded!"
+          else
+            echo "success=false" >> $GITHUB_OUTPUT
+            echo "✗ V1 extractor failed"
+            exit 1
+          fi
+      
+      - name: Check if any extractor succeeded
+        run: |
+          if [ "${{ steps.extractor_v2.outputs.success }}" != "true" ] && [ "${{ steps.extractor_v1.outputs.success }}" != "true" ]; then
+            echo "✗ Both extractors failed!"
             exit 1
           fi
           
-          if [ -f "data/channels.json" ]; then
-            echo "✓ channels.json created"
-            ls -lh data/channels.json
+          if [ "${{ steps.extractor_v2.outputs.success }}" == "true" ]; then
+            echo "EXTRACTOR_USED=v2" >> $GITHUB_ENV
+            echo "✓ Using V2 extractor results"
+          else
+            echo "EXTRACTOR_USED=v1" >> $GITHUB_ENV
+            echo "✓ Using V1 extractor results"
+          fi
+      
+      - name: Verify data files
+        run: |
+          echo "Verifying extracted data..."
+          
+          if [ -f "data/rbtv_data.json" ]; then
+            echo "✓ rbtv_data.json created"
+            SIZE=$(stat -f%z "data/rbtv_data.json" 2>/dev/null || stat -c%s "data/rbtv_data.json")
+            echo "  File size: $SIZE bytes"
+          else
+            echo "✗ rbtv_data.json not found"
+            exit 1
           fi
           
           if [ -f "data/summary.json" ]; then
             echo "✓ summary.json created"
             cat data/summary.json
           fi
+          
+          # List all generated files
+          echo ""
+          echo "Generated files:"
+          ls -lh data/
       
       - name: Check for changes
         id: check_changes
@@ -76,7 +120,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/
-          git commit -m "Update RBTV data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git commit -m "Update RBTV data (${{ env.EXTRACTOR_USED }}) - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
       
       - name: Upload artifacts
@@ -104,20 +148,23 @@ jobs:
           body: |
             📡 Automated RBTV data extraction
             
-            **Extraction Date:** ${{ github.event.head_commit.timestamp }}
+            **Extractor Used:** ${{ env.EXTRACTOR_USED }}
+            **Extraction Date:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')
             
             **Files included:**
             - `rbtv_data.json` - Full dataset with all configuration
-            - `channels.json` - Simplified channel list
             - `summary.json` - Quick statistics
+            - Additional data files (matches, channels, etc.)
             
             **Supported Domains:**
-            - rbtv.com
-            - www.fctv33.buzz
             - genegc02.ya8z6nutsz3jhbtmail.shop
+            - apis-data10.tcgfs39a2.xyz
+            - fhlsport200.tbafs39a1.xyz
+            - www.fctv33.buzz
+            - rbtvplus06.com
+            - fctv33.com
+            - rbsports77.lat
           files: |
-            data/rbtv_data.json
-            data/channels.json
-            data/summary.json
+            data/*.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
