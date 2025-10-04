@@ -1,0 +1,89 @@
+name: Extract RBTV Data
+
+on:
+  schedule:
+    # Run every 8 hours (at 00:00, 08:00, 16:00 UTC)
+    - cron: '0 */8 * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - 'rbtv_extractor.py'
+      - '.github/workflows/extract_rbtv_data.yml'
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests pyamf pycryptodomex
+      
+      - name: Run RBTV extractor
+        run: |
+          python rbtv_extractor.py
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add data/
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "Update RBTV data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+      
+      - name: Create release (weekly)
+        if: steps.check_changes.outputs.changes == 'true' && github.event.schedule == '0 */8 * * *'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: data-${{ github.run_number }}
+          name: RBTV Data Release ${{ github.run_number }}
+          body: |
+            Automated RBTV data extraction
+            
+            Extraction Date: ${{ github.event.head_commit.timestamp }}
+            
+            Files included:
+            - `rbtv_data.json` - Full dataset with all configuration
+            - `channels.json` - Simplified channel list
+            - `summary.json` - Quick statistics
+          files: |
+            data/rbtv_data.json
+            data/channels.json
+            data/summary.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rbtv-data-${{ github.run_number }}
+          path: data/
+          retention-days: 30
