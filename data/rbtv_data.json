@@ -1,6 +1,6 @@
 {
-  "extraction_date": "2025-10-04 07:15:41 UTC",
-  "data_age": 1759562141.9882972,
+  "extraction_date": "2025-10-04 07:22:49 UTC",
+  "data_age": 1759562569.7316036,
   "domains": [
     "genegc02.ya8z6nutsz3jhbtmail.shop",
     "apis-data10.tcgfs39a2.xyz",
@@ -14,10 +14,13 @@
     "main_site": "https://genegc02.ya8z6nutsz3jhbtmail.shop",
     "api_base": "https://apis-data10.tcgfs39a2.xyz",
     "api_token": "sfverc600ec442d9da1c9bfdc814df10b919d5f44d1",
-    "stream_base": "https://fhlsport200.tbafs39a1.xyz"
+    "stream_base": "https://fhlsport200.tbafs39a1.xyz",
+    "working_endpoints": [
+      "https://apis-data10.tcgfs39a2.xyz/sfverc600ec442d9da1c9bfdc814df10b919d5f44d1/api/match/detail?matchId=4105537&sportType=1&language=0&stream=true"
+    ]
   },
   "total_matches": 0,
-  "total_categories": 4,
+  "total_categories": 5,
   "matches": [],
   "categories": [
     {
@@ -38,6 +41,11 @@
     {
       "name": "Baseball",
       "slug": "baseball",
+      "count": 0
+    },
+    {
+      "name": "Home",
+      "slug": "",
       "count": 0
     }
   ]
