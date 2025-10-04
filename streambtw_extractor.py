@@ -5,6 +5,7 @@ import os
 import re
 from datetime import datetime
 from typing import List, Dict, Any, Optional
+from urllib.parse import urljoin, urlparse
 
 class StreamBTWExtractor:
     def __init__(self):
