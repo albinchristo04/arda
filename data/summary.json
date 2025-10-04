@@ -1,0 +1,20 @@
+{
+  "extraction_date": "2025-10-04 07:14:13 UTC",
+  "total_matches": 0,
+  "total_categories": 4,
+  "domains": [
+    "genegc02.ya8z6nutsz3jhbtmail.shop",
+    "apis-data10.tcgfs39a2.xyz",
+    "fhlsport200.tbafs39a1.xyz",
+    "www.fctv33.buzz",
+    "rbtvplus06.com",
+    "fctv33.com",
+    "rbsports77.lat"
+  ],
+  "api_patterns": {
+    "main_site": "https://genegc02.ya8z6nutsz3jhbtmail.shop",
+    "api_base": "https://apis-data10.tcgfs39a2.xyz",
+    "api_token": "sfverc600ec442d9da1c9bfdc814df10b919d5f44d1",
+    "stream_base": "https://fhlsport200.tbafs39a1.xyz"
+  }
+}
