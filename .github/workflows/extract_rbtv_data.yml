@@ -31,11 +31,32 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install requests pyamf pycryptodomex
+          pip install requests pycryptodomex urllib3
       
       - name: Run RBTV extractor
         run: |
           python rbtv_extractor.py
+        continue-on-error: false
+      
+      - name: Verify data files
+        run: |
+          if [ -f "data/rbtv_data.json" ]; then
+            echo "✓ rbtv_data.json created"
+            ls -lh data/rbtv_data.json
+          else
+            echo "✗ rbtv_data.json not found"
+            exit 1
+          fi
+          
+          if [ -f "data/channels.json" ]; then
+            echo "✓ channels.json created"
+            ls -lh data/channels.json
+          fi
+          
+          if [ -f "data/summary.json" ]; then
+            echo "✓ summary.json created"
+            cat data/summary.json
+          fi
       
       - name: Check for changes
         id: check_changes
@@ -58,28 +79,6 @@ jobs:
           git commit -m "Update RBTV data - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
       
-      - name: Create release (weekly)
-        if: steps.check_changes.outputs.changes == 'true' && github.event.schedule == '0 */8 * * *'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: data-${{ github.run_number }}
-          name: RBTV Data Release ${{ github.run_number }}
-          body: |
-            Automated RBTV data extraction
-            
-            Extraction Date: ${{ github.event.head_commit.timestamp }}
-            
-            Files included:
-            - `rbtv_data.json` - Full dataset with all configuration
-            - `channels.json` - Simplified channel list
-            - `summary.json` - Quick statistics
-          files: |
-            data/rbtv_data.json
-            data/channels.json
-            data/summary.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
       - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -87,3 +86,38 @@ jobs:
           name: rbtv-data-${{ github.run_number }}
           path: data/
           retention-days: 30
+      
+      - name: Create release tag (on schedule)
+        if: steps.check_changes.outputs.changes == 'true' && github.event_name == 'schedule'
+        run: |
+          TAG_NAME="data-$(date -u +'%Y%m%d-%H%M%S')"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+      
+      - name: Create release (on schedule)
+        if: steps.check_changes.outputs.changes == 'true' && github.event_name == 'schedule'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: RBTV Data Release ${{ env.TAG_NAME }}
+          body: |
+            📡 Automated RBTV data extraction
+            
+            **Extraction Date:** ${{ github.event.head_commit.timestamp }}
+            
+            **Files included:**
+            - `rbtv_data.json` - Full dataset with all configuration
+            - `channels.json` - Simplified channel list
+            - `summary.json` - Quick statistics
+            
+            **Supported Domains:**
+            - rbtv.com
+            - www.fctv33.buzz
+            - genegc02.ya8z6nutsz3jhbtmail.shop
+          files: |
+            data/rbtv_data.json
+            data/channels.json
+            data/summary.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
